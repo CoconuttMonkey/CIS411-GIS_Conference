@@ -11,8 +11,14 @@ class User
 	private $clean_email;
 	public $status = false;
 	private $clean_password;
-	private $username;
-	private $displayname;
+	public $first_name;
+	public $last_name;
+	public $company;
+	public $address_1;
+	public $address_2;
+	public $city;
+	public $state;
+	public $zip;
 	public $sql_failure = false;
 	public $mail_failure = false;
 	public $email_taken = false;
@@ -21,25 +27,23 @@ class User
 	public $activation_token = 0;
 	public $success = NULL;
 	
-	function __construct($user,$display,$pass,$email)
+	function __construct($password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name)
 	{
 		//Used for display only
-		$this->displayname = $display;
+		$this->first_name = $first_name;
+		$this->last_name = $last_name;
+		$this->company = $company;
+		$this->address_1 = $address_1;
+		$this->address_2 = $address_2;
+		$this->city = $city;
+		$this->state = $state;
+		$this->zip = $zip;
 		
 		//Sanitize
 		$this->clean_email = sanitize($email);
 		$this->clean_password = trim($pass);
-		$this->username = sanitize($user);
 		
-		if(usernameExists($this->username))
-		{
-			$this->username_taken = true;
-		}
-		else if(displayNameExists($this->displayname))
-		{
-			$this->displayname_taken = true;
-		}
-		else if(emailExists($this->clean_email))
+		if(emailExists($this->clean_email))
 		{
 			$this->email_taken = true;
 		}
@@ -77,7 +81,7 @@ class User
 				//Define more if you want to build larger structures
 				$hooks = array(
 					"searchStrs" => array("#ACTIVATION-MESSAGE","#ACTIVATION-KEY","#USERNAME#"),
-					"subjectStrs" => array($activation_message,$this->activation_token,$this->displayname)
+					"subjectStrs" => array($activation_message,$this->activation_token,$this->first_name)
 					);
 				
 				/* Build the template - Optional, you can just use the sendMail function 
@@ -111,21 +115,26 @@ class User
 			{
 				//Insert the user into the database providing no errors have been found.
 				$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."users (
-					user_name,
-					display_name,
 					password,
 					email,
 					activation_token,
 					last_activation_request,
-					lost_password_request, 
+					lost_password_request,
 					active,
 					title,
 					sign_up_stamp,
-					last_sign_in_stamp
+					last_sign_in_stamp,
+					company,
+					address_1,
+					address_2,
+					city,
+					state,
+					zip,
+					paid,
+					first_name,
+					last_name
 					)
 					VALUES (
-					?,
-					?,
 					?,
 					?,
 					?,
@@ -134,11 +143,21 @@ class User
 					?,
 					'New Member',
 					'".time()."',
-					'0'
+					'0',
+					?,
+					?,
+					?,
+					?,
+					?,
+					?,
+					'0',
+					?,
+					?
 					)");
 				
-				$stmt->bind_param("sssssi", $this->username, $this->displayname, $secure_pass, $this->clean_email, $this->activation_token, $this->user_active);
+				$stmt->bind_param("sssisssssiss", $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->company, $this->address_1, $this->address_2, $this->city, $this->state, $this->zip, $this->first_name, $this->last_name);
 				$stmt->execute();
+				print_r($stmt);
 				$inserted_id = $mysqli->insert_id;
 				$stmt->close();
 				

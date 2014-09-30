@@ -3,7 +3,7 @@
 	http://matt.ondo.us
 ========================================*/
 ul {padding: 0;}
-
+* {box-sizing: border-box;}
 
 
 
@@ -293,7 +293,7 @@ input[type="datetime"],
 input[type="date"],
 input[type="search"],
 input[type="datetime-local"] {
-	height: 1em;
+	height: 1.6em;
 }
 input[type="range"] {
 	position: relative;
@@ -733,7 +733,6 @@ input[type="datetime-local"],
 textarea {
 	-moz-transition: border ease 0.5s;
 	transition: border ease 0.5s;
-	height: 1em;
 }
 input[type="range"] {
 	position: relative;

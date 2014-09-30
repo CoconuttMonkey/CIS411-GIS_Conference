@@ -14,9 +14,15 @@ if(isUserLoggedIn()) { header("Location: account.php"); die(); }
 if(!empty($_POST))
 {
 	$errors = array();
+	$first_name = trim($_POST["first_name"]);
+	$last_name = trim($_POST["last_name"]);
+	$company = trim($_POST["company"]);
 	$email = trim($_POST["email"]);
-	$username = trim($_POST["username"]);
-	$displayname = trim($_POST["displayname"]);
+	$address_1 = trim($_POST["address_1"]);
+	$address_2 = trim($_POST["address_2"]);
+	$city = trim($_POST["city"]);
+	$state = trim($_POST["state"]);
+	$zip = trim($_POST["zip"]);
 	$password = trim($_POST["password"]);
 	$confirm_pass = trim($_POST["passwordc"]);
 	$captcha = md5($_POST["captcha"]);
@@ -25,20 +31,6 @@ if(!empty($_POST))
 	if ($captcha != $_SESSION['captcha'])
 	{
 		$errors[] = lang("CAPTCHA_FAIL");
-	}
-	if(minMaxRange(5,25,$username))
-	{
-		$errors[] = lang("ACCOUNT_USER_CHAR_LIMIT",array(5,25));
-	}
-	if(!ctype_alnum($username)){
-		$errors[] = lang("ACCOUNT_USER_INVALID_CHARACTERS");
-	}
-	if(minMaxRange(5,25,$displayname))
-	{
-		$errors[] = lang("ACCOUNT_DISPLAY_CHAR_LIMIT",array(5,25));
-	}
-	if(!ctype_alnum($displayname)){
-		$errors[] = lang("ACCOUNT_DISPLAY_INVALID_CHARACTERS");
 	}
 	if(minMaxRange(8,50,$password) && minMaxRange(8,50,$confirm_pass))
 	{
@@ -56,14 +48,13 @@ if(!empty($_POST))
 	if(count($errors) == 0)
 	{	
 		//Construct a user object
-		$user = new User($username,$displayname,$password,$email);
-		
+		$user = new User($password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name);
 		//Checking this flag tells us whether there were any errors such as possible data duplication occured
 		if(!$user->status)
 		{
-			if($user->username_taken) $errors[] = lang("ACCOUNT_USERNAME_IN_USE",array($username));
-			if($user->displayname_taken) $errors[] = lang("ACCOUNT_DISPLAYNAME_IN_USE",array($displayname));
-			if($user->email_taken) 	  $errors[] = lang("ACCOUNT_EMAIL_IN_USE",array($email));		
+			if($user->email_taken) {
+				$errors[] = lang("ACCOUNT_EMAIL_IN_USE",array($email));		
+			}
 		}
 		else
 		{
@@ -94,29 +85,28 @@ require_once("models/header.php");
 
 <body>
 	<header class="row">
-		<img src="http://fakeimg.pl/1920x480/?text=GIS Conference" width="100%" alt="Header Image">
 		<?php 
 			include("nav.php"); 
 		?>
 	</header>
 	<section class="container">
-	<h1>Register</h1>
+	<h1>Registration</h1>
 		<div class="row">
 			<?php echo resultBlock($errors,$successes); ?>
-			<form name='newUser' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-centered">
+			<form name='newUser' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
 				<div class="col-30">
-				    <fieldset id="general-info">
-				        <legend>General Information</legend>
+				    <fieldset id="general-info" class="text-centered">
+				        <legend>Account Information</legend>
 						<label>
-							<input type='text' name='first-name' class="width-100" placeholder='First Name' required />
+							<input type='text' name='first_name' class="width-100" placeholder='First Name' required />
 						</label>
 
 						<label>
-							<input type='text' name='last-name' class="width-100" placeholder='Last Name' required />
+							<input type='text' name='last_name' class="width-100" placeholder='Last Name' required />
 						</label>
 
 						<label>
-							<input type='text' name='company-institution' class="width-100" placeholder='Company / Institution' />
+							<input type='text' name='company' class="width-100" placeholder='Company / Institution' />
 						</label>
 						
 						<label>
@@ -124,25 +114,25 @@ require_once("models/header.php");
 						</label>
 
 						<label>
-							<input type='text' name='address-1' class="width-100" placeholder='Address Line 1' />
+							<input type='text' name='address_1' class="width-100" placeholder='Address Line 1' />
 						</label>
 
 						<label>
-							<input type='text' name='address-2' class="width-100" placeholder='Address Line 2' />
+							<input type='text' name='address_2' class="width-100" placeholder='Address Line 2' />
 						</label>
 
 						<label>
-							<input type='text' name='address-city' class="width-100" placeholder='City' />
+							<input type='text' name='city' class="width-100" placeholder='City' />
 						</label>
 
 						<label>
-							<input type='text' name='address-state_province' class="width-50 left" placeholder='State / Province' />
-							<input type='text' name='address-zip' class="width-40 left" placeholder='ZipCode' />
+							<input type='text' name='state' class="width-100" placeholder='State / Province' />
 						</label>
-					</fieldset>
-					
-				    <fieldset id="general-info">
-				        <legend>Login Credentials</legend>
+
+						<label>
+							<input type='text' name='zip' class="width-100" placeholder='ZipCode' />
+						</label>
+
 						<label>
 							<input type='password' name='password' class="width-100" placeholder="Password" required />
 						</label>
@@ -150,16 +140,13 @@ require_once("models/header.php");
 						<label>
 							<input type='password' name='passwordc' class="width-100" placeholder="Confirm" required />
 						</label>
-						
-						<label>
-							<input type='email' name='email' class="width-100" placeholder="Email" required />
-						</label>
+
 						<img src='models/captcha.php'class="width-50" >
 						<label>
 							<input name='captcha' type='text' class="width-50 centered" placeholder="Security Code" required >
 						</label>
 						
-						<input type='submit' value='Register' class="btn"/>
+						<input type='submit' value='Register' class="btn col-50 centered"/>
 					</fieldset>
 				</div>
 
@@ -193,54 +180,51 @@ require_once("models/header.php");
 							<label>
 								<textarea ame='presentation-biography' class="width-100" row='10' placeholder='Presenter Biography'></textarea>
 							</label>
+							<hr>
+							<h4>Register a Map / Poster Gallery</h4>
+							<label>
+								<input type='text' name='gallery-title' class="width-100" placeholder='Map / Poster Title' />
+							</label>
 
-						    <fieldset class="width-90">
-						        <legend>Map / Poster Gallery</legend>
+							<label for="gallery-critique">Would you like your map / poster to participate in a critique session?</label>
+							<ul class="forms-list">
+						        <li>
+						            <input type="radio" name="presentation-critique">
+						            <label for="radio-1">Yes</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="presentation-critique">
+						            <label for="radio-1">No</label>
+						        </li>
+						    </ul>
 
-								<label>
-									<input type='text' name='gallery-title' class="width-100" placeholder='Map / Poster Title' />
-								</label>
+							<label for="gallery-expertiseLevel">How would you rate your level of expertise in GIS?</label>
+							<ul class="forms-list">
+						        <li>
+						            <input type="radio" name="gallery-expertiseLevel">
+						            <label for="gallery-expertiseLevel">Novice (Student)</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="gallery-expertiseLevel">
+						            <label for="gallery-expertiseLevel">Advanced (Student)</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="gallery-expertiseLevel">
+						            <label for="gallery-expertiseLevel">Novice (Professional)</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="gallery-expertiseLevel">
+						            <label for="gallery-expertiseLevel">Advanced (Professional)</label>
+						        </li>
+						    </ul>
 
-								<label for="gallery-critique">Would you like your map / poster to participate in a critique session?</label>
-								<ul class="forms-list">
-							        <li>
-							            <input type="radio" name="presentation-critique">
-							            <label for="radio-1">Yes</label>
-							        </li>
-							        <li>
-							            <input type="radio" name="presentation-critique">
-							            <label for="radio-1">No</label>
-							        </li>
-							    </ul>
+							<label>
+								<textarea name='gallery-description' class="width-100" placeholder='Map / Poster Description'></textarea>
+							</label>
 
-								<label for="gallery-expertiseLevel">How would you rate your level of expertise in GIS?</label>
-								<ul class="forms-list">
-							        <li>
-							            <input type="radio" name="gallery-expertiseLevel">
-							            <label for="gallery-expertiseLevel">Novice (Student)</label>
-							        </li>
-							        <li>
-							            <input type="radio" name="gallery-expertiseLevel">
-							            <label for="gallery-expertiseLevel">Advanced (Student)</label>
-							        </li>
-							        <li>
-							            <input type="radio" name="gallery-expertiseLevel">
-							            <label for="gallery-expertiseLevel">Novice (Professional)</label>
-							        </li>
-							        <li>
-							            <input type="radio" name="gallery-expertiseLevel">
-							            <label for="gallery-expertiseLevel">Advanced (Professional)</label>
-							        </li>
-							    </ul>
-
-								<label>
-									<textarea name='gallery-description' class="width-100" placeholder='Map / Poster Description'></textarea>
-								</label>
-
-								<label>
-									<input type='text' name='gallery-biography' class="width-100" placeholder="Participant's Biography" />
-								</label>
-							</fieldset>
+							<label>
+								<input type='text' name='gallery-biography' class="width-100" placeholder="Participant's Biography" />
+							</label>
 						</div>
 
 						<div class="tabpage" id="tabpage_2">
@@ -278,6 +262,7 @@ require_once("models/header.php");
 	<?php include("models/footer.php"); ?>
 </body>
 <script>
+
 window.onload=function() {
 
   // get tab container

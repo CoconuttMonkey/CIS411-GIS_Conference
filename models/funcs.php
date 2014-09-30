@@ -292,13 +292,20 @@ function fetchAllUsers()
 		active,
 		title,
 		sign_up_stamp,
-		last_sign_in_stamp
+		last_sign_in_stamp,
+		company,
+		address_1,
+		address_2,
+		city,
+		state,
+		zip,
+		paid
 		FROM ".$db_table_prefix."users");
 	$stmt->execute();
-	$stmt->bind_result($id, $user, $display, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
+	$stmt->bind_result($id, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name);
 	
 	while ($stmt->fetch()){
-		$row[] = array('id' => $id, 'user_name' => $user, 'display_name' => $display, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
+		$row = array('id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn, 'company' => $company, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'zip' => $zip, 'paid' => $paid, 'first_name' => $first_name, 'last_name' => $last_name);
 	}
 	$stmt->close();
 	return ($row);
@@ -326,8 +333,6 @@ function fetchUserDetails($username=NULL,$token=NULL, $id=NULL, $email=NULL)
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
-		user_name,
-		display_name,
 		password,
 		email,
 		activation_token,
@@ -336,7 +341,16 @@ function fetchUserDetails($username=NULL,$token=NULL, $id=NULL, $email=NULL)
 		active,
 		title,
 		sign_up_stamp,
-		last_sign_in_stamp
+		last_sign_in_stamp,
+		company,
+		address_1,
+		address_2,
+		city,
+		state,
+		zip,
+		paid,
+		first_name,
+		last_name
 		FROM ".$db_table_prefix."users
 		WHERE
 		$column = ?
@@ -344,9 +358,9 @@ function fetchUserDetails($username=NULL,$token=NULL, $id=NULL, $email=NULL)
 		$stmt->bind_param("s", $data);
 	
 	$stmt->execute();
-	$stmt->bind_result($id, $user, $display, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
+	$stmt->bind_result($id, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name);
 	while ($stmt->fetch()){
-		$row = array('id' => $id, 'user_name' => $user, 'display_name' => $display, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
+		$row = array('id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn, 'company' => $company, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'zip' => $zip, 'paid' => $paid, 'first_name' => $first_name, 'last_name' => $last_name);
 	}
 	$stmt->close();
 	return ($row);
@@ -422,21 +436,6 @@ function setUserActive($token)
 	return $result;
 }
 
-//Change a user's display name
-function updateDisplayName($id, $display)
-{
-	global $mysqli,$db_table_prefix;
-	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
-		SET display_name = ?
-		WHERE
-		id = ?
-		LIMIT 1");
-	$stmt->bind_param("si", $display, $id);
-	$result = $stmt->execute();
-	$stmt->close();
-	return $result;
-}
-
 //Update a user's email
 function updateEmail($id, $email)
 {
@@ -449,6 +448,21 @@ function updateEmail($id, $email)
 	$stmt->bind_param("si", $email, $id);
 	$result = $stmt->execute();
 	$stmt->close();	
+	return $result;
+}
+
+//Change a user's first name
+function updateFirstName($id, $first_name)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
+		SET 
+		first_name = ?
+		WHERE
+		id = ?");
+	$stmt->bind_param("si", $first_name, $id);
+	$result = $stmt->execute();
+	$stmt->close();
 	return $result;
 }
 

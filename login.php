@@ -64,8 +64,15 @@ if(!empty($_POST))
 					$loggedInUser->user_id = $userdetails["id"];
 					$loggedInUser->hash_pw = $userdetails["password"];
 					$loggedInUser->title = $userdetails["title"];
-					$loggedInUser->displayname = $userdetails["display_name"];
-					$loggedInUser->username = $userdetails["user_name"];
+					$loggedInUser->company = $userdetails["company"];
+					$loggedInUser->address_1 = $userdetails["address_1"];
+					$loggedInUser->address_2 = $userdetails["address_2"];
+					$loggedInUser->city = $userdetails["city"];
+					$loggedInUser->state = $userdetails["state"];
+					$loggedInUser->zip = $userdetails["zip"];
+					$loggedInUser->paid = $userdetails["paid"];
+					$loggedInUser->first_name = $userdetails["first_name"];
+					$loggedInUser->last_name = $userdetails["last_name"];
 					
 					//Update last sign in
 					$loggedInUser->updateLastSignIn();
