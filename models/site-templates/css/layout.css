@@ -270,7 +270,7 @@ input[type="search"],
 input[type="datetime-local"],
 textarea,
 select[multiple="multiple"] {
-	line-height: 1;
+	line-height: 1em;
 	font-size: 14px;
 	border-radius: 0;
 	background: #fff;
@@ -293,7 +293,7 @@ input[type="datetime"],
 input[type="date"],
 input[type="search"],
 input[type="datetime-local"] {
-	height: 2.3em;
+	height: 1em;
 }
 input[type="range"] {
 	position: relative;
@@ -690,7 +690,7 @@ table.table-hovered tbody tr:hover td {
 .forms-inline-list {
 	margin: 0;
 	padding: 0;
-	margin-bottom: 1.6em;
+	margin-bottom: 1em;
 	list-style: none;
 }
 .forms-list label,
@@ -733,6 +733,7 @@ input[type="datetime-local"],
 textarea {
 	-moz-transition: border ease 0.5s;
 	transition: border ease 0.5s;
+	height: 1em;
 }
 input[type="range"] {
 	position: relative;
