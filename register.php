@@ -140,6 +140,27 @@ require_once("models/header.php");
 							<input type='text' name='address-zip' class="width-40 left" placeholder='ZipCode' />
 						</label>
 					</fieldset>
+					
+				    <fieldset id="general-info">
+				        <legend>Login Credentials</legend>
+						<label>
+							<input type='password' name='password' class="width-100" placeholder="Password" required />
+						</label>
+						
+						<label>
+							<input type='password' name='passwordc' class="width-100" placeholder="Confirm" required />
+						</label>
+						
+						<label>
+							<input type='email' name='email' class="width-100" placeholder="Email" required />
+						</label>
+						<img src='models/captcha.php'class="width-50" >
+						<label>
+							<input name='captcha' type='text' class="width-50 centered" placeholder="Security Code" required >
+						</label>
+						
+						<input type='submit' value='Register' class="btn"/>
+					</fieldset>
 				</div>
 
 				<div id="tabContainer" class="col-70">
