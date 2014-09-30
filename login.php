@@ -14,12 +14,12 @@ if(isUserLoggedIn()) { header("Location: account.php"); die(); }
 if(!empty($_POST))
 {
 	$errors = array();
-	$username = sanitize(trim($_POST["username"]));
+	$email = trim($_POST["email"]);
 	$password = trim($_POST["password"]);
 	
 	//Perform some validation
 	//Feel free to edit / change as required
-	if($username == "")
+	if($email == "")
 	{
 		$errors[] = lang("ACCOUNT_SPECIFY_USERNAME");
 	}
@@ -31,13 +31,13 @@ if(!empty($_POST))
 	if(count($errors) == 0)
 	{
 		//A security note here, never tell the user which credential was incorrect
-		if(!usernameExists($username))
+		if(!emailExists($email))
 		{
 			$errors[] = lang("ACCOUNT_USER_OR_PASS_INVALID");
 		}
 		else
 		{
-			$userdetails = fetchUserDetails($username);
+			$userdetails = fetchUserDetails("","","",$email);
 			//See if the user's account is activated
 			if($userdetails["active"]==0)
 			{
@@ -95,11 +95,11 @@ require_once("models/header.php");
 			<article class="col-30 centered">
 				<?php echo resultBlock($errors,$successes); ?>
 				<form name='login' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-centered">
-					<label>Username
-						<input type='text' name='username' class="width-100" required />
+					<label>
+						<input type='email' name='email' class="width-100" placeholder="Email address" required />
 					</label>
-					<label>Password
-						<input type='password' name='password' class="width-100" required />
+					<label>
+						<input type='password' name='password' class="width-100" placeholder="Password" required />
 					</label>
 					<input type='submit' value='Login' class="btn width-50" />
 				</form>

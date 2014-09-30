@@ -144,7 +144,7 @@ require_once("models/header.php");
 		?>
 	</header>
 	<section class="container">
-	<h1>Admin Configuration</h1>
+	<h1>Site Configuration</h1>
 	
 <?
 echo "

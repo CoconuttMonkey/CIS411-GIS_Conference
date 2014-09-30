@@ -55,7 +55,7 @@ require_once("models/header.php");
 echo "
 <body>
 <div class='container'>
-<h1>Admin Permissions</h1>
+<h1>Permission Levels</h1>
 <div class='row'>
 <div class='col-40 centered'>";
 

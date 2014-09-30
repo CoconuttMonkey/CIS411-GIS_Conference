@@ -21,17 +21,29 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 if(isUserLoggedIn()) {
 	echo "
 	<ul>
-	<li><a href='account.php'>Account Home</a></li>
-	<li><a href='user_settings.php'>User Settings</a></li>";
+	<li><a href='account.php'>Account</a>
+	<ul>
+	<li><a href='user_settings.php'>User Settings</a></li>
+	</ul>
+	</li>";
 	//Links for permission level 2 (default admin)
 	if ($loggedInUser->checkPermission(array(2))){
 	echo "
-	<li><a href='admin_configuration.php'>Admin</a>
+	<li><a href='#'>Conference</a>
 	<ul>
-	<li><a href='admin_configuration.php'>Admin Configuration</a></li>
-	<li><a href='admin_users.php'>Admin Users</a></li>
-	<li><a href='admin_permissions.php'>Admin Permissions</a></li>
-	<li><a href='admin_pages.php'>Admin Pages</a></li>
+	<li><a href='conference_events.php'>Events</a></li>
+	<li><a href='conference_sendemail.php'>Send Mail</a></li>
+	<li><a href='admin_users.php'>Registrants</a></li>
+	<li><a href='conference_reports.php'>Reports</a></li>
+	<li><a href='conference_configuration.php'>Settings</a></li>
+	</ul>
+	</li>
+	<li><a href='#'>Admin</a>
+	<ul>
+	<li><a href='admin_configuration.php'>Site Configuration</a></li>
+	<li><a href='admin_users.php'>Users</a></li>
+	<li><a href='admin_permissions.php'>Permissions</a></li>
+	<li><a href='admin_pages.php'>Web Pages</a></li>
 	</ul>
 	</li>";
 	}
