@@ -1,8 +1,3 @@
-		<style type="text/css">
-  li ul {display: none;}
-  li:hover ul {display: block; position: absolute;}
-  li:hover li {float: none;}
-</style>
 		<div class="container">
 		<div class="group">
 			<nav class="navbar navbar-pills navbar-left">
@@ -35,7 +30,7 @@ if(isUserLoggedIn()) {
 	<li><a href='conference_sendemail.php'>Send Mail</a></li>
 	<li><a href='admin_users.php'>Registrants</a></li>
 	<li><a href='conference_reports.php'>Reports</a></li>
-	<li><a href='conference_configuration.php'>Settings</a></li>
+	<li><a href='conference_settings.php'>Settings</a></li>
 	</ul>
 	</li>
 	<li><a href='#'>Admin</a>

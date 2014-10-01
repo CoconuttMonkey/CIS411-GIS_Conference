@@ -26,7 +26,7 @@
 	
 	<!-- JavaScript Links
 	--------------------------------------------------- -->
-	<script src="models/site-templatesjs/jquery-1.11.1.min.js"></script>
+	<script src="models/site-templates/js/jquery-1.11.1.min.js"></script>
 
 	<!-- Favicons
 	--------------------------------------------------- -->

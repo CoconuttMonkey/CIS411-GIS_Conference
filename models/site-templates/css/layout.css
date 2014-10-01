@@ -331,6 +331,11 @@ table caption {
 
 /* Navigation
 ----------------------------------------*/
+.navbar li ul {display: none; z-index: 999999999;}
+.navbar li:hover ul {display: block; position: absolute;}
+.navbar li:hover li {float: none;}
+
+
 /* NavBar */
 .navbar {
 	margin-bottom: 1.6em;
@@ -465,7 +470,28 @@ table caption {
 .nav-stats.nav-stacked sup {
 	right: .5em;
 }
-.navbar-pills a,.navbar-pills span{padding:.825em 1.65em}.navbar-pills a:hover{color:#0f0f0f;background:#eee}.navbar-pills li.active a,.navbar-pills span{text-decoration:none;cursor:text;color:rgba(0,0,0,0.4);background:#eee}.navbar-pills li{margin-right:1px}.navbar-pills.navbar-right li{margin-left:1px}
+/* Pills */
+.navbar-pills a, .navbar-pills span {
+	padding:.825em 1.65em;
+	background: #fff;
+}
+.navbar-pills a:hover{
+	color:#0f0f0f;
+	background:#eee
+}
+.navbar-pills li.active a,.navbar-pills span{
+	text-decoration:none;
+	cursor:text;
+	color:rgba(0,0,0,0.4);
+	background:#eee
+}
+.navbar-pills li{
+	margin-right:1px
+}
+.navbar-pills.navbar-right li{
+	margin-left:1px
+}
+
 /* Breadcrumbs */
 .breadcrumbs {
 	margin-bottom: 1.6em;

@@ -44,31 +44,26 @@ echo "
 <form name='adminUsers' action='".$_SERVER['PHP_SELF']."' method='post' class='forms width-100'>
 <table class='admin width-100'>
 <tr style='text-align: left;'>
-<th>Delete</th><th>Username</th><th>Display Name</th><th>Title</th><th>Last Sign In</th>
+<th>Delete</th><th>Name</th><th>Email</th><th>Title</th><th>Paid</th>
 </tr>";
 
 //Cycle through users
 foreach ($userData as $v1) {
-	echo "
-	<tr>
-	<td><input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'></td>
-	<td><a href='admin_user.php?id=".$v1['id']."'>".$v1['user_name']."</a></td>
-	<td>".$v1['display_name']."</td>
-	<td>".$v1['title']."</td>
-	<td>
-	";
-	
-	//Interprety last login
-	if ($v1['last_sign_in_stamp'] == '0'){
-		echo "Never";	
-	}
-	else {
-		echo date("j M, Y", $v1['last_sign_in_stamp']);
-	}
-	echo "
-	</td>
-	</tr>";
+?>
+<tr>
+	<td><input type='checkbox' name='delete[<?php echo $v1['id']; ?>]' id='delete[<?php echo $v1['id']; ?>]' value='<?php echo $v1['id']; ?>'></td>
+	<td><a href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></a></td>
+	<td><?php echo $v1['email']; ?></td>
+	<td><?php echo $v1['title']; ?></td>
+	<td><? if ($v1['paid'] === 1) { 
+			echo '<span class="success">Paid</span>';
+		} else if ($v1['paid'] === 0) { 
+			echo '<span class="error">Not Paid</span>';
+		} ?></td>
+</tr>
+<?
 }
+
 
 echo "
 </table>

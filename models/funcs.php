@@ -282,8 +282,6 @@ function fetchAllUsers()
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
-		user_name,
-		display_name,
 		password,
 		email,
 		activation_token,
@@ -299,13 +297,15 @@ function fetchAllUsers()
 		city,
 		state,
 		zip,
-		paid
+		paid,
+		first_name,
+		last_name
 		FROM ".$db_table_prefix."users");
 	$stmt->execute();
 	$stmt->bind_result($id, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name);
 	
 	while ($stmt->fetch()){
-		$row = array('id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn, 'company' => $company, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'zip' => $zip, 'paid' => $paid, 'first_name' => $first_name, 'last_name' => $last_name);
+		$row[] = array('id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn, 'company' => $company, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'zip' => $zip, 'paid' => $paid, 'first_name' => $first_name, 'last_name' => $last_name);
 	}
 	$stmt->close();
 	return ($row);
