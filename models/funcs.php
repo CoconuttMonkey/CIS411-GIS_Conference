@@ -452,8 +452,7 @@ function updateEmail($id, $email)
 }
 
 //Change a user's first name
-function updateFirstName($id, $first_name)
-{
+function updateFirstName($id, $first_name) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
 		SET 
@@ -461,6 +460,111 @@ function updateFirstName($id, $first_name)
 		WHERE
 		id = ?");
 	$stmt->bind_param("si", $first_name, $id);
+	$result = $stmt->execute();
+	$stmt->close();
+	return $result;
+}
+
+//Change a user's last name
+function updateLastName($id, $last_name)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
+		SET 
+		last_name = ?
+		WHERE
+		id = ?");
+	$stmt->bind_param("si", $last_name, $id);
+	$result = $stmt->execute();
+	$stmt->close();
+	return $result;
+}
+
+//Change a user's last name
+function updateCompany($id, $company)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
+		SET 
+		company = ?
+		WHERE
+		id = ?");
+	$stmt->bind_param("si", $company, $id);
+	$result = $stmt->execute();
+	$stmt->close();
+	return $result;
+}
+
+//Change a user's address
+function updateAddress_1($id, $address_1)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
+		SET 
+		address_1 = ?
+		WHERE
+		id = ?");
+	$stmt->bind_param("si", $address_1, $id);
+	$result = $stmt->execute();
+	$stmt->close();
+	return $result;
+}
+
+//Change a user's address
+function updateAddress_2($id, $address_1)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
+		SET 
+		address_2 = ?
+		WHERE
+		id = ?");
+	$stmt->bind_param("si", $address_2, $id);
+	$result = $stmt->execute();
+	$stmt->close();
+	return $result;
+}
+
+//Change a user's address
+function updateCity($id, $city)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
+		SET 
+		city = ?
+		WHERE
+		id = ?");
+	$stmt->bind_param("si", $city, $id);
+	$result = $stmt->execute();
+	$stmt->close();
+	return $result;
+}
+
+//Change a user's address
+function updateState($id, $state)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
+		SET 
+		state = ?
+		WHERE
+		id = ?");
+	$stmt->bind_param("si", $state, $id);
+	$result = $stmt->execute();
+	$stmt->close();
+	return $result;
+}
+
+//Change a user's address
+function updateZip($id, $zip)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
+		SET 
+		zip = ?
+		WHERE
+		id = ?");
+	$stmt->bind_param("ii", $zip, $id);
 	$result = $stmt->execute();
 	$stmt->close();
 	return $result;
