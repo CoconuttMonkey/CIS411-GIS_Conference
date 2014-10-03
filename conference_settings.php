@@ -25,9 +25,7 @@ if (!empty($_POST)) {
 require_once("models/header.php");
 ?>
 <body>
-	<header class="row">
-		<?php include("nav.php"); ?>
-	</header>
+	<?php include("nav.php"); ?>
 	<section class="container">
 	<? echo resultBlock($errors,$successes); ?>
 	<h1>Conference Settings</h1>

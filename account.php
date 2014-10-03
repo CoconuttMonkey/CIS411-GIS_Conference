@@ -9,12 +9,8 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 require_once("models/header.php");
 ?>
 <body>
-	<header class="row">
-		<img src="http://fakeimg.pl/1920x480/?text=GIS Conference" width="100%" alt="Header Image">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header><section class="container">
+	<?php include("nav.php"); ?>
+	<section class="container">
 		<div class="row">
 			<article class="col-50 centered">
 				<h1>Welcome <? echo $loggedInUser->displayname; ?></h1>

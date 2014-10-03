@@ -45,12 +45,7 @@ $permissionData = fetchAllPermissions(); //Retrieve list of all permission level
 require_once("models/header.php");
 ?>
 <body>
-	<header class="row">
-		<img src="http://fakeimg.pl/1920x480/?text=GIS Conference" width="100%" alt="Header Image">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header>
+	<?php include("nav.php"); ?>
 	<?
 echo "
 <body>

@@ -143,12 +143,7 @@ $permissionData = fetchAllPermissions();
 require_once("models/header.php");
 ?>
 <body>
-	<header class="row">
-		<img src="http://fakeimg.pl/1920x480/?text=GIS Conference" width="100%" alt="Header Image">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header>
+	<?php include("nav.php"); ?>
 	<?
 echo "
 <body>
@@ -161,13 +156,15 @@ echo resultBlock($errors,$successes);
 
 echo "
 <form name='adminUser' action='".$_SERVER['PHP_SELF']."?id=".$userId."' method='post' class='forms'>
-<table class='admin'><tr><td>
-<h3>User Information</h3>
+<fieldset class='col-40'>
+<legend>User Information</legend>
 <label>ID: ".$userdetails['id']."</label>
 
 <label>Username: ".$userdetails['user_name']."</label>
 
-<label>Display Name <input type='text' name='display' value='".$userdetails['display_name']."' /></label>
+<label>Name <input type='text' name='name' value='".$userdetails['first_name']." ".$userdetails['lastname']."' /></label>
+<label>Company <input type='text' name='company' value='".$userdetails['company']."' /></label>
+<label>Address <textarea name='address' />".$userdetails['address_1']."\n".$userdetails['address_2']."\n".$userdetails['city']." ".$userdetails['state']." ".$userdetails['zip']."</textarea></label>
 
 </p>
 <p>
@@ -207,8 +204,7 @@ echo "</label>
 <label><input type='checkbox' name='delete[".$userdetails['id']."]' id='delete[".$userdetails['id']."]' value='".$userdetails['id']."'> Delete</label>
 
 <input type='submit' value='Update' class='submit' />
-</td>
-<td>
+</fieldset>
 <h3>Permission Membership</h3>
 <div id='regbox'>
 <p>Remove Permission:";
