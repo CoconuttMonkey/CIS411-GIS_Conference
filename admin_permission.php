@@ -138,7 +138,7 @@ Remove Members:";
 //List users with permission level
 foreach ($userData as $v1) {
 	if(isset($permissionUsers[$v1['id']])){
-		echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['display_name'];
+		echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['first_name']." ".$v1['last_name'];
 	}
 }
 
@@ -148,7 +148,7 @@ echo"
 //List users without permission level
 foreach ($userData as $v1) {
 	if(!isset($permissionUsers[$v1['id']])){
-		echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['display_name'];
+		echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['first_name']." ".$v1['last_name'];
 	}
 }
 
@@ -176,8 +176,8 @@ foreach ($pageData as $v1) {
 	}
 }
 
-echo"
-Add Access:";
+echo"<br>
+<strong>Add Access:</strong>";
 
 //List pages inaccessible to permission level
 foreach ($pageData as $v1) {
@@ -188,7 +188,7 @@ foreach ($pageData as $v1) {
 
 echo"
 </div>
-<input type='submit' value='Update' class='submit' />
+<input type='submit' value='Update' class='btn' />
 </form>
 </div>
 </div>

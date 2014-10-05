@@ -62,7 +62,7 @@ foreach ($userData as $v1) {
 
 echo "
 </table>
-<input type='submit' name='Submit' value='Delete' />
+<input type='submit' name='Submit' value='Delete' class='btn' />
 </form>
 </div>
 </div>

@@ -14,42 +14,6 @@ Cras justo odio, dapibus ac facilisis in, egestas eget quam. Curabitur blandit t
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam quis risus eget urna mollis ornare vel eu leo. Donec ullamcorper nulla non metus auctor fringilla. Donec ullamcorper nulla non metus auctor fringilla.
 Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
 			</article>
-			<aside class="col-50">
-				<div>
-					<h2 class="text-right">Presentations</h2>
-				</div>
-				<ul class="blocks-3">
-					<li>
-						<h5>Wednesday</h5>
-						Vestibulum id ligula porta felis euismod semper.
-					</li>
-					<li>
-						<h5>Thursday</h5>
-						Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-					</li>
-					<li>
-						<h5>Friday</h5>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					</li>
-				</ul>
-				<div>
-					<h2 class="text-right">Exhibits</h2>
-				</div>
-				<ul class="blocks-3">
-					<li>
-						<h5>Wednesday</h5>
-						Vestibulum id ligula porta felis euismod semper.
-					</li>
-					<li>
-						<h5>Thursday</h5>
-						Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-					</li>
-					<li>
-						<h5>Friday</h5>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					</li>
-				</ul>
-			</aside>
 		</div>
 	</section>
 	<?php include("models/footer.php"); ?>

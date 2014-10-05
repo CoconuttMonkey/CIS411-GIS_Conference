@@ -146,7 +146,6 @@ function resultBlock($errors,$successes){
 	if(count($errors) > 0)
 	{
 		echo "<div id='result' class='error'>
-		<a href='#' onclick=\"showHide('result');\">[X]</a>
 		<ul>";
 		foreach($errors as $error)
 		{
@@ -159,7 +158,6 @@ function resultBlock($errors,$successes){
 	if(count($successes) > 0)
 	{
 		echo "<div id='result' class='success'>
-		<a href='#' onclick=\"showHide('result');\">[X]</a>
 		<ul>";
 		foreach($successes as $success)
 		{

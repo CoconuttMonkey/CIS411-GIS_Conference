@@ -8,7 +8,7 @@
 	<section class="container">
 		<h1>Schedule</h1>
 		<div class="row">
-			<article class="col-80 centered">
+			<article class="col-100">
 				<div>
 					<h2>Presentations</h2>
 					<hr>
@@ -52,7 +52,7 @@
 			</article>
 		</div>
 		<div class="row">
-			<article class="col-80 centered">
+			<article class="col-100">
 				<div>
 					<h2>Exhibits</h2>
 					<hr>

@@ -10,3 +10,7 @@ function showHide(div){
 	}
 }
 
+function currentPage(){
+    var pagePathName= window.location.pathname;
+    return pagePathName.substring(pagePathName.lastIndexOf("/") + 1);
+}

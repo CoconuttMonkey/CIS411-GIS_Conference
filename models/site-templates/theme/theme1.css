@@ -1,58 +1,70 @@
-
-#tabContainer {
-  padding: 0;
-  -moz-border-radius: 4px;
-  border-radius: 4px; 
-
+body {
+  background-image: url('//gisconference.local/models/site-templates/assets/grunge_wall.png') !important;
+  background-repeat: repeat;
+}
+a, .btn {
+  -webkit-transition: all 200ms;
+  -o-transition: all 200ms;
+  transition: all 200ms;
+}
+.container {
+  max-width: 960px;
+}
+#navigation {
+  background-color: #003366;
+  margin: 0;
+  border-bottom: solid 6px #fff;
 }
 
-#tabs{
-  height:30px;
-  overflow:hidden;
+#navigation .navbar {
+  margin: 0;
 }
 
-#tabs > ul{
-  font: 1em;
-  list-style:none;
+#navigation a {
+  background-color: #003366;
+  color: #fff;
 }
 
-#tabs > ul > li{
-  margin:0 2px 0 0;
-  padding:7px 10px;
-  display:block;
-  float:left;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  -moz-border-radius-topleft: 4px;
-  -moz-border-radius-topright: 4px;
-  -moz-border-radius-bottomright: 0px;
-  -moz-border-radius-bottomleft: 0px;
-  border-top-left-radius:4px;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px; 
-  }
-
-#tabs > ul > li:hover{
-    cursor:pointer;
+#navigation a:hover,
+#navigation .active {
+  background-color: #97824A;
 }
 
-#tabs > ul > li.tabActiveHeader{
-  background: #e3e3e3; /* old browsers */
-  cursor:pointer;
+#result {
+  position: absolute;
+  padding: 5px;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  background-color: #97824A;
+  color: #fff;
+  border-bottom: 3px solid #fff;
+  text-align: center;
 }
 
-#tabscontent {
-  -moz-border-radius-topleft: 0px;
-  -moz-border-radius-topright: 4px;
-  -moz-border-radius-bottomright: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px; 
-  padding:10px 10px 25px;
-    margin:0;
-    border: solid 1px #e3e3e3;
+#result ul {
+  list-style: none;
+  text-align: center;
+  border: none;
+  margin-bottom: 0;
+}
+
+.btn {
+  background-color: #003366;
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: #7AAED5;
+}
+
+fieldset {
+  border-color: #003366;
+}
+
+footer a { color: #003366; }
+footer a:focus,
+footer a:hover {
+  text-decoration: underline !important;
+  color: #003366;
 }

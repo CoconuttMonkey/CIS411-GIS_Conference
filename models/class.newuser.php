@@ -157,7 +157,6 @@ class User
 				
 				$stmt->bind_param("sssisssssiss", $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->company, $this->address_1, $this->address_2, $this->city, $this->state, $this->zip, $this->first_name, $this->last_name);
 				$stmt->execute();
-				print_r($stmt);
 				$inserted_id = $mysqli->insert_id;
 				$stmt->close();
 				

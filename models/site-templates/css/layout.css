@@ -22,16 +22,16 @@ ul {padding: 0;}
 /*	Typography
 ----------------------------------------*/
 body {
-	background: #ffffff;
 	color: #333333;
 	font-size: 14px;
 	line-height: 1.6em;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-a { color: #3570c3; }
+a { color: #003366; }
 a:focus,
 a:hover {
-	color: #d70a16;
+  text-decoration: underline;
+  color: #003366;
 }
 .title,
 h1,
@@ -374,7 +374,7 @@ table caption {
 	text-decoration: none;
 }
 .navbar ul li a:hover {
-	color: #d70a16;
+	
 }
 .navbar ul li.active a,
 .navbar ul li span {
@@ -771,14 +771,6 @@ select {
 	margin-bottom: 0 !important;
 }
 /* States */
-#result {
-	width: 100%;
-	line-height: 1.6em;
-	padding: 5px;
-	background: #eee;
-	border: 2px solid #aaa;
-	text-align: center;
-}
 .result ul li {
 	list-style: none;
 }

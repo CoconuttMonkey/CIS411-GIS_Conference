@@ -47,11 +47,12 @@ if(!empty($_POST))
 			{
 				//Hash the password and use the salt from the database to compare the password.
 				$entered_pass = generateHash($password,$userdetails["password"]);
-				
 				if($entered_pass != $userdetails["password"])
 				{
 					//Again, we know the password is at fault here, but lets not give away the combination incase of someone bruteforcing
 					$errors[] = lang("ACCOUNT_USER_OR_PASS_INVALID");
+					echo "E: ".$entered_pass."<br>";
+					echo "F: ".$userdetails["password"]."<br>";
 				}
 				else
 				{
@@ -91,7 +92,6 @@ require_once("models/header.php");
 ?>
 <body>
 	<header class="row">
-		<img src="http://fakeimg.pl/1920x480/?text=GIS Conference" width="100%" alt="Header Image">
 		<?php 
 			include("nav.php"); 
 		?>

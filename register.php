@@ -71,6 +71,7 @@ if(!empty($_POST))
 	}
 }
 
+
 require_once("models/header.php");
 ?>
 
@@ -150,7 +151,7 @@ require_once("models/header.php");
 					</fieldset>
 				</div>
 
-				<div id="tabContainer" class="col-70">
+				<div id="tabContainer" class="col-70" style="margin-top: -20px;">
 				    <div id="tabs">
 				      <ul>
 				        <li id="tabHeader_1">Presentation</li>

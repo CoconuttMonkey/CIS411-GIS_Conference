@@ -1,5 +1,5 @@
 
-	<header class="row">
+	<header id="navigation" class="row">
 		<div class="container">
 			<div class="group">
 				<nav class="navbar navbar-pills navbar-left">
@@ -24,7 +24,7 @@ if(isUserLoggedIn()) {
 	</ul>
 	</li>";
 	//Links for permission level 2 (default admin)
-	if ($loggedInUser->checkPermission(array(2))){
+	if ($loggedInUser->checkPermission(array(2)) || $loggedInUser->checkPermission(array(4))){
 	echo "
 	<li><a href='#'>Conference</a>
 	<ul>
@@ -34,7 +34,11 @@ if(isUserLoggedIn()) {
 	<li><a href='conference_reports.php'>Reports</a></li>
 	<li><a href='conference_settings.php'>Settings</a></li>
 	</ul>
-	</li>
+	</li>";
+	}
+	//Links for permission level 2 (default admin)
+	if ($loggedInUser->checkPermission(array(4))){
+	echo "
 	<li><a href='#'>Admin</a>
 	<ul>
 	<li><a href='admin_configuration.php'>Site Configuration</a></li>
