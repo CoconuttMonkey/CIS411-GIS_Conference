@@ -8,7 +8,8 @@ http://usercake.com
 /*$db_host = "mattondodesignscom1.ipagemysql.com"; //Host address (most likely localhost)
 $db_name = "gisconference"; //Name of Database
 $db_user = "gisteam"; //Name of database user
-$db_pass = "koolaid90"; //Password for database user*/
+$db_pass = "koolaid90"; //Password for database user
+$db_table_prefix = "uc_";*/
 
 
 //LOCAL Database Information

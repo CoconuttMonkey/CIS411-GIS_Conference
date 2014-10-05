@@ -23,20 +23,29 @@ if(isUserLoggedIn()) {
 	<li><a href='user_settings.php'>User Settings</a></li>
 	</ul>
 	</li>";
-	//Links for permission level 2 (default admin)
+	//Links for permission level 2 (admin)
 	if ($loggedInUser->checkPermission(array(2)) || $loggedInUser->checkPermission(array(4))){
 	echo "
 	<li><a href='#'>Conference</a>
 	<ul>
-	<li><a href='conference_events.php'>Events</a></li>
-	<li><a href='conference_sendemail.php'>Send Mail</a></li>
+	<li><a href='construction.php'>Events</a></li>
+	<li><a href='construction.php'>Send Mail</a></li>
 	<li><a href='admin_users.php'>Registrants</a></li>
-	<li><a href='conference_reports.php'>Reports</a></li>
+	<li><a href='construction.php'>Reports</a></li>
 	<li><a href='conference_settings.php'>Settings</a></li>
 	</ul>
 	</li>";
 	}
-	//Links for permission level 2 (default admin)
+	//Links for permission level 3 (secretary)
+	if ($loggedInUser->checkPermission(array(3))){
+	echo "
+	<li><a href='#'>Admin</a>
+	<ul>
+	<li><a href='admin_users.php'>Users</a></li>
+	</ul>
+	</li>";
+	}
+	//Links for permission level 4 (web master)
 	if ($loggedInUser->checkPermission(array(4))){
 	echo "
 	<li><a href='#'>Admin</a>
