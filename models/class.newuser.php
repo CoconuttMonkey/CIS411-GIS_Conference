@@ -13,12 +13,6 @@ class User
 	private $clean_password;
 	public $first_name;
 	public $last_name;
-	public $company;
-	public $address_1;
-	public $address_2;
-	public $city;
-	public $state;
-	public $zip;
 	public $sql_failure = false;
 	public $mail_failure = false;
 	public $email_taken = false;
@@ -27,17 +21,11 @@ class User
 	public $activation_token = 0;
 	public $success = NULL;
 	
-	function __construct($password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name)
+	function __construct($password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $first_name, $last_name)
 	{
 		//Used for display only
 		$this->first_name = $first_name;
 		$this->last_name = $last_name;
-		$this->company = $company;
-		$this->address_1 = $address_1;
-		$this->address_2 = $address_2;
-		$this->city = $city;
-		$this->state = $state;
-		$this->zip = $zip;
 		
 		//Sanitize
 		$this->clean_email = sanitize($email);
@@ -124,13 +112,6 @@ class User
 					title,
 					sign_up_stamp,
 					last_sign_in_stamp,
-					company,
-					address_1,
-					address_2,
-					city,
-					state,
-					zip,
-					paid,
 					first_name,
 					last_name
 					)
@@ -146,16 +127,10 @@ class User
 					'0',
 					?,
 					?,
-					?,
-					?,
-					?,
-					?,
-					'0',
-					?,
 					?
 					)");
 				
-				$stmt->bind_param("sssisssssiss", $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->company, $this->address_1, $this->address_2, $this->city, $this->state, $this->zip, $this->first_name, $this->last_name);
+				$stmt->bind_param("sssisssssiss", $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->first_name, $this->last_name);
 				$stmt->execute();
 				$inserted_id = $mysqli->insert_id;
 				$stmt->close();

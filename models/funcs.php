@@ -78,7 +78,7 @@ function generateHash($plainText, $salt = null)
 		$salt = substr($salt, 0, 25);
 	}
 	
-	return $salt . sha1($salt . $plainText);
+	return $salt;
 }
 
 //Checks if an email is valid
@@ -289,21 +289,14 @@ function fetchAllUsers()
 		title,
 		sign_up_stamp,
 		last_sign_in_stamp,
-		company,
-		address_1,
-		address_2,
-		city,
-		state,
-		zip,
-		paid,
 		first_name,
 		last_name
 		FROM ".$db_table_prefix."users");
 	$stmt->execute();
-	$stmt->bind_result($id, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name);
+	$stmt->bind_result($id, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $first_name, $last_name);
 	
 	while ($stmt->fetch()){
-		$row[] = array('id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn, 'company' => $company, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'zip' => $zip, 'paid' => $paid, 'first_name' => $first_name, 'last_name' => $last_name);
+		$row[] = array('id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn, 'first_name' => $first_name, 'last_name' => $last_name);
 	}
 	$stmt->close();
 	return ($row);
@@ -340,13 +333,6 @@ function fetchUserDetails($username=NULL,$token=NULL, $id=NULL, $email=NULL)
 		title,
 		sign_up_stamp,
 		last_sign_in_stamp,
-		company,
-		address_1,
-		address_2,
-		city,
-		state,
-		zip,
-		paid,
 		first_name,
 		last_name
 		FROM ".$db_table_prefix."users
@@ -356,9 +342,9 @@ function fetchUserDetails($username=NULL,$token=NULL, $id=NULL, $email=NULL)
 		$stmt->bind_param("s", $data);
 	
 	$stmt->execute();
-	$stmt->bind_result($id, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name);
+	$stmt->bind_result($id, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $first_name, $last_name);
 	while ($stmt->fetch()){
-		$row = array('id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn, 'company' => $company, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'zip' => $zip, 'paid' => $paid, 'first_name' => $first_name, 'last_name' => $last_name);
+		$row = array('id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn, 'first_name' => $first_name, 'last_name' => $last_name);
 	}
 	$stmt->close();
 	return ($row);
