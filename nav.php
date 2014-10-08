@@ -2,7 +2,7 @@
 		<div class="container">
 			<nav class="navbar navbar-pills navbar-left">
 				<ul>
-					<li><a href="../">9<sup>th</sup> Annual NW PA GIS Conference</a></li>
+					<li><a href="../"><? echo $websiteName; ?></a></li>
 				</ul>
 			</nav>
 			<nav class="navbar navbar-pills navbar-right">

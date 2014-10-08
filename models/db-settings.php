@@ -4,20 +4,27 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-//Live Database Information
-/*$db_host = "localhost"; //Host address (most likely localhost)
-$db_name = "cis411_gisconference"; //Name of Database
-$db_user = "s_mrondo"; //Name of database user
-$db_pass = "s_mrondo"; //Password for database user
-$db_table_prefix = "uc_";*/
 
+$currentSite = $_SERVER['HTTP_HOST'];
+if ($currentSite == 'cisprod.clarion.edu') {
 
-//LOCAL Database Information
-$db_host = "localhost"; //Host address (most likely localhost)
-$db_name = "gisconference"; //Name of Database
-$db_user = "root"; //Name of database user
-$db_pass = "Gr@ys0n"; //Password for database user
-$db_table_prefix = "uc_";
+	//Live Database Information
+	$db_host = "localhost"; //Host address (most likely localhost)
+	$db_name = "cis411_gisconference"; //Name of Database
+	$db_user = "s_mrondo"; //Name of database user
+	$db_pass = "s_mrondo"; //Password for database user
+	$db_table_prefix = "uc_";
+	
+} else if ($currentSite == 'gisconference.local') {
+
+	//LOCAL Database Information
+	$db_host = "localhost"; //Host address (most likely localhost)
+	$db_name = "gisconference"; //Name of Database
+	$db_user = "root"; //Name of database user
+	$db_pass = "Gr@ys0n"; //Password for database user
+	$db_table_prefix = "uc_";
+
+}
 
 GLOBAL $errors;
 GLOBAL $successes;

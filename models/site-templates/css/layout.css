@@ -615,7 +615,8 @@ table caption {
 ----------------------------------------*/
 table.table-bordered td,
 table.table-bordered th {
-	border: 1px solid #ddd;
+	border: 1px solid #003366;
+	background: rgba(255,255,255,.5);
 }
 table.table-simple td,
 table.table-simple th {

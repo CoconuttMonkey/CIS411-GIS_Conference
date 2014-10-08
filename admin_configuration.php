@@ -139,21 +139,21 @@ require_once("models/header.php");
 <body>
 	<?php include("nav.php"); ?>
 	<section class="container">
+		<? echo resultBlock($errors,$successes); ?>
 		<div class='row'>
-			<? echo resultBlock($errors,$successes); ?>
-			<div class="col-80">
+			<div class="col-80" syle="margin-left: 0 !important;">
 				<form name='adminConfiguration' action='<? echo $_SERVER['PHP_SELF']; ?>' method='post' class='forms'>
 					<h1>Site Configuration</h1>
 					<label>Website Name 
-						<input type='text' name='settings[<? echo $settings['website_name']['id']; ?>]' value='<? echo $websiteName ?>' />
+						<input type='text' name='settings[<? echo $settings['website_name']['id']; ?>]' value='<? echo $websiteName ?>' class="width-30" />
 					</label>
 	
 					<label>Website URL 
-						<input type='text' name='settings[<? echo $settings['website_url']['id']; ?>]' value='<? echo $websiteUrl ?>' />
+						<input type='text' name='settings[<? echo $settings['website_url']['id']; ?>]' value='<? echo $websiteUrl ?>' class="width-30" />
 					</label>
 	
 					<label>Email 
-						<input type='text' name='settings[<? echo $settings['email']['id']; ?>]' value='<? echo $emailAddress ?>' />
+						<input type='text' name='settings[<? echo $settings['email']['id']; ?>]' value='<? echo $emailAddress ?>' class="width-30" />
 					</label>
 	
 					<label>Activation Threshold 
