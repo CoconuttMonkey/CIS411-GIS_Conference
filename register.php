@@ -16,7 +16,13 @@ if(!empty($_POST))
 	$errors = array();
 	$first_name = trim($_POST["first_name"]);
 	$last_name = trim($_POST["last_name"]);
+	$company = trim($_POST["company"]);
 	$email = trim($_POST["email"]);
+	$address_1 = trim($_POST["address_1"]);
+	$address_2 = trim($_POST["address_2"]);
+	$city = trim($_POST["city"]);
+	$state = trim($_POST["state"]);
+	$zip = trim($_POST["zip"]);
 	$password = trim($_POST["password"]);
 	$confirm_pass = trim($_POST["passwordc"]);
 	$captcha = md5($_POST["captcha"]);
@@ -42,13 +48,13 @@ if(!empty($_POST))
 	if(count($errors) == 0)
 	{	
 		//Construct a user object
-		$user = new User($password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $first_name, $last_name);
+		$user = new User($password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name);
 		//Checking this flag tells us whether there were any errors such as possible data duplication occured
 		if(!$user->status)
 		{
 			if($user->email_taken) {
 				$errors[] = lang("ACCOUNT_EMAIL_IN_USE",array($email));		
-			}echo 'here';
+			}
 		}
 		else
 		{
@@ -101,7 +107,31 @@ require_once("models/header.php");
 						</label>
 
 						<label>
+							<input type='text' name='company' class="width-100" placeholder='Company / Institution' />
+						</label>
+						
+						<label>
 							<input type='email' name='email' class="width-100" placeholder='Email Address' required />
+						</label>
+
+						<label>
+							<input type='text' name='address_1' class="width-100" placeholder='Address Line 1' />
+						</label>
+
+						<label>
+							<input type='text' name='address_2' class="width-100" placeholder='Address Line 2' />
+						</label>
+
+						<label>
+							<input type='text' name='city' class="width-100" placeholder='City' />
+						</label>
+
+						<label>
+							<input type='text' name='state' class="width-100" placeholder='State / Province' />
+						</label>
+
+						<label>
+							<input type='text' name='zip' class="width-100" placeholder='ZipCode' />
 						</label>
 
 						<label>
@@ -112,13 +142,120 @@ require_once("models/header.php");
 							<input type='password' name='passwordc' class="width-100" placeholder="Confirm" required />
 						</label>
 
-						<label>Please enter security code
-							<img src='models/captcha.php' >
+						<img src='models/captcha.php'class="width-50" >
+						<label>
 							<input name='captcha' type='text' class="width-50 centered" placeholder="Security Code" required >
 						</label>
 						
 						<input type='submit' value='Register' class="btn col-50 centered"/>
 					</fieldset>
+				</div>
+
+				<div id="tabContainer" class="col-70" style="margin-top: -20px;">
+				    <div id="tabs">
+				      <ul>
+				        <li id="tabHeader_1">Presentation</li>
+				        <li id="tabHeader_2">Exhibit</li>
+				        <li id="tabHeader_3">Sponsor</li>
+				      </ul>
+				    </div>
+				    <div id="tabscontent">
+						<div class="tabpage" id="tabpage_1">
+							<label>
+								<input type='text' name='presentation-title' class="width-100" placeholder='Presentation Title' />
+							</label>
+
+							<label>
+								<input type='text' name='presentation-type' class="width-100" placeholder='Presentation Type' />
+							</label>
+
+							<select name="presentation-length" id="presentation-type">
+								<option value="20">20 min</option>
+								<option value="40">40 min</option>
+							</select>
+
+							<label>
+								<textarea name='presentation-description' class="width-100" placeholder='Presentation Description'></textarea>
+							</label>
+
+							<label>
+								<textarea ame='presentation-biography' class="width-100" row='10' placeholder='Presenter Biography'></textarea>
+							</label>
+							<hr>
+							<h4>Register a Map / Poster Gallery</h4>
+							<label>
+								<input type='text' name='gallery-title' class="width-100" placeholder='Map / Poster Title' />
+							</label>
+
+							<label for="gallery-critique">Would you like your map / poster to participate in a critique session?</label>
+							<ul class="forms-list">
+						        <li>
+						            <input type="radio" name="presentation-critique">
+						            <label for="radio-1">Yes</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="presentation-critique">
+						            <label for="radio-1">No</label>
+						        </li>
+						    </ul>
+
+							<label for="gallery-expertiseLevel">How would you rate your level of expertise in GIS?</label>
+							<ul class="forms-list">
+						        <li>
+						            <input type="radio" name="gallery-expertiseLevel">
+						            <label for="gallery-expertiseLevel">Novice (Student)</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="gallery-expertiseLevel">
+						            <label for="gallery-expertiseLevel">Advanced (Student)</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="gallery-expertiseLevel">
+						            <label for="gallery-expertiseLevel">Novice (Professional)</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="gallery-expertiseLevel">
+						            <label for="gallery-expertiseLevel">Advanced (Professional)</label>
+						        </li>
+						    </ul>
+
+							<label>
+								<textarea name='gallery-description' class="width-100" placeholder='Map / Poster Description'></textarea>
+							</label>
+
+							<label>
+								<input type='text' name='gallery-biography' class="width-100" placeholder="Participant's Biography" />
+							</label>
+						</div>
+
+						<div class="tabpage" id="tabpage_2">
+							<label>
+								<input type='text' name='exhibit-title' class="width-100" placeholder='Exhibit Title' />
+							</label>
+
+							<label>
+								<textarea name='exhibit-description' class="width-100" placeholder='Exhibit Description'></textarea>
+							</label>
+						</div>
+
+						<div class="tabpage" id="tabpage_3">
+							<label for="sponsor-level">Sponsor Level</label>
+							<ul class="forms-list">
+						        <li>
+						            <input type="radio" name="sponsor-level">
+						            <label for="sponsor-level">1 ($300)</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="sponsor-level">
+						            <label for="sponsor-level">2 ($500)</label>
+						        </li>
+						        <li>
+						            <input type="radio" name="sponsor-level">
+						            <label for="sponsor-level">3 ($750)</label>
+						        </li>
+						    </ul>
+						</div>
+				    </div>
 				</div>
 			</form>
 		</div>

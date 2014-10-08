@@ -1,5 +1,5 @@
 body {
-  background-image: url('../assets/grunge_wall.png') !important;
+  background-image: url('//gisconference.local/models/site-templates/assets/grunge_wall.png') !important;
   background-repeat: repeat;
 }
 a, .btn {
