@@ -10,6 +10,27 @@ a, .btn {
 .container {
   max-width: 960px;
 }
+header {
+	margin-bottom: 0;
+}
+.sideNav ul {
+	border: 1px solid #003366;
+	padding: 10px;
+	margin-top: 0;
+	background: rgba(255,255,255,.5);
+}
+.sideNav h6 {
+	background-color: #003366;
+	text-align: center;
+	color: #fff;
+	margin-bottom: 0;
+}
+#home-banner {
+	background-image: url(../assets/banner_bg.jpg);
+	background-size: cover;
+	background-attachment: fixed;
+	height: 500px;
+}
 #navigation {
   background-color: #003366;
   margin: 0;
@@ -67,4 +88,15 @@ footer a:focus,
 footer a:hover {
   text-decoration: underline !important;
   color: #003366;
+}
+.drop-shadow {
+    -webkit-box-shadow: 0 5px 10px -5px #3e3e3e;
+    -moz-box-shadow:    0 5px 10px -5px #3e3e3e;
+    box-shadow:		    0 5px 10px -5px #3e3e3e;
+}
+
+.inset-shadow {
+    -webkit-box-shadow: 0 5px 8px -5px #3e3e3e;
+    -moz-box-shadow:    0 5px 8px -5px #3e3e3e;
+    box-shadow:   inset 0 -5px 8px -5px #3e3e3e;
 }

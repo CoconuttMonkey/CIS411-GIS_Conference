@@ -25,50 +25,46 @@ require_once("models/header.php");
 ?>
 <body>
 	<?php include("nav.php"); ?>
-	<?
-echo "
-<body>
-<div class='container'>
-<h1>Registrants</h1>
-<div class='row'>
-<div class='col-100'>";
 
-echo resultBlock($errors,$successes);
-
-echo "
-<form name='adminUsers' action='".$_SERVER['PHP_SELF']."' method='post' class='forms width-100'>
-<table class='admin width-100'>
-<tr style='text-align: left;'>
-<th>Delete</th><th>Name</th><th>Email</th><th>Title</th><th>Paid</th>
-</tr>";
-
-//Cycle through users
-foreach ($userData as $v1) {
-?>
-<tr>
-	<td><input type='checkbox' name='delete[<?php echo $v1['id']; ?>]' id='delete[<?php echo $v1['id']; ?>]' value='<?php echo $v1['id']; ?>'></td>
-	<td><a href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></a></td>
-	<td><?php echo $v1['email']; ?></td>
-	<td><?php echo $v1['title']; ?></td>
-	<td><? if ($v1['paid'] === 1) { 
-			echo '<span class="success">Paid</span>';
-		} else if ($v1['paid'] === 0) { 
-			echo '<span class="error">Not Paid</span>';
-		} ?></td>
-</tr>
-<?
-}
-
-
-echo "
-</table>
-<input type='submit' name='Submit' value='Delete' class='btn' />
-</form>
-</div>
-</div>
-</div>";
-
-?>
+	<div class='container'>
+		<div class='row'>
+			<div class='col-80'>
+				<h1>Registrants</h1>
+				<? echo resultBlock($errors,$successes); ?>
+				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms width-100'>
+					<table class='admin width-100'>
+						<tr style='text-align: left;'>
+							<th>Delete</th><th>Name</th><th>Email</th><th>Title</th><th>Paid</th>
+						</tr>
+						<? //Cycle through users
+						foreach ($userData as $v1) {
+						?>
+						<tr>
+							<td><input type='checkbox' name='delete[<?php echo $v1['id']; ?>]' id='delete[<?php echo $v1['id']; ?>]' value='<?php echo $v1['id']; ?>'></td>
+							<td><a href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></a></td>
+							<td><?php echo $v1['email']; ?></td>
+							<td><?php echo $v1['title']; ?></td>
+							<td><? if ($v1['paid'] === 1) { 
+									echo '<span class="success">Paid</span>';
+								} else if ($v1['paid'] === 0) { 
+									echo '<span class="error">Not Paid</span>';
+								} ?></td>
+						</tr> <? } ?>
+					</table>
+					<input type='submit' name='Submit' value='Delete' class='btn' />
+				</form>
+			</div>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('includes/sideNav.php');
+				} else {
+					include('includes/loginForm.php');
+				}
+				?>
+			</aside>
+		</div>
+	</div>
 	<?php include("models/footer.php"); ?>
 </body>
 </html>

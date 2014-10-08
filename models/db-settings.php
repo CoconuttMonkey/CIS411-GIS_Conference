@@ -5,10 +5,10 @@ http://usercake.com
 */
 
 //Live Database Information
-/*$db_host = "mattondodesignscom1.ipagemysql.com"; //Host address (most likely localhost)
-$db_name = "gisconference"; //Name of Database
-$db_user = "gisteam"; //Name of database user
-$db_pass = "koolaid90"; //Password for database user
+/*$db_host = "localhost"; //Host address (most likely localhost)
+$db_name = "cis411_gisconference"; //Name of Database
+$db_user = "s_mrondo"; //Name of database user
+$db_pass = "s_mrondo"; //Password for database user
 $db_table_prefix = "uc_";*/
 
 

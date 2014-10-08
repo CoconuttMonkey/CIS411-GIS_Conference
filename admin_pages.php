@@ -45,49 +45,49 @@ require_once("models/header.php");
 ?>
 <body>
 	<?php include("nav.php"); ?>
-	<?
-echo "
-<body>
-<div class='container'>
-<h1>Web Pages</h1>
-<div class='row'>
-<div class='col-40 centered'>
-<table class='admin width-100'>
-<tr style='text-align: left;'><th>Id</th><th>Page</th><th>Access</th></tr>";
-
-//Display list of pages
-foreach ($dbpages as $page){
-	echo "
-	<tr>
-	<td>
-	".$page['id']."
-	</td>
-	<td>
-	<a href ='admin_page.php?id=".$page['id']."'>".$page['page']."</a>
-	</td>
-	<td>";
-	
-	//Show public/private setting of page
-	if($page['private'] == 0){
-		echo "Public";
-	}
-	else {
-		echo "Private";	
-	}
-	
-	echo "
-	</td>
-	</tr>";
-}
-
-echo "
-</table>
-</div>
-</div>
-</div>";
-
-?>
-
+	<div class='container'>
+		<div class='row'>
+			<div class='col-80'>
+				<h1>Web Pages</h1>
+				<table class='admin width-100'>
+					<tr style='text-align: left;'><th>Id</th><th>Page</th><th>Access</th></tr>
+					<? //Display list of pages
+					foreach ($dbpages as $page){
+						echo "
+						<tr>
+						<td>
+						".$page['id']."
+						</td>
+						<td>
+						<a href ='admin_page.php?id=".$page['id']."'>".$page['page']."</a>
+						</td>
+						<td>";
+						
+						//Show public/private setting of page
+						if($page['private'] == 0){
+							echo "Public";
+						}
+						else {
+							echo "Private";	
+						}
+						
+						echo "
+						</td>
+						</tr>";
+					} ?>
+				</table>
+			</div>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('includes/sideNav.php');
+				} else {
+					include('includes/loginForm.php');
+				}
+				?>
+			</aside>
+		</div>
+	</div>
 	<?php include("models/footer.php"); ?>
 </body>
 </html>

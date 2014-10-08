@@ -46,46 +46,45 @@ require_once("models/header.php");
 ?>
 <body>
 	<?php include("nav.php"); ?>
-	<?
-echo "
-<body>
-<div class='container'>
-<h1>Permission Levels</h1>
-<div class='row'>
-<div class='col-40 centered'>";
+	<div class='container'>
+		<div class='row'>
+			<div class='col-80'>
+				<h1>Permission Levels</h1>
+				<? echo resultBlock($errors,$successes); ?>
 
-echo resultBlock($errors,$successes);
+				<form name='adminPermissions' action='<? echo $_SERVER['PHP_SELF'] ?>' method='post' class='forms width-100'>
+					<table class='admin width-100'>
+						<tr style='text-align: left;'>
+							<th>Delete</th><th>Permission Name</th>
+						</tr>
+						<? //List each permission level
+						foreach ($permissionData as $v1) {
+							echo "
+							<tr>
+							<td><input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'></td>
+							<td><a href='admin_permission.php?id=".$v1['id']."'>".$v1['name']."</a></td>
+							</tr>";
+						} ?>
+						<tr>
+							<td>Add New</td>
+							<td><input type='text' name='newPermission' /></td>
+						</tr>
+					</table>
 
-echo "
-<form name='adminPermissions' action='".$_SERVER['PHP_SELF']."' method='post' class='forms width-100'>
-<table class='admin width-100'>
-<tr style='text-align: left;'>
-<th>Delete</th><th>Permission Name</th>
-</tr>";
-
-//List each permission level
-foreach ($permissionData as $v1) {
-	echo "
-	<tr>
-	<td><input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'></td>
-	<td><a href='admin_permission.php?id=".$v1['id']."'>".$v1['name']."</a></td>
-	</tr>";
-}
-
-echo "
-	<tr>
-	<td>Add New</td>
-	<td><input type='text' name='newPermission' /></td>
-	</tr>
-</table>
-
-<input type='submit' name='Submit' value='Submit' class='btn' />
-</form>
-</div>
-</div>
-</div>";
-
-?>
+					<input type='submit' name='Submit' value='Submit' class='btn' />
+				</form>
+			</div>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('includes/sideNav.php');
+				} else {
+					include('includes/loginForm.php');
+				}
+				?>
+			</aside>
+		</div>
+	</div>
 	<?php include("models/footer.php"); ?>
 </body>
 </html>

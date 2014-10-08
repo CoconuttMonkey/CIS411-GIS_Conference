@@ -16,13 +16,15 @@
 				<h1>Welcome</h1>
 				<? include('content/home.txt') ?>
 			</article>
-			<article class="col-20 nav text-centered">
-				<h2>Links</h2>
-				<ul>
-					<li><a href="https://mapsengine.google.com/map/viewer?mid=zEErqgFTcQx8.kORF4RYRO3sw" target="_blank"><img src="models/site-templates/assets/person1.svg" width="25%" alt="Accomodations"></a></li>
-					<li><a href=""><img src="models/site-templates/assets/map5.svg" width="25%" alt="GIS Conference Location" style="margin-top: 40px"></a></li>
-				</ul>
-			</article>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('includes/sideNav.php');
+				} else {
+					include('includes/loginForm.php');
+				}
+				?>
+			</aside>
 		</div>
 	</section>
 	<?php include("models/footer.php"); ?>

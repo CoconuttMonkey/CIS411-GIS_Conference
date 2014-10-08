@@ -196,84 +196,93 @@ if (!empty($_POST)) {
 require_once("models/header.php");
 ?>
 <body>
-	<header class="row">
-		<?php include("nav.php"); ?>
-	</header>
+	<?php include("nav.php"); ?>
 	<section class="container">
-	<h1>User Settings</h1>
 		<div class="row">
 			<? echo resultBlock($errors,$successes); ?>
-			<form name='updateAccount' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms">
-
-				<fieldset id="general-info" class="col-40 col-push-10">
-			        <legend>Account Information</legend>
-					<label>First Name
-						<input type='text' name='first_name' class="width-100" value="<? echo $loggedInUser->first_name; ?>" />
-					</label>
-
-					<label>Last Name
-						<input type='text' name='last_name' class="width-100" value="<? echo $loggedInUser->last_name; ?>" />
-					</label>
-
-					<label>Company / Institution
-						<input type='text' name='company' class="width-100" value="<? echo $loggedInUser->company; ?>" />
-					</label>
-					
-					<label>Email Address
-						<input type='email' name='email' class="width-100" value="<? echo $loggedInUser->email; ?>" />
-					</label>
-
-					<label>Address Line 1
-						<input type='text' name='address_1' class="width-100" value="<? echo $loggedInUser->address_1; ?>" />
-					</label>
-
-					<label>Address Line 2
-						<input type='text' name='address_2' class="width-100" value="<? echo $loggedInUser->address_2; ?>" />
-					</label>
-
-					<label>City
-						<input type='text' name='city' class="width-100" value="<? echo $loggedInUser->city; ?>" />
-					</label>
-
-					<label>State / Province
-						<input type='text' name='state' class="width-100" value="<? echo $loggedInUser->state; ?>" />
-					</label>
-
-					<label>Zip Code
-						<input type='text' name='zip' class="width-100" value="<? echo $loggedInUser->zip; ?>" />
-					</label>
-				</fieldset>
-					
-				<div class="col-40 col-push-10">
-					<fieldset class="width-100" >
-					    <legend>Change Password</legend>
-						<label>New Password
-							<input type='password' name='passwordc' class="width-100" />
+			<div class="col-80" style="margin-left: 0;">
+				<h1>User Settings</h1>
+				<form name='updateAccount' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms">
+	
+					<fieldset id="general-info" class="col-50">
+				        <legend>Account Information</legend>
+						<label>First Name
+							<input type='text' name='first_name' class="width-100" value="<? echo $loggedInUser->first_name; ?>" />
+						</label>
+	
+						<label>Last Name
+							<input type='text' name='last_name' class="width-100" value="<? echo $loggedInUser->last_name; ?>" />
+						</label>
+	
+						<label>Company / Institution
+							<input type='text' name='company' class="width-100" value="<? echo $loggedInUser->company; ?>" />
 						</label>
 						
-						<label>Confirm Password
-							<input type='password' name='passwordcheck' class="width-100" />
+						<label>Email Address
+							<input type='email' name='email' class="width-100" value="<? echo $loggedInUser->email; ?>" />
+						</label>
+	
+						<label>Address Line 1
+							<input type='text' name='address_1' class="width-100" value="<? echo $loggedInUser->address_1; ?>" />
+						</label>
+	
+						<label>Address Line 2
+							<input type='text' name='address_2' class="width-100" value="<? echo $loggedInUser->address_2; ?>" />
+						</label>
+	
+						<label>City
+							<input type='text' name='city' class="width-100" value="<? echo $loggedInUser->city; ?>" />
+						</label>
+	
+						<label>State / Province
+							<input type='text' name='state' class="width-100" value="<? echo $loggedInUser->state; ?>" />
+						</label>
+	
+						<label>Zip Code
+							<input type='text' name='zip' class="width-100" value="<? echo $loggedInUser->zip; ?>" />
 						</label>
 					</fieldset>
-
-					<fieldset class="width-100" >
-					    <legend>Enter Password to apply changes</legend>
-						<label>Password
-							<input type='password' name='password' class="width-100" required />
-						</label>
-						<input type='submit' value='Update' class='btn' />
-					</fieldset>
-				
-					<fieldset class="width-100">
-						<legend>Account Status</legend>
-						<? if ($loggedInUser->paid == '1') { 
-							echo '<span class="success">Paid</span>';
-						} else if ($loggedInUser->paid == '0') { 
-							echo '<span class="error">You have an unpaid balance of '.$loggedInUser->balance.'</span>';
-						} ?>
-					</fieldset>
-				</div>
-			</form>
+						
+					<div class="col-40">
+						<fieldset class="width-100">
+							<legend>Account Status</legend>
+							<? if ($loggedInUser->paid == '1') { 
+								echo '<span class="success">Paid</span>';
+							} else if ($loggedInUser->paid == '0') { 
+								echo '<span class="error">You have an unpaid balance of '.$loggedInUser->balance.'</span>';
+							} ?>
+						</fieldset>
+						
+						<fieldset class="width-100 left" >
+						    <legend>Change Password</legend>
+							<label>New Password
+								<input type='password' name='passwordc' class="width-100" />
+							</label>
+							
+							<label>Confirm Password
+								<input type='password' name='passwordcheck' class="width-100" />
+							</label>
+						</fieldset>
+	
+						<fieldset class="width-100" >
+						    <legend>Enter Password to apply changes</legend>
+							<label>Password
+								<input type='password' name='password' class="width-100" required />
+							</label>
+							<input type='submit' value='Update' class='btn' />
+						</fieldset>
+					</div>
+				</form>
+			</div>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('includes/sideNav.php');
+				} else {
+					include('includes/loginForm.php');
+				}
+				?>
+			</aside>
 		</div>
 	</section>
 	<?php include("models/footer.php"); ?>

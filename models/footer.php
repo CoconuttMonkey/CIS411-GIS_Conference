@@ -1,7 +1,7 @@
 		
 	<footer class="container">
 		<div class="row">
-		<div class='col-80'>
+		<div class='col-60'>
 			<nav class='navbar'>
 		        <ul style='padding: 0; line-height: 2em;'>
 		            <li><a href='index.php'>Home</a></li>
@@ -27,10 +27,12 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="col-20 text-centered">
-			<ul class="blocks-2">
+		<div class="col-40 text-centered">
+			<ul class="blocks-3">
 				<li><img src="models/site-templates/assets/cup_logo.png" width="100%" alt="Sponsor Image"></li>
 				<li><img src="models/site-templates/assets/esri_logo.png" width="100%" alt="Sponsor Image"></li>
+				<li><img src="models/site-templates/assets/mcm_logo.jpg" width="100%" alt="Sponsor Image">
+				<img src="models/site-templates/assets/ssm_logo.gif" width="100%" alt="Sponsor Image"></li>
 			</ul>
 		</div>
 	</div>

@@ -4,14 +4,21 @@
 	require_once("models/header.php");
 ?>
 <body>
-	<header class="row">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header>
+	<?php include("nav.php"); ?>
 	<section class="container">
 		<div class="row">
-			<img src="models/site-templates/assets/page_under_construction.png" alt="Page Under Construction, Check back soon" style="width: 100%; margin: 100px 0 150px 0">
+			<div class="col-80">
+				<img src="models/site-templates/assets/page_under_construction.png" alt="Page Under Construction, Check back soon" style="width: 100%; margin: 100px 0 150px 0">
+			</div>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('includes/sideNav.php');
+				} else {
+					include('includes/loginForm.php');
+				}
+				?>
+			</aside>
 		</div>
 	</section>
 	<?php include("models/footer.php"); ?>

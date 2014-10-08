@@ -222,137 +222,144 @@ require_once("models/header.php");
 ?>
 <body>
 	<?php include("nav.php"); ?>
-	<?
-echo "
-<body>
-<div class='container'>
-<h1>Admin User</h1>
-<div class='row'>
-<div class='col-100'>";
+	<div class='container'>
+		<div class='row'>
+			<div class='col-80'>
+				<h1>Admin User</h1>
+				<? echo resultBlock($errors,$successes); ?>
+				<form name='adminUser' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $userId; ?>' method='post' class='forms'>
+					<div class='col-50'>
+						<fieldset id='general-info' class='width-100'>
+						    <legend>Contact Information</legend>
+							<label>First Name
+								<input type='text' name='first_name' class='width-100 contact-info' value='<? echo $userdetails['first_name']; ?>' />
+							</label>
+						
+							<label>Last Name
+								<input type='text' name='last_name' class='width-100 contact-info' value='<? echo $userdetails['last_name']; ?>' />
+							</label>
+						
+							<label>Company / Institution
+								<input type='text' name='company' class='width-100 contact-info' value='<? echo $userdetails['company']; ?>' />
+							</label>
+							
+							<label>Email Address
+								<input type='email' name='email' class='width-100 contact-info' value='<? echo $userdetails['email']; ?>' />
+							</label>
+						
+							<label>Address Line 1
+								<input type='text' name='address_1' class='width-100 contact-info' value='<? echo $userdetails['address_1']; ?>' />
+							</label>
+						
+							<label>Address Line 2
+								<input type='text' name='address_2' class='width-100 contact-info' value='<? echo $userdetails['address_2']; ?>' />
+							</label>
+						
+							<label>City
+								<input type='text' name='city' class='width-100 contact-info' value='<? echo $userdetails['city']; ?>' />
+							</label>
+						
+							<label>State / Province
+								<input type='text' name='state' class='width-100 contact-info' value='<? echo $userdetails['state']; ?>' />
+							</label>
+						
+							<label>Zip Code
+								<input type='text' name='zip' class='width-100 contact-info' value='<? echo $userdetails['zip']; ?>' />
+							</label>
+						</fieldset>
+					</div>
+					<div class='col-40'>
+						<fieldset id='general-info' class='width-100'>
+							<legend>Account Details</legend>
+							<label>Active:
+								<? //Display activation link, if account inactive
+								if ($userdetails['active'] == '1'){
+									echo "Yes";	
+								}
+								else{
+									echo "No
+									</p>
+									<p>
+									<label>Activate:</label>
+									<input type='checkbox' name='activate' id='activate' value='activate'></label>
+									";
+								} ?>
+							</label>
+							
+							<label>Paid:
+								<? //Display payment status
+								if ($userdetails['paid'] == '1'){
+									echo " <span class='success'>Yes</span>";	
+								}
+								else{
+									echo " <span class='error'>No</span>
+									";
+								} ?>
+							</label>
+							
+							<label>Title 
+								<input type='text' name='title' value='<? echo $userdetails['title']; ?>' />
+							</label>
+							
+							<label>Sign Up: <? echo date("j M, Y", $userdetails['sign_up_stamp']); ?></label>
+							
+							<label>Last Sign In: ";
+								<? //Last sign in, interpretation
+								if ($userdetails['last_sign_in_stamp'] == '0'){
+									echo "Never";	
+								}
+								else {
+									echo date("j M, Y", $userdetails['last_sign_in_stamp']);
+								} ?>
 
-echo resultBlock($errors,$successes);
+							</label>
+							
+							<label>
+								<input type='checkbox' name='delete[<? echo $userdetails['id']; ?>]' id='delete[<? echo $userdetails['id']; ?>]' value='<? echo $userdetails['id']; ?>'> Delete User
+							</label>
+						</fieldset>
 
-echo "
-<form name='adminUser' action='".$_SERVER['PHP_SELF']."?id=".$userId."' method='post' class='forms'>
-<div class='col-40'>
-<fieldset id='general-info' class='width-100'>
-    <legend>Contact Information</legend>
-	<label>First Name
-		<input type='text' name='first_name' class='width-100 contact-info' value='".$userdetails['first_name']."' />
-	</label>
-
-	<label>Last Name
-		<input type='text' name='last_name' class='width-100 contact-info' value='".$userdetails['last_name']."' />
-	</label>
-
-	<label>Company / Institution
-		<input type='text' name='company' class='width-100 contact-info' value='".$userdetails['company']."' />
-	</label>
+						<?
+						//Settings for permission level 4 (web master)
+						if ($loggedInUser->checkPermission(array(4))){
+						echo "
+						<fieldset>
+						<legend>Account Permission</legend>
+						<div id='regbox'>
+						<p><strong>Remove Permission:</strong>";
 	
-	<label>Email Address
-		<input type='email' name='email' class='width-100 contact-info' value='".$userdetails['email']."' />
-	</label>
-
-	<label>Address Line 1
-		<input type='text' name='address_1' class='width-100 contact-info' value='".$userdetails['address_1']."' />
-	</label>
-
-	<label>Address Line 2
-		<input type='text' name='address_2' class='width-100 contact-info' value='".$userdetails['address_2']."' />
-	</label>
-
-	<label>City
-		<input type='text' name='city' class='width-100 contact-info' value='".$userdetails['city']."' />
-	</label>
-
-	<label>State / Province
-		<input type='text' name='state' class='width-100 contact-info' value='".$userdetails['state']."' />
-	</label>
-
-	<label>Zip Code
-		<input type='text' name='zip' class='width-100 contact-info' value='".$userdetails['zip']."' />
-	</label>
-</fieldset>
-</div>
-
-<div class='col-40'>
-<fieldset id='general-info' class='width-100'>
-    <legend>Account Details</legend>
-<label>Active:";
-
-//Display activation link, if account inactive
-if ($userdetails['active'] == '1'){
-	echo "Yes";	
-}
-else{
-	echo "No
-	</p>
-	<p>
-	<label>Activate:</label>
-	<input type='checkbox' name='activate' id='activate' value='activate'></label>
-	";
-}
-
-echo "</label>
-<label>Paid:";
-
-//Display activation link, if account inactive
-if ($userdetails['active'] == '1'){
-	echo " <span class='success'>Yes</span>";	
-}
-else{
-	echo " <span class='error'>No</span>
-	";
-}
-
-echo "</label>
-<label>Title <input type='text' name='title' value='".$userdetails['title']."' /></label>
-<label>Sign Up: ".date("j M, Y", $userdetails['sign_up_stamp'])."</label>
-<label>Last Sign In: ";
-
-//Last sign in, interpretation
-if ($userdetails['last_sign_in_stamp'] == '0'){
-	echo "Never";	
-}
-else {
-	echo date("j M, Y", $userdetails['last_sign_in_stamp']);
-}
-
-echo "</label>
-<label><input type='checkbox' name='delete[".$userdetails['id']."]' id='delete[".$userdetails['id']."]' value='".$userdetails['id']."'> Delete User</label>
-</fieldset>
-<fieldset>
-<legend>Account Permission</legend>
-<div id='regbox'>
-<p><strong>Remove Permission:</strong>";
-
-//List of permission levels user is apart of
-foreach ($permissionData as $v1) {
-	if(isset($userPermission[$v1['id']])){
-		echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
-	}
-}
-
-//List of permission levels user is not apart of
-echo "</p><p><strong>Add Permission:</strong>";
-foreach ($permissionData as $v1) {
-	if(!isset($userPermission[$v1['id']])){
-		echo "<label style='margin: 0; padding: 0; line-height: 1.6em;'><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name']."</label>";
-	}
-}
-
-echo"
-</p>
-</fieldset>
-<input type='submit' value='Update' class='btn' />
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>";
-
-?>
+						//List of permission levels user is apart of
+						foreach ($permissionData as $v1) {
+							if(isset($userPermission[$v1['id']])){
+								echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
+							}
+						}
+	
+						//List of permission levels user is not apart of
+						echo "</p><p><strong>Add Permission:</strong>";
+						foreach ($permissionData as $v1) {
+							if(!isset($userPermission[$v1['id']])){
+								echo "<label style='margin: 0; padding: 0; line-height: 1.6em;'><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name']."</label>";
+							}
+						} ?>
+						</p>
+						</fieldset>
+						<? } ?>
+						<input type='submit' value='Update' class='btn' />
+					</div>
+				</form>
+			</div>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('includes/sideNav.php');
+				} else {
+					include('includes/loginForm.php');
+				}
+				?>
+			</aside>
+		</div>
+	</div>
 	<?php include("models/footer.php"); ?>
 	<script>
 		$('edit-contact-info').click(function {
