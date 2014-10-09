@@ -32,7 +32,7 @@ require_once("models/header.php");
 				<h1>Registrants</h1>
 				<? echo resultBlock($errors,$successes); ?>
 				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms width-100'>
-					<table class='admin width-100'>
+					<table class='admin width-100 table-hovered'>
 						<tr style='text-align: left;'>
 							<th>Delete</th><th>Name</th><th>Email</th><th>Title</th><th>Paid</th>
 						</tr>
@@ -41,10 +41,10 @@ require_once("models/header.php");
 						?>
 						<tr>
 							<td><input type='checkbox' name='delete[<?php echo $v1['id']; ?>]' id='delete[<?php echo $v1['id']; ?>]' value='<?php echo $v1['id']; ?>'></td>
-							<td><a href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></a></td>
-							<td><?php echo $v1['email']; ?></td>
-							<td><?php echo $v1['title']; ?></td>
-							<td><? if ($v1['paid'] === 1) { 
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['email']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['title']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? if ($v1['paid'] === 1) { 
 									echo '<span class="success">Paid</span>';
 								} else if ($v1['paid'] === 0) { 
 									echo '<span class="error">Not Paid</span>';
@@ -66,5 +66,12 @@ require_once("models/header.php");
 		</div>
 	</div>
 	<?php include("models/footer.php"); ?>
+	<script>
+	jQuery(document).ready(function($) {
+		$(".clickableCell").click(function() {
+			window.document.location = $(this).attr("href");
+		});
+	});
+	</script>
 </body>
 </html>

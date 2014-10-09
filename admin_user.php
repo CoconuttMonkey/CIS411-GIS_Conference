@@ -225,7 +225,7 @@ require_once("models/header.php");
 	<div class='container'>
 		<div class='row'>
 			<div class='col-80'>
-				<h1>Admin User</h1>
+				<h1>Edit User</h1>
 				<? echo resultBlock($errors,$successes); ?>
 				<form name='adminUser' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $userId; ?>' method='post' class='forms'>
 					<div class='col-50'>
@@ -303,7 +303,7 @@ require_once("models/header.php");
 							
 							<label>Sign Up: <? echo date("j M, Y", $userdetails['sign_up_stamp']); ?></label>
 							
-							<label>Last Sign In: ";
+							<label>Last Sign In:
 								<? //Last sign in, interpretation
 								if ($userdetails['last_sign_in_stamp'] == '0'){
 									echo "Never";	

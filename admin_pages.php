@@ -49,17 +49,17 @@ require_once("models/header.php");
 		<div class='row'>
 			<div class='col-80'>
 				<h1>Web Pages</h1>
-				<table class='admin width-100'>
+				<table class='admin width-100 table-hovered table-flat'>
 					<tr style='text-align: left;'><th>Id</th><th>Page</th><th>Access</th></tr>
 					<? //Display list of pages
 					foreach ($dbpages as $page){
 						echo "
-						<tr>
+						<tr class='clickableCell' href='admin_page.php?id=".$page['id']."' >
 						<td>
 						".$page['id']."
 						</td>
 						<td>
-						<a href ='admin_page.php?id=".$page['id']."'>".$page['page']."</a>
+						".$page['page']."</a>
 						</td>
 						<td>";
 						
@@ -89,5 +89,12 @@ require_once("models/header.php");
 		</div>
 	</div>
 	<?php include("models/footer.php"); ?>
+	<script>
+	jQuery(document).ready(function($) {
+		$(".clickableCell").click(function() {
+			window.document.location = $(this).attr("href");
+		});
+	});
+	</script>
 </body>
 </html>

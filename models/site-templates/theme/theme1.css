@@ -69,7 +69,9 @@ header {
   border: none;
   margin-bottom: 0;
 }
-
+.clickableCell {
+	cursor: pointer;
+}
 .btn {
   background-color: #003366;
   color: #fff;
