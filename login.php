@@ -101,7 +101,7 @@ require_once("models/header.php");
 		<div class="row">
 			<article class="col-30 centered">
 				<?php echo resultBlock($errors,$successes); ?>
-				<form name='login' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-centered">
+				<form name='login' action='<? echo $_SERVER['PHP_SELF']; ?>' method='post' class="forms text-centered">
 					<label>
 						<input type='email' name='email' class="width-100" placeholder="Email address" required />
 					</label>

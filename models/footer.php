@@ -4,8 +4,7 @@
 		<div class='col-60'>
 			<nav class='navbar'>
 		        <ul style='padding: 0; line-height: 2em;'>
-		            <li><a href='index.php'>Home</a></li>
-		            <li><a href='schedule.php'>Schedule</a></li>
+		            <li><a href='sponsor_registration.php'>Become a Sponsor</a></li>
 		            <li><a href='about.php'>About</a></li>
 		            <li><a href='contact.php'>Contact</a></li>
 					<?
@@ -46,5 +45,5 @@
 			}
 		});
 		
-		$( '#result' ).delay(2000).fadeOut('slow','linear');
+		$( '#result' ).delay(3000).fadeOut('slow','linear');
 	</script>

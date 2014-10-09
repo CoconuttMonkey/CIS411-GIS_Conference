@@ -1,4 +1,4 @@
-	<header id="navigation" class="row">
+	<header id="navigation" class="row drop-shadow">
 		<div class="container">
 			<nav class="navbar navbar-pills navbar-left">
 				<ul>
