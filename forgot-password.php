@@ -174,38 +174,44 @@ if(!empty($_POST))
 }
 
 require_once("models/header.php");
-?>
-<body>
-	<header class="row">
-		<img src="http://fakeimg.pl/1920x480/?text=GIS Conference" width="100%" alt="Header Image">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header>
-	<?
 echo "
 <body>
-<div class='container'>
-<h1>Forgotton Password Tool</h1>
-<div class='row'>
-<div class='col-40 centered'>";
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<h1>UserCake</h1>
+<h2>Forgot Password</h2>
+<div id='left-nav'>";
+
+include("left-nav.php");
+
+echo "
+</div>
+<div id='main'>";
 
 echo resultBlock($errors,$successes);
 
 echo "
 <div id='regbox'>
-<form name='newLostPass' action='".$_SERVER['PHP_SELF']."' method='post' class='forms'>
-<label>Username <input type='text' name='username' /></label>
-
-<label>Email <input type='email' name='email' /></label>
-
+<form name='newLostPass' action='".$_SERVER['PHP_SELF']."' method='post'>
+<p>
+<label>Username:</label>
+<input type='text' name='username' />
+</p>
+<p>    
+<label>Email:</label>
+<input type='text' name='email' />
+</p>
+<p>
+<label>&nbsp;</label>
 <input type='submit' value='Submit' class='submit' />
 </p>
 </form>
 </div>
 </div>
-</div>";
-?>
-	<?php include("models/footer.php"); ?>
+<div id='bottom'></div>
+</div>
 </body>
-</html>
+</html>";
+
+?>

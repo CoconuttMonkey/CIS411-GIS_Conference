@@ -135,88 +135,103 @@ $languages = getLanguageFiles(); //Retrieve list of language files
 $templates = getTemplateFiles(); //Retrieve list of template files
 $permissionData = fetchAllPermissions(); //Retrieve list of all permission levels
 require_once("models/header.php");
-?>
+
+echo "
 <body>
-	<?php include("nav.php"); ?>
-	<section class="container">
-		<? echo resultBlock($errors,$successes); ?>
-		<div class='row'>
-			<div class="col-80" syle="margin-left: 0 !important;">
-				<form name='adminConfiguration' action='<? echo $_SERVER['PHP_SELF']; ?>' method='post' class='forms'>
-					<h1>Site Configuration</h1>
-					<label>Website Name 
-						<input type='text' name='settings[<? echo $settings['website_name']['id']; ?>]' value='<? echo $websiteName ?>' class="width-30" />
-					</label>
-	
-					<label>Website URL 
-						<input type='text' name='settings[<? echo $settings['website_url']['id']; ?>]' value='<? echo $websiteUrl ?>' class="width-30" />
-					</label>
-	
-					<label>Email 
-						<input type='text' name='settings[<? echo $settings['email']['id']; ?>]' value='<? echo $emailAddress ?>' class="width-30" />
-					</label>
-	
-					<label>Activation Threshold 
-						<input type='text' name='settings[<? echo $settings['resend_activation_threshold']['id']; ?>]' value='<? echo $resend_activation_threshold; ?>' />
-					</label>
-	
-					<label>Language 
-						<select name='settings[<? echo $settings['language']['id']; ?>]'>
-						<? //Display language options
-						foreach ($languages as $optLang){
-							if ($optLang == $language){
-								echo "<option value='".$optLang."' selected>$optLang</option>";
-							}
-							else {
-								echo "<option value='".$optLang."'>$optLang</option>";
-							}
-						} ?>
-						</select>
-					</label>
-	
-					<label>Email Activation 
-						<select name='settings[<? echo $settings['activation']['id']; ?>]'>";
-							<? //Display email activation options
-							if ($emailActivation == "true"){
-								echo "
-								<option value='true' selected>True</option>
-								<option value='false'>False</option>";
-							}
-							else {
-								echo "
-								<option value='true'>True</option>
-								<option value='false' selected>False</option>";
-							} ?>
-						</select>
-					</label>
-							
-					<label>Template
-						<select name='settings[<? echo $settings['template']['id']; ?>]'>";
-						<? //Display template options
-						foreach ($templates as $temp){
-							if ($temp == $template){
-								echo "<option value='".$temp."' selected>$temp</option>";
-							}
-							else {
-								echo "<option value='".$temp."'>$temp</option>";
-							}
-						} ?>
-						</select>
-					</label>
-	
-					<input type='submit' name='Submit' value='Submit' class='btn' />
-				</form>
-			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('includes/sideNav.php');
-				} else {
-					include('includes/loginForm.php');
-				}
-				?>
-			</aside>
-		</section>
-	<?php include("models/footer.php"); ?>
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<h1>UserCake</h1>
+<h2>Admin Configuration</h2>
+<div id='left-nav'>";
+
+include("left-nav.php");
+
+echo "
+</div>
+<div id='main'>";
+
+echo resultBlock($errors,$successes);
+
+echo "
+<div id='regbox'>
+<form name='adminConfiguration' action='".$_SERVER['PHP_SELF']."' method='post'>
+<p>
+<label>Website Name:</label>
+<input type='text' name='settings[".$settings['website_name']['id']."]' value='".$websiteName."' />
+</p>
+<p>
+<label>Website URL:</label>
+<input type='text' name='settings[".$settings['website_url']['id']."]' value='".$websiteUrl."' />
+</p>
+<p>
+<label>Email:</label>
+<input type='text' name='settings[".$settings['email']['id']."]' value='".$emailAddress."' />
+</p>
+<p>
+<label>Activation Threshold:</label>
+<input type='text' name='settings[".$settings['resend_activation_threshold']['id']."]' value='".$resend_activation_threshold."' />
+</p>
+<p>
+<label>Language:</label>
+<select name='settings[".$settings['language']['id']."]'>";
+
+//Display language options
+foreach ($languages as $optLang){
+	if ($optLang == $language){
+		echo "<option value='".$optLang."' selected>$optLang</option>";
+	}
+	else {
+		echo "<option value='".$optLang."'>$optLang</option>";
+	}
+}
+
+echo "
+</select>
+</p>
+<p>
+<label>Email Activation:</label>
+<select name='settings[".$settings['activation']['id']."]'>";
+
+//Display email activation options
+if ($emailActivation == "true"){
+	echo "
+	<option value='true' selected>True</option>
+	<option value='false'>False</option>
+	</select>";
+}
+else {
+	echo "
+	<option value='true'>True</option>
+	<option value='false' selected>False</option>
+	</select>";
+}
+
+echo "</p>
+<p>
+<label>Template:</label>
+<select name='settings[".$settings['template']['id']."]'>";
+
+//Display template options
+foreach ($templates as $temp){
+	if ($temp == $template){
+		echo "<option value='".$temp."' selected>$temp</option>";
+	}
+	else {
+		echo "<option value='".$temp."'>$temp</option>";
+	}
+}
+
+echo "
+</select>
+</p>
+<input type='submit' name='Submit' value='Submit' />
+</form>
+</div>
+</div>
+<div id='bottom'></div>
+</div>
 </body>
-</html>
+</html>";
+
+?>

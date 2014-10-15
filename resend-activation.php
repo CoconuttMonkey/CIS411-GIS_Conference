@@ -112,21 +112,21 @@ if(!empty($_POST) && $emailActivation)
 if(isUserLoggedIn()) { header("Location: account.php"); die(); }
 
 require_once("models/header.php");
-?>
-<body>
-	<header class="row">
-		<img src="http://fakeimg.pl/1920x480/?text=GIS Conference" width="100%" alt="Header Image">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header>
-	<?
+
 echo "
 <body>
-<div class='container'>
-<h1>Resend Activation</h1>
-<div class='row'>
-<div class='col-40 centered'>";
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<h1>UserCake</h1>
+<h2>Resend Activation</h2>
+<div id='left-nav'>";
+
+include("left-nav.php");
+
+echo "
+</div>
+<div id='main'>";
 
 echo resultBlock($errors,$successes);
 
@@ -139,21 +139,28 @@ if(!$emailActivation)
 }
 else
 {
-	echo "<form name='resendActivation' action='".$_SERVER['PHP_SELF']."' method='post' class='forms'>
-		<label>Username <input type='text' name='username' /></label>
-	
-        <label>Email <input type='text' name='email' /></label>
-        
-        <input type='submit' value='Submit' class='btn' />
+	echo "<form name='resendActivation' action='".$_SERVER['PHP_SELF']."' method='post'>
+	<p>
+	<label>Username:</label>
+	<input type='text' name='username' />
+        </p>     
+        <p>
+        <label>Email:</label>
+        <input type='text' name='email' />
+        </p>    
+        <p>
+        <label>&nbsp;</label>
+        <input type='submit' value='Submit' class='submit' />
+        </p>
         </form>";
 }
 
 echo "
-</div>  
+</div>           
 </div>
-</div>";
+<div id='bottom'></div>
+</div>
+</body>
+</html>";
 
 ?>
-	<?php include("models/footer.php"); ?>
-</body>
-</html>

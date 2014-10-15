@@ -1,60 +1,42 @@
 <?php
-	require_once("models/config.php");
-	if (!securePage($_SERVER['PHP_SELF'])){die();}
-	require_once("models/header.php");
+/*
+UserCake Version: 2.0.2
+http://usercake.com
+*/
+
+require_once("models/config.php");
+if (!securePage($_SERVER['PHP_SELF'])){die();}
+require_once("models/header.php");
 ?>
-<style>
-	#banner {
-		background-image: url('content/2014_banner-<? echo rand(1,7); ?>.jpg');
-		background-size: cover;
-		background-position: center center;
-		height: 400px; 
-		overflow: hidden;
-		position: relative;
-		border-bottom: solid 6px #fff;
-	}
-	.banner-title {
-		position: absolute;
-		font-size: 5em;
-		bottom: 10px;
-	}
-	#banner h1, #banner h2, #banner h3 {
-		color: #fff;
-		text-shadow:0px 4px 9px black;
-	}
-	.annual {
-		position: absolute;
-		bottom: 90px;
-	}
-</style>
 <body>
-	<?php include("nav.php"); ?>
-	<header id="banner" class="row drop-shadow">
-		<div class="container">
-			<h3 class="subheading text-right">Oct. 16<sup>th</sup> and 17<sup>th</sup> 2014</h3>
-			<h2 class="subheading annual">9<sup>th</sup> Annual</h2>
-			<h1 class="banner-title">NW PA GIS Conference</h1>
-		</div>
-	</header>
-	<section class="container">
-		<div class="row">
-			<article class="col-80">
-				<h1>Welcome</h1>
-				<? include('content/home.txt') ?>
-			</article>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('includes/sideNav.php');
-				} else {
-					include('includes/loginForm.php');
-				}
-				?>
-			</aside>
-		</div>
-	</section>
-	<?php include("models/footer.php"); ?>
-	<script src="models/site-templates/js/jquery.bxslider.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="models/site-templates/css/jquery.bxslider.css">
+	<div id='wrapper'>
+	<div id='top'><div id='logo'></div></div>
+	<div id='content'>
+	<h1>UserCake</h1>
+	<h2>2.00</h2>
+	<div id='left-nav'>
+<?php include("left-nav.php"); ?>
+	</div>
+	<div id='main'>
+		<p>Thank you for downloading UserCake. 100% Free and Opensource.</p>
+		<p>Copyright (c) 2009-2012</p>
+		<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+		of this software and associated documentation files (the 'Software'), to deal
+		in the Software without restriction, including without limitation the rights
+		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the Software is
+		furnished to do so, subject to the following conditions:</p>
+		<p>The above copyright notice and this permission notice shall be included in
+		all copies or substantial portions of the Software.</p>
+		<p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+		THE SOFTWARE.</p>
+	</div>
+	<div id='bottom'></div>
+	</div>
 </body>
 </html>

@@ -14,12 +14,12 @@ if(isUserLoggedIn()) { header("Location: account.php"); die(); }
 if(!empty($_POST))
 {
 	$errors = array();
-	$email = trim($_POST["email"]);
+	$username = sanitize(trim($_POST["username"]));
 	$password = trim($_POST["password"]);
 	
 	//Perform some validation
 	//Feel free to edit / change as required
-	if($email == "")
+	if($username == "")
 	{
 		$errors[] = lang("ACCOUNT_SPECIFY_USERNAME");
 	}
@@ -31,13 +31,13 @@ if(!empty($_POST))
 	if(count($errors) == 0)
 	{
 		//A security note here, never tell the user which credential was incorrect
-		if(!emailExists($email))
+		if(!usernameExists($username))
 		{
 			$errors[] = lang("ACCOUNT_USER_OR_PASS_INVALID");
 		}
 		else
 		{
-			$userdetails = fetchUserDetails("","","",$email);
+			$userdetails = fetchUserDetails($username);
 			//See if the user's account is activated
 			if($userdetails["active"]==0)
 			{
@@ -47,8 +47,7 @@ if(!empty($_POST))
 			{
 				//Hash the password and use the salt from the database to compare the password.
 				$entered_pass = generateHash($password,$userdetails["password"]);
-				//echo $entered_pass."<br>";
-				//echo $userdetails['password'];
+				
 				if($entered_pass != $userdetails["password"])
 				{
 					//Again, we know the password is at fault here, but lets not give away the combination incase of someone bruteforcing
@@ -65,15 +64,8 @@ if(!empty($_POST))
 					$loggedInUser->user_id = $userdetails["id"];
 					$loggedInUser->hash_pw = $userdetails["password"];
 					$loggedInUser->title = $userdetails["title"];
-					$loggedInUser->company = $userdetails["company"];
-					$loggedInUser->address_1 = $userdetails["address_1"];
-					$loggedInUser->address_2 = $userdetails["address_2"];
-					$loggedInUser->city = $userdetails["city"];
-					$loggedInUser->state = $userdetails["state"];
-					$loggedInUser->zip = $userdetails["zip"];
-					$loggedInUser->paid = $userdetails["paid"];
-					$loggedInUser->first_name = $userdetails["first_name"];
-					$loggedInUser->last_name = $userdetails["last_name"];
+					$loggedInUser->displayname = $userdetails["display_name"];
+					$loggedInUser->username = $userdetails["user_name"];
 					
 					//Update last sign in
 					$loggedInUser->updateLastSignIn();
@@ -89,30 +81,45 @@ if(!empty($_POST))
 }
 
 require_once("models/header.php");
-?>
+
+echo "
 <body>
-	<header class="row">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header>
-	<section class="container">
-	<h1>Login</h1>
-		<div class="row">
-			<article class="col-30 centered">
-				<?php echo resultBlock($errors,$successes); ?>
-				<form name='login' action='<? echo $_SERVER['PHP_SELF']; ?>' method='post' class="forms text-centered">
-					<label>
-						<input type='email' name='email' class="width-100" placeholder="Email address" required />
-					</label>
-					<label>
-						<input type='password' name='password' class="width-100" placeholder="Password" required />
-					</label>
-					<input type='submit' value='Login' class="btn width-50" />
-				</form>
-			</article>
-		</div>
-	</section>
-	<?php include("models/footer.php"); ?>
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<h1>UserCake</h1>
+<h2>Login</h2>
+<div id='left-nav'>";
+
+include("left-nav.php");
+
+echo "
+</div>
+<div id='main'>";
+
+echo resultBlock($errors,$successes);
+
+echo "
+<div id='regbox'>
+<form name='login' action='".$_SERVER['PHP_SELF']."' method='post'>
+<p>
+<label>Username:</label>
+<input type='text' name='username' />
+</p>
+<p>
+<label>Password:</label>
+<input type='password' name='password' />
+</p>
+<p>
+<label>&nbsp;</label>
+<input type='submit' value='Login' class='submit' />
+</p>
+</form>
+</div>
+</div>
+<div id='bottom'></div>
+</div>
 </body>
-</html>
+</html>";
+
+?>

@@ -42,59 +42,55 @@ if (count($deletions) > 0) {
 $dbpages = fetchAllPages();
 
 require_once("models/header.php");
-?>
+
+echo "
 <body>
-	<?php include("nav.php"); ?>
-	<div class='container'>
-		<div class='row'>
-			<div class='col-80'>
-				<h1>Web Pages</h1>
-				<table class='admin width-100 table-hovered table-flat'>
-					<tr style='text-align: left;'><th>Id</th><th>Page</th><th>Access</th></tr>
-					<? //Display list of pages
-					foreach ($dbpages as $page){
-						echo "
-						<tr class='clickableCell' href='admin_page.php?id=".$page['id']."' >
-						<td>
-						".$page['id']."
-						</td>
-						<td>
-						".$page['page']."</a>
-						</td>
-						<td>";
-						
-						//Show public/private setting of page
-						if($page['private'] == 0){
-							echo "Public";
-						}
-						else {
-							echo "Private";	
-						}
-						
-						echo "
-						</td>
-						</tr>";
-					} ?>
-				</table>
-			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('includes/sideNav.php');
-				} else {
-					include('includes/loginForm.php');
-				}
-				?>
-			</aside>
-		</div>
-	</div>
-	<?php include("models/footer.php"); ?>
-	<script>
-	jQuery(document).ready(function($) {
-		$(".clickableCell").click(function() {
-			window.document.location = $(this).attr("href");
-		});
-	});
-	</script>
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<h1>UserCake</h1>
+<h2>Admin Pages</h2>
+<div id='left-nav'>";
+
+include("left-nav.php");
+
+echo "
+</div>
+<div id='main'>
+<table class='admin'>
+<tr><th>Id</th><th>Page</th><th>Access</th></tr>";
+
+//Display list of pages
+foreach ($dbpages as $page){
+	echo "
+	<tr>
+	<td>
+	".$page['id']."
+	</td>
+	<td>
+	<a href ='admin_page.php?id=".$page['id']."'>".$page['page']."</a>
+	</td>
+	<td>";
+	
+	//Show public/private setting of page
+	if($page['private'] == 0){
+		echo "Public";
+	}
+	else {
+		echo "Private";	
+	}
+	
+	echo "
+	</td>
+	</tr>";
+}
+
+echo "
+</table>
+</div>
+<div id='bottom'></div>
+</div>
 </body>
-</html>
+</html>";
+
+?>
