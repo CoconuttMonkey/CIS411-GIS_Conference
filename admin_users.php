@@ -22,61 +22,55 @@ if(!empty($_POST))
 $userData = fetchAllUsers(); //Fetch information for all users
 
 require_once("models/header.php");
-echo "
-<body>
-<div id='wrapper'>
-<div id='top'><div id='logo'></div></div>
-<div id='content'>
-<h1>UserCake</h1>
-<h2>Admin Users</h2>
-<div id='left-nav'>";
-
-include("left-nav.php");
-
-echo "
-</div>
-<div id='main'>";
-
-echo resultBlock($errors,$successes);
-
-echo "
-<form name='adminUsers' action='".$_SERVER['PHP_SELF']."' method='post'>
-<table class='admin'>
-<tr>
-<th>Delete</th><th>Username</th><th>Display Name</th><th>Title</th><th>Last Sign In</th>
-</tr>";
-
-//Cycle through users
-foreach ($userData as $v1) {
-	echo "
-	<tr>
-	<td><input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'></td>
-	<td><a href='admin_user.php?id=".$v1['id']."'>".$v1['user_name']."</a></td>
-	<td>".$v1['display_name']."</td>
-	<td>".$v1['title']."</td>
-	<td>
-	";
-	
-	//Interprety last login
-	if ($v1['last_sign_in_stamp'] == '0'){
-		echo "Never";	
-	}
-	else {
-		echo date("j M, Y", $v1['last_sign_in_stamp']);
-	}
-	echo "
-	</td>
-	</tr>";
-}
-
-echo "
-</table>
-<input type='submit' name='Submit' value='Delete' />
-</form>
-</div>
-<div id='bottom'></div>
-</div>
-</body>
-</html>";
-
 ?>
+<body>
+	<?php include("models/main-nav.php"); ?>
+	<div class='container'>
+		<div class='row'>
+			<div class='col-80'>
+				<h1>Registrants</h1>
+				<? echo resultBlock($errors,$successes); ?>
+				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms width-100'>
+					<table class='admin width-100 table-hovered'>
+						<tr style='text-align: left;'>
+							<th>Delete</th><th>Name</th><th>Email</th><th>Title</th><th>Active</th>
+						</tr>
+						<? //Cycle through users
+						foreach ($userData as $v1) {
+						?>
+						<tr>
+							<td><input type='checkbox' name='delete[<?php echo $v1['id']; ?>]' id='delete[<?php echo $v1['id']; ?>]' value='<?php echo $v1['id']; ?>'></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['email']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['title']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? if ($v1['active'] === 1) { 
+									echo '<span class="success">Paid</span>';
+								} else if ($v1['paid'] === 0) { 
+									echo '<span class="error">Not Paid</span>';
+								} ?></td>
+						</tr> <? } ?>
+					</table>
+					<input type='submit' name='Submit' value='Delete' class='btn' />
+				</form>
+			</div>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('models/sideNav.php');
+				} else {
+					include('models/loginForm.php');
+				}
+				?>
+			</aside>
+		</div>
+	</div>
+	<?php include("models/footer.php"); ?>
+	<script>
+	jQuery(document).ready(function($) {
+		$(".clickableCell").click(function() {
+			window.document.location = $(this).attr("href");
+		});
+	});
+	</script>
+</body>
+</html>
