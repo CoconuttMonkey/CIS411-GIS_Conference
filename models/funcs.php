@@ -199,31 +199,6 @@ function deleteUsers($users) {
 	return $i;
 }
 
-//Check if a display name exists in the DB
-function displayNameExists($displayname)
-{
-	global $mysqli,$db_table_prefix;
-	$stmt = $mysqli->prepare("SELECT active
-		FROM ".$db_table_prefix."users
-		WHERE
-		display_name = ?
-		LIMIT 1");
-	$stmt->bind_param("s", $displayname);	
-	$stmt->execute();
-	$stmt->store_result();
-	$num_returns = $stmt->num_rows;
-	$stmt->close();
-	
-	if ($num_returns > 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;	
-	}
-}
-
 //Check if an email exists in the DB
 function emailExists($email)
 {
@@ -282,8 +257,8 @@ function fetchAllUsers()
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
-		user_name,
-		display_name,
+		first_name,
+		last_name,
 		password,
 		email,
 		activation_token,
@@ -295,21 +270,21 @@ function fetchAllUsers()
 		last_sign_in_stamp
 		FROM ".$db_table_prefix."users");
 	$stmt->execute();
-	$stmt->bind_result($id, $user, $display, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
+	$stmt->bind_result($id, $first_name, $last_name, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
 	
 	while ($stmt->fetch()){
-		$row[] = array('id' => $id, 'user_name' => $user, 'display_name' => $display, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
+		$row[] = array('id' => $id, 'first_name' => $first_name, 'last_name' => $last_name, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
 	}
 	$stmt->close();
 	return ($row);
 }
 
 //Retrieve complete user information by username, token or ID
-function fetchUserDetails($username=NULL,$token=NULL, $id=NULL)
+function fetchUserDetails($email=NULL,$token=NULL, $id=NULL)
 {
-	if($username!=NULL) {
-		$column = "user_name";
-		$data = $username;
+	if($email!=NULL) {
+		$column = "email";
+		$data = $email;
 	}
 	elseif($token!=NULL) {
 		$column = "activation_token";
@@ -322,8 +297,8 @@ function fetchUserDetails($username=NULL,$token=NULL, $id=NULL)
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
-		user_name,
-		display_name,
+		first_name,
+		last_name,
 		password,
 		email,
 		activation_token,
@@ -340,25 +315,25 @@ function fetchUserDetails($username=NULL,$token=NULL, $id=NULL)
 		$stmt->bind_param("s", $data);
 	
 	$stmt->execute();
-	$stmt->bind_result($id, $user, $display, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
+	$stmt->bind_result($id, $first_name, $last_name, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
 	while ($stmt->fetch()){
-		$row = array('id' => $id, 'user_name' => $user, 'display_name' => $display, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
+		$row = array('id' => $id, 'first_name' => $first_name, 'last_name' => $last_name, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
 	}
 	$stmt->close();
 	return ($row);
 }
 
 //Toggle if lost password request flag on or off
-function flagLostPasswordRequest($username,$value)
+function flagLostPasswordRequest($email,$value)
 {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
 		SET lost_password_request = ?
 		WHERE
-		user_name = ?
+		email = ?
 		LIMIT 1
 		");
-	$stmt->bind_param("ss", $value, $username);
+	$stmt->bind_param("ss", $value, $email);
 	$result = $stmt->execute();
 	$stmt->close();
 	return $result;

@@ -14,12 +14,12 @@ if(isUserLoggedIn()) { header("Location: account.php"); die(); }
 if(!empty($_POST))
 {
 	$errors = array();
-	$username = sanitize(trim($_POST["username"]));
+	$email = trim($_POST["email"]);
 	$password = trim($_POST["password"]);
 	
 	//Perform some validation
 	//Feel free to edit / change as required
-	if($username == "")
+	if($email == "")
 	{
 		$errors[] = lang("ACCOUNT_SPECIFY_USERNAME");
 	}
@@ -31,13 +31,13 @@ if(!empty($_POST))
 	if(count($errors) == 0)
 	{
 		//A security note here, never tell the user which credential was incorrect
-		if(!usernameExists($username))
+		if(!emailExists($email))
 		{
 			$errors[] = lang("ACCOUNT_USER_OR_PASS_INVALID");
 		}
 		else
 		{
-			$userdetails = fetchUserDetails($username);
+			$userdetails = fetchUserDetails($email);
 			//See if the user's account is activated
 			if($userdetails["active"]==0)
 			{
@@ -64,8 +64,8 @@ if(!empty($_POST))
 					$loggedInUser->user_id = $userdetails["id"];
 					$loggedInUser->hash_pw = $userdetails["password"];
 					$loggedInUser->title = $userdetails["title"];
-					$loggedInUser->displayname = $userdetails["display_name"];
-					$loggedInUser->username = $userdetails["user_name"];
+					$loggedInUser->first_name = $userdetails["first_name"];
+					$loggedInUser->last_name = $userdetails["last_name"];
 					
 					//Update last sign in
 					$loggedInUser->updateLastSignIn();
@@ -103,8 +103,8 @@ echo "
 <div id='regbox'>
 <form name='login' action='".$_SERVER['PHP_SELF']."' method='post'>
 <p>
-<label>Username:</label>
-<input type='text' name='username' />
+<label>Email:</label>
+<input type='email' name='email' />
 </p>
 <p>
 <label>Password:</label>
