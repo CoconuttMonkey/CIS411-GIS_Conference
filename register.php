@@ -65,58 +65,64 @@ if(!empty($_POST))
 }
 
 require_once("models/header.php");
-?>
-
-<style>
-	.show {
-		display: block;
-	}
-	.hide {
-		display: none;
-	}
-</style>
-
+echo "
 <body>
-	<?php include("models/main-nav.php"); ?>
-	<section class="container">
-	<h1>Registration</h1>
-		<div class="row">
-			<?php echo resultBlock($errors,$successes); ?>
-			<form name='newUser' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
-				<div class="col-33 centered">
-				    <fieldset id="general-info" class="text-centered">
-				        <legend>Account Information</legend>
-						<label>
-							<input type='text' name='first_name' class="width-100" placeholder='First Name' required />
-						</label>
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<h1>UserCake</h1>
+<h2>Register</h2>
 
-						<label>
-							<input type='text' name='last_name' class="width-100" placeholder='Last Name' required />
-						</label>
-						
-						<label>
-							<input type='email' name='email' class="width-100" placeholder='Email Address' required />
-						</label>
+<div id='left-nav'>";
+include("left-nav.php");
+echo "
+</div>
 
-						<label>
-							<input type='password' name='password' class="width-100" placeholder="Password" required />
-						</label>
-						
-						<label>
-							<input type='password' name='passwordc' class="width-100" placeholder="Confirm" required />
-						</label>
+<div id='main'>";
 
-						<img src='models/captcha.php'class="width-50" >
-						<label>
-							<input name='captcha' type='text' class="width-50 centered" placeholder="Security Code" required >
-						</label>
-						
-						<input type='submit' value='Register' class="btn col-50 centered"/>
-					</fieldset>
-				</div>
-			</form>
-		</div>
-	</section>
-	<?php include("models/footer.php"); ?>
+echo resultBlock($errors,$successes);
+
+echo "
+<div id='regbox'>
+<form name='newUser' action='".$_SERVER['PHP_SELF']."' method='post'>
+
+<p>
+<label>First Name:</label>
+<input type='text' name='first_name' />
+</p>
+<p>
+<label>Last Name:</label>
+<input type='text' name='last_namename' />
+</p>
+<p>
+<label>Password:</label>
+<input type='password' name='password' />
+</p>
+<p>
+<label>Confirm:</label>
+<input type='password' name='passwordc' />
+</p>
+<p>
+<label>Email:</label>
+<input type='text' name='email' />
+</p>
+<p>
+<label>Security Code:</label>
+<img src='models/captcha.php'>
+</p>
+<label>Enter Security Code:</label>
+<input name='captcha' type='text'>
+</p>
+<label>&nbsp;<br>
+<input type='submit' value='Register'/>
+</p>
+
+</form>
+</div>
+
+</div>
+<div id='bottom'></div>
+</div>
 </body>
-</html>
+</html>";
+?>

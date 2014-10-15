@@ -81,26 +81,45 @@ if(!empty($_POST))
 }
 
 require_once("models/header.php");
-?>
+
+echo "
 <body>
-	<?php include("models/main-nav.php"); ?>
-	<section class="container">
-	<h1>Login</h1>
-		<div class="row">
-			<article class="col-30 centered">
-				<?php echo resultBlock($errors,$successes); ?>
-				<form name='login' action='<? echo $_SERVER['PHP_SELF']; ?>' method='post' class="forms text-centered">
-					<label>
-						<input type='email' name='email' class="width-100" placeholder="Email address" required />
-					</label>
-					<label>
-						<input type='password' name='password' class="width-100" placeholder="Password" required />
-					</label>
-					<input type='submit' value='Login' class="btn width-50" />
-				</form>
-			</article>
-		</div>
-	</section>
-	<?php include("models/footer.php"); ?>
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<h1>UserCake</h1>
+<h2>Login</h2>
+<div id='left-nav'>";
+
+include("left-nav.php");
+
+echo "
+</div>
+<div id='main'>";
+
+echo resultBlock($errors,$successes);
+
+echo "
+<div id='regbox'>
+<form name='login' action='".$_SERVER['PHP_SELF']."' method='post'>
+<p>
+<label>Email:</label>
+<input type='email' name='email' />
+</p>
+<p>
+<label>Password:</label>
+<input type='password' name='password' />
+</p>
+<p>
+<label>&nbsp;</label>
+<input type='submit' value='Login' class='submit' />
+</p>
+</form>
+</div>
+</div>
+<div id='bottom'></div>
+</div>
 </body>
-</html>
+</html>";
+
+?>

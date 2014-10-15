@@ -8,73 +8,35 @@ require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 require_once("models/header.php");
 ?>
-<style>
-	#banner {
-		background-image: url('image/banner_bg.jpg');
-		background-size: cover;
-		background-position: center center;
-		height: 400px; 
-		overflow: hidden;
-		position: relative;
-		width: 100%;
-		z-index: -999;
-		border-bottom: solid 6px #fff;
-		top: 0;
-		left: 0;
-		padding: 0;
-		margin: -100px 0 0 0;
-	}
-	.banner-title {
-		position: absolute;
-		font-size: 5em;
-		bottom: 10px;
-	}
-	#banner h1, #banner h2, #banner h3 {
-		color: #fff;
-		text-shadow:0px 4px 9px black;
-	}
-	#banner h3 {
-		top: 100px;
-		position: absolute;
-		right: 10%;
-	}
-	.annual {
-		position: absolute;
-		bottom: 90px;
-	}
-</style>
 <body>
-	<? require_once("models/main-nav.php"); ?>
-	<header id="banner" class="row drop-shadow">
-		<div class="container">
-			<h3 class="subheading text-right">Oct. 16<sup>th</sup> and 17<sup>th</sup> 2014</h3>
-			<h2 class="subheading annual">9<sup>th</sup> Annual</h2>
-			<h1 class="banner-title">NW PA GIS Conference</h1>
-		</div>
-	</header>
-	<section class="container">
-		<div class="row">
-			<aside class="col-lg-2">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
-			<article class="col-lg-10">
-				<h1>Welcome</h1>
-				Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-
-Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Sed posuere consectetur est at lobortis. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cras mattis consectetur purus sit amet fermentum.
-
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Vestibulum id ligula porta felis euismod semper. Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam id dolor id nibh ultricies vehicula ut id elit.
-
-Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nulla vitae elit libero, a pharetra augue. Maecenas faucibus mollis interdum. Donec sed odio dui.
-			</article>
-		</div>
-	</section>
-	<?php include("models/footer.php"); ?>
+	<div id='wrapper'>
+	<div id='top'><div id='logo'></div></div>
+	<div id='content'>
+	<h1>UserCake</h1>
+	<h2>2.00</h2>
+	<div id='left-nav'>
+<?php include("left-nav.php"); ?>
+	</div>
+	<div id='main'>
+		<p>Thank you for downloading UserCake. 100% Free and Opensource.</p>
+		<p>Copyright (c) 2009-2012</p>
+		<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+		of this software and associated documentation files (the 'Software'), to deal
+		in the Software without restriction, including without limitation the rights
+		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the Software is
+		furnished to do so, subject to the following conditions:</p>
+		<p>The above copyright notice and this permission notice shall be included in
+		all copies or substantial portions of the Software.</p>
+		<p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+		THE SOFTWARE.</p>
+	</div>
+	<div id='bottom'></div>
+	</div>
 </body>
 </html>
