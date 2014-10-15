@@ -10,8 +10,9 @@ require_once("models/header.php");
 ?>
 <body>
 	<?php include("models/main-nav.php"); ?>
-	<?php if ($loggedInUser->checkPermission(array(2)) || $loggedInUser->checkPermission(array(4))) { ?>
 	<section class="container">
+	
+		<?php if ($loggedInUser->checkPermission(array(2)) || $loggedInUser->checkPermission(array(4))) { ?>
 		<div class="row">
 			<article class="col-80">
 				<h1>Dashboard</h1>
@@ -49,7 +50,9 @@ require_once("models/header.php");
 					<div class="col-50">
 						Active Sponsors
 					</div>
-				</section><? } ?>
+				</section>
+				<? } ?>
+				
 			</article>
 			<aside class="col-20">
 				<? 

@@ -54,16 +54,7 @@ require_once("models/header.php");
 	</header>
 	<section class="container">
 		<div class="row">
-			<aside class="col-lg-2">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
-			<article class="col-lg-10">
+			<article class="col-80">
 				<h1>Welcome</h1>
 				Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
 
@@ -73,6 +64,15 @@ Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Vestibulum id ligu
 
 Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nulla vitae elit libero, a pharetra augue. Maecenas faucibus mollis interdum. Donec sed odio dui.
 			</article>
+			<aside class="col-20">
+				<? 
+				if(isUserLoggedIn()) {
+					include('models/sideNav.php');
+				} else {
+					include('models/loginForm.php');
+				}
+				?>
+			</aside>
 		</div>
 	</section>
 	<?php include("models/footer.php"); ?>
