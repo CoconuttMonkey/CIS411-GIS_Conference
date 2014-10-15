@@ -43,52 +43,48 @@ if(!empty($_POST))
 $permissionData = fetchAllPermissions(); //Retrieve list of all permission levels
 
 require_once("models/header.php");
-
-echo "
-<body>
-<div id='wrapper'>
-<div id='top'><div id='logo'></div></div>
-<div id='content'>
-<h1>UserCake</h1>
-<h2>Admin Permissions</h2>
-<div id='left-nav'>";
-
-include("left-nav.php");
-
-echo "
-</div>
-<div id='main'>";
-
-echo resultBlock($errors,$successes);
-
-echo "
-<form name='adminPermissions' action='".$_SERVER['PHP_SELF']."' method='post'>
-<table class='admin'>
-<tr>
-<th>Delete</th><th>Permission Name</th>
-</tr>";
-
-//List each permission level
-foreach ($permissionData as $v1) {
-	echo "
-	<tr>
-	<td><input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'></td>
-	<td><a href='admin_permission.php?id=".$v1['id']."'>".$v1['name']."</a></td>
-	</tr>";
-}
-
-echo "
-</table>
-<p>
-<label>Permission Name:</label>
-<input type='text' name='newPermission' />
-</p>                                
-<input type='submit' name='Submit' value='Submit' />
-</form>
-</div>
-<div id='bottom'></div>
-</div>
-</body>
-</html>";
-
 ?>
+<body>
+	<?php include("models/main-nav.php"); ?>
+	<div class='container'>
+		<div class='row'>
+			<div class='col-80'>
+				<h1>Permission Levels</h1>
+				<? echo resultBlock($errors,$successes); ?>
+
+				<form name='adminPermissions' action='<? echo $_SERVER['PHP_SELF'] ?>' method='post' class='forms width-100'>
+					<table class='admin width-100'>
+						<tr style='text-align: left;'>
+							<th>Delete</th><th>Permission Name</th>
+						</tr>
+						<? //List each permission level
+						foreach ($permissionData as $v1) {
+							echo "
+							<tr>
+							<td><input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'></td>
+							<td><a href='admin_permission.php?id=".$v1['id']."'>".$v1['name']."</a></td>
+							</tr>";
+						} ?>
+						<tr>
+							<td>Add New</td>
+							<td><input type='text' name='newPermission' /></td>
+						</tr>
+					</table>
+
+					<input type='submit' name='Submit' value='Submit' class='btn' />
+				</form>
+			</div>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('models/sideNav.php');
+				} else {
+					include('models/loginForm.php');
+				}
+				?>
+			</aside>
+		</div>
+	</div>
+	<?php include("models/footer.php"); ?>
+</body>
+</html>

@@ -82,51 +82,63 @@ if (!empty($_POST)) {
 }
 
 require_once("models/header.php");
-echo "
-<body>
-<div id='wrapper'>
-<div id='top'><div id='logo'></div></div>
-<div id='content'>
-<h1>UserCake</h1>
-<h2>User Settings</h2>
-<div id='left-nav'>";
-include("left-nav.php");
-
-echo "
-</div>
-<div id='main'>";
-
-echo resultBlock($errors,$successes);
-
-echo "
-<div id='regbox'>
-<form name='updateAccount' action='".$_SERVER['PHP_SELF']."' method='post'>
-<p>
-<label>Password:</label>
-<input type='password' name='password' />
-</p>
-<p>
-<label>Email:</label>
-<input type='text' name='email' value='".$loggedInUser->email."' />
-</p>
-<p>
-<label>New Pass:</label>
-<input type='password' name='passwordc' />
-</p>
-<p>
-<label>Confirm Pass:</label>
-<input type='password' name='passwordcheck' />
-</p>
-<p>
-<label>&nbsp;</label>
-<input type='submit' value='Update' class='submit' />
-</p>
-</form>
-</div>
-</div>
-<div id='bottom'></div>
-</div>
-</body>
-</html>";
-
 ?>
+<body>
+	<?php include("models/main-nav.php"); ?>
+	<section class="container">
+		<div class="row">
+			<? echo resultBlock($errors,$successes); ?>
+			<div class="col-80" style="margin-left: 0;">
+				<h1>User Settings</h1>
+				<form name='updateAccount' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms">
+					<section class="row">
+						<div class="col-50">
+					      <legend>Account Information</legend>
+								<label>First Name
+									<input type='text' name='first_name' class="width-100" value="<? echo $loggedInUser->first_name; ?>" />
+								</label>
+			
+								<label>Last Name
+									<input type='text' name='last_name' class="width-100" value="<? echo $loggedInUser->last_name; ?>" />
+								</label>
+								
+								<label>Email Address
+									<input type='email' name='email' class="width-100" value="<? echo $loggedInUser->email; ?>" />
+								</label>
+						</div>
+						<div class="col-50">
+						  <legend>Change Password</legend>
+							<label>New Password
+								<input type='password' name='passwordc' class="width-100" />
+							</label>
+							
+							<label>Confirm Password
+								<input type='password' name='passwordcheck' class="width-100" />
+							</label>
+						</div>
+					</section>
+					<section class="row">
+						<div class="col-50 centered text-centered">
+						  
+							<label><legend>Enter Password to apply changes</legend>
+								<input type='password' name='password' class="width-100" required />
+							</label>
+							<input type='submit' value='Update' class='btn' />
+						</div>
+					</section>
+				</form>
+			</div>
+			<aside class="col-20 nav">
+				<? 
+				if(isUserLoggedIn()) {
+					include('models/sideNav.php');
+				} else {
+					include('models/loginForm.php');
+				}
+				?>
+			</aside>
+		</div>
+	</section>
+	<?php include("models/footer.php"); ?>
+</body>
+</html>
