@@ -53,7 +53,7 @@ require_once("models/header.php");
 	</header>
 	<section class="container">
 		<div class="row">
-			<article class="col-lg-10 col-md-10">
+			<article class="col-lg-9 col-md-9">
 				<h1>Welcome</h1>
 				Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
 
@@ -63,7 +63,7 @@ Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Vestibulum id ligu
 
 Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nulla vitae elit libero, a pharetra augue. Maecenas faucibus mollis interdum. Donec sed odio dui.
 			</article>
-			<aside class="col-lg-2 col-md-2">
+			<aside class="col-lg-3 col-md-3">
 				<? 
 				if(isUserLoggedIn()) {
 					include('models/sideNav.php');
