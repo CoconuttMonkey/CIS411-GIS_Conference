@@ -1,6 +1,10 @@
 * {
 	box-sizing: border-box;
 }
+ul {
+	margin-left: 0;
+	padding: 0;
+}
 body {
   background-image: url('../../image/grunge_wall.png') !important;
   background-repeat: repeat;
@@ -21,12 +25,19 @@ header {
 	padding: 10px;
 	margin-top: 0;
 	background: rgba(255,255,255,.5);
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
 }
 .sideNav h6 {
 	background-color: #003366;
 	text-align: center;
 	color: #fff;
 	margin-bottom: 0;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+.sideNav ul li a {
+	color: #000;
 }
 #home-banner {
 	background-image: url(../assets/banner_bg.jpg);
@@ -53,7 +64,6 @@ header {
 #navigation .active {
   background-color: #97824A;
 }
-
 #result {
   position: absolute;
   padding: 5px;

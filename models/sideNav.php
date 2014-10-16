@@ -17,8 +17,8 @@ if(isUserLoggedIn()) {
 	<h6>Conference</h6>
 	<ul class='nav nav-pills nav-stacked'>
 		<li><a href='admin_users.php'>Registrant List</a></li>
-		<li><a href='construction.php'>Presentations</a></li>
-		<li><a href='construction.php'>Exhibitions</a></li>
+		<li><a href='conf_presentations.php'>Presentations</a></li>
+		<li><a href='conf_exhibits.php'>Exhibits</a></li>
 		<li><a href='construction.php'>Sponsors</a></li>
 		<li><a href='admin_conference.php'>Settings</a></li>
 	</ul>";
