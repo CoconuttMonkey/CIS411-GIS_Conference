@@ -18,7 +18,6 @@ require_once("models/header.php");
 		position: relative;
 		width: 100%;
 		z-index: -999;
-		border-bottom: solid 6px #fff;
 		top: 0;
 		left: 0;
 		padding: 0;
@@ -54,7 +53,7 @@ require_once("models/header.php");
 	</header>
 	<section class="container">
 		<div class="row">
-			<article class="col-80">
+			<article class="col-lg-10 col-md-10">
 				<h1>Welcome</h1>
 				Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
 
@@ -64,7 +63,7 @@ Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Vestibulum id ligu
 
 Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nulla vitae elit libero, a pharetra augue. Maecenas faucibus mollis interdum. Donec sed odio dui.
 			</article>
-			<aside class="col-20">
+			<aside class="col-lg-2 col-md-2">
 				<? 
 				if(isUserLoggedIn()) {
 					include('models/sideNav.php');
@@ -77,4 +76,5 @@ Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
 	</section>
 	<?php include("models/footer.php"); ?>
 </body>
+<script>$('#navbar-home').addClass("active");</script>
 </html>

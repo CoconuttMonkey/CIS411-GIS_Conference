@@ -2,8 +2,8 @@
 	<footer class="container">
 		<div class="row">
 			<div class='col-lg-6'>
-				<nav class='navbar'>
-			        <ul style='padding: 0; line-height: 2em;'>
+				<nav>
+			        <ul class="nav navbar-nav">
 			            <li><a href='sponsor_registration.php'>Become a Sponsor</a></li>
 			            <li><a href='about.php'>About</a></li>
 			            <li><a href='contact.php'>Contact</a></li>
@@ -27,7 +27,7 @@
 					</ul>
 				</nav>
 			</div>
-			<div class="col-lg-6 text-centered">
+			<div class="col-lg-6 text-right">
 					<a href="http://clarion.edu" target="_blank"><img src="image/cup_logo.png" width="15%" alt="Sponsor Image"></a>
 					<a href="http://www.esri.com/" target="_blank"><img src="image/esri_logo.png" width="15%" alt="Sponsor Image"></a>
 					<a href="http://www.mcmconsultinggrp.com/" target="_blank"><img src="image/mcm_logo.jpg" width="15%" alt="Sponsor Image"></a>
@@ -36,12 +36,5 @@
 		</div>
 	</footer>
 	<script>
-		var currentPage = currentPage();
-		$("nav ul li a").each(function(){
-			if ( $(this).attr("href") == currentPage || $(this).attr("href") == '' ) {
-				$(this).addClass("active");
-			}
-		});
-		
 		$( '#result' ).delay(3000).fadeOut('slow','linear');
 	</script>

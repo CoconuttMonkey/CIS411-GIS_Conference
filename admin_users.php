@@ -7,6 +7,19 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
+//List posted
+if(!empty($_GET))
+{
+	if ($_GET['list'] == 'attendees')
+		$pageTitle = "Attendees";
+	else if ($_GET['list'] == 'unpaid')
+		$pageTitle = "Unpaid Users";
+	else
+		$pageTitle = "All Users";
+} else {
+	$pageTitle = "All Users";
+}
+
 //Forms posted
 if(!empty($_POST))
 {
@@ -27,15 +40,19 @@ require_once("models/header.php");
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<div class='row'>
-			<div class='col-80'>
-				<h1>Registrants</h1>
+			<div class='col-lg-10 col-md-10 col-sm-8'>
 				<? echo resultBlock($errors,$successes); ?>
-				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms width-100'>
-					<table class='admin width-100 table-hovered'>
-						<tr style='text-align: left;'>
-							<th>Delete</th><th>Name</th><th>Email</th><th>Title</th><th>Active</th>
-						</tr>
-						<? //Cycle through users
+				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms'>
+					<div class="panel panel-default">
+			  		<div class="panel-heading"><h1><? echo $pageTitle; ?></h1></div>
+			
+						<!-- Table -->
+					  <table class="table">
+							<tr style='text-align: left;'>
+								<th>Delete</th><th>Name</th><th>Email</th><th>Title</th><th>Active</th>
+							</tr>
+							
+							<? //Cycle through users
 						foreach ($userData as $v1) {
 						?>
 						<tr>
@@ -49,11 +66,13 @@ require_once("models/header.php");
 									echo '<span class="error">Not Paid</span>';
 								} ?></td>
 						</tr> <? } ?>
-					</table>
-					<input type='submit' name='Submit' value='Delete' class='btn' />
+							
+					  </table>
+					</div>
+					<input type='submit' name='Submit' value='Delete' class='btn btn-danger' />
 				</form>
 			</div>
-			<aside class="col-20 nav">
+			<aside class="col-lg-2 col-md-2 col-sm-4">
 				<? 
 				if(isUserLoggedIn()) {
 					include('models/sideNav.php');
