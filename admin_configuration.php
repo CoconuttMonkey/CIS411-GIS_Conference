@@ -139,6 +139,10 @@ require_once("models/header.php");
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<section class="container">
+		<ol class="breadcrumb">
+		  <li><a href="account.php">Dashboard</a></li>
+		  <li class="active"><a href="admin_configuration.php">Site Settings</a></li>
+		</ol>
 		<? echo resultBlock($errors,$successes); ?>
 		<div class='row'>
 			<div class="col-80" syle="margin-left: 0 !important;">

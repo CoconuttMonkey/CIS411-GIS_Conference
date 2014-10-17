@@ -145,29 +145,37 @@ require_once("models/header.php");
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
-		<div class='row'>
-			<div class='col-80'>
+		<ol class="breadcrumb">
+		  <li><a href="account.php">Dashboard</a></li>
+		  <li><a href="admin_users.php">Users</a></li>
+		  <li class="active"><a href="#"><? echo $userdetails['first_name']." ".$userdetails['last_name']; ?></a></li>
+		</ol>
+		<div class='container'>
 				<h1>Edit User</h1>
 				<? echo resultBlock($errors,$successes); ?>
-				<form name='adminUser' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $userId; ?>' method='post' class='forms'>
-					<div class='col-50'>
-						<fieldset id='general-info' class='width-100'>
-						    <legend>Contact Information</legend>
-							<label>First Name
-								<input type='text' name='first_name' class='width-100 contact-info' value='<? echo $userdetails['first_name']; ?>' />
-							</label>
-						
-							<label>Last Name
-								<input type='text' name='last_name' class='width-100 contact-info' value='<? echo $userdetails['last_name']; ?>' />
-							</label>
-							
-							<label>Email Address
-								<input type='email' name='email' class='width-100 contact-info' value='<? echo $userdetails['email']; ?>' />
-							</label>
-						</fieldset>
+				<form name='adminUser' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $userId; ?>' method='post'>
+					<div class="row">
+						<div class='col-lg-6'>
+					      <h3>Account Information</h3>
+								<div class="input-group">
+									<span class="input-group-addon">First Name</span>
+								  <input type="text" class="form-control" name="first_name" value='<? echo $userdetails['first_name']; ?>' required>
+								</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon">Last Name</span>
+								  <input type="text" class="form-control" name="last_name" value='<? echo $userdetails['last_name']; ?>' required>
+								</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon">@</span>
+								  <input type="text" class="form-control" name="email" value='<? echo $userdetails['email']; ?>' required>
+								</div>
+								
+						</div>
 					</div>
-					<div class='col-40'>
-						<fieldset id='general-info' class='width-100'>
+					<div class='col-lg-6'>
+						<fieldset id='general-info'>
 							<legend>Account Details</legend>
 							<label>Active:
 								<? //Display activation link, if account inactive

@@ -86,57 +86,54 @@ require_once("models/header.php");
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<section class="container">
-		<div class="row">
+		<ol class="breadcrumb">
+		  <li><a href="account.php">Dashboard</a></li>
+		  <li class="active"><a href="user_settings.php">Settings</a></li>
+		</ol>
 			<? echo resultBlock($errors,$successes); ?>
-			<div class="col-80" style="margin-left: 0;">
-				<h1>User Settings</h1>
-				<form name='updateAccount' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms">
+			<div class="col-lg-12">
+				<h1>Account Settings</h1>
+				<form name='updateAccount' action='<? $_SERVER['PHP_SELF'] ?>' method='post' style="margin-bottom: 100px;">
 					<section class="row">
-						<div class="col-50">
-					      <legend>Account Information</legend>
-								<label>First Name
-									<input type='text' name='first_name' class="width-100" value="<? echo $loggedInUser->first_name; ?>" />
-								</label>
-			
-								<label>Last Name
-									<input type='text' name='last_name' class="width-100" value="<? echo $loggedInUser->last_name; ?>" />
-								</label>
-								
-								<label>Email Address
-									<input type='email' name='email' class="width-100" value="<? echo $loggedInUser->email; ?>" />
-								</label>
+						<div class="col-lg-6 col-md-6">
+					      <h3>Account Information</h3>
+								<div class="input-group">
+									<span class="input-group-addon">First Name</span>
+								  <input type="text" class="form-control" name="first_name" value="<? echo $loggedInUser->first_name; ?>" required>
+								</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon">Last Name</span>
+								  <input type="text" class="form-control" name="last_name" value="<? echo $loggedInUser->last_name; ?>" required>
+								</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon">@</span>
+								  <input type="text" class="form-control" name="email" value="<? echo $loggedInUser->email; ?>" required>
+								</div>
 						</div>
-						<div class="col-50">
-						  <legend>Change Password</legend>
-							<label>New Password
-								<input type='password' name='passwordc' class="width-100" />
-							</label>
-							
-							<label>Confirm Password
-								<input type='password' name='passwordcheck' class="width-100" />
-							</label>
-						</div>
-					</section>
-					<section class="row">
-						<div class="col-50 centered text-centered">
-						  
-							<label><legend>Enter Password to apply changes</legend>
-								<input type='password' name='password' class="width-100" required />
-							</label>
-							<input type='submit' value='Update' class='btn' />
-						</div>
+						<div class="col-lg-6 col-md-6">
+						  <h3>Change Password</h3>
+							<div class="input-group">
+								<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+							  <input type="password" class="form-control" name="passwordc" placeholder="New Password" required>
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+							  <input type="password" class="form-control" name="passwordcheck" placeholder="New Password" required>
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+					      <input type='password' name='password' class="form-control" placeholder="Current Password" required />
+					      <span class="input-group-btn">
+					        <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-check"></span> Save</button>
+					      </span>
+					    </div><!-- /input-group -->
 					</section>
 				</form>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</section>
 	<?php include("models/footer.php"); ?>

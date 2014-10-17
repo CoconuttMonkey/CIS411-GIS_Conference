@@ -7,48 +7,72 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
+//List posted
+if(!empty($_GET))
+{
+	if ($_GET['list'] == 'pending')
+		$pageTitle = "Pending Presentations";
+	else if ($_GET['list'] == 'active')
+		$pageTitle = "Scheduled Presentations";
+	else
+		$pageTitle = "All Presentations";
+} else {
+	$pageTitle = "All Presentations";
+}
 
-//$presentationData = fetchAllPresentations(); //Fetch information for all presentations
+//Forms posted
+if(!empty($_POST))
+{
+	$deletions = $_POST['delete'];
+	if ($deletion_count = deleteUsers($deletions)){
+		$successes[] = lang("ACCOUNT_DELETIONS_SUCCESSFUL", array($deletion_count));
+	}
+	else {
+		$errors[] = lang("SQL_ERROR");
+	}
+}
+
+$userData = fetchAllUsers(); //Fetch information for all users
+
 require_once("models/header.php");
 ?>
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
+		<ol class="breadcrumb">
+		  <li><a href="account.php">Dashboard</a></li>
+		  <li class="active"><a href="#">Presentations</a></li>
+		</ol>
 		<div class='row'>
-			<div class='col-80'>
-				<h1>Presentations</h1>
+			<div class='col-lg-12'>
 				<? echo resultBlock($errors,$successes); ?>
-				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms width-100'>
-					<table class='admin width-100 table-hovered'>
-						<tr style='text-align: left;'>
-							<th>Title</th><th>Presenter</th><th>Session</th><th>Track</th><th>Active</th>
-						</tr>
-						<? //Cycle through users
-						foreach ($presentationData as $v1) {
+					<div class="panel panel-default">
+			  		<div class="panel-heading"><h1><? echo $pageTitle; ?></h1></div>
+			
+						<!-- Table -->
+					  <table class="table">
+							<tr style='text-align: left;'>
+								<th>Title</th><th>Presenter</th><th>Track</th><th>Session</th><th>Active</th>
+							</tr>
+							
+							<? //Cycle through users
+						foreach ($userData as $v1) {
 						?>
-						<tr class="clickableCell" href="presentation.php?id=<? echo $v1['id']; ?>">
-							<td><?php echo $v1['title']; ?></td>
-							<td><? echo $v1['presentation_id']; ?></td>
-							<td><?php echo $v1['session']; ?></td>
-							<td><?php echo $v1['track']; ?></td>
-							<td><? if ($v1['active'] === 1) { 
-									echo '<span class="success">Paid</span>';
+						<tr>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['email']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['last_name']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['title']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? if ($v1['active'] === 1) { 
+									echo '<span class="success">Scheduled</span>';
 								} else if ($v1['paid'] === 0) { 
-									echo '<span class="error">Not Paid</span>';
+									echo '<span class="warning">Pending</span>';
 								} ?></td>
 						</tr> <? } ?>
-					</table>
-				</form>
+							
+					  </table>
+					</div>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
 	<?php include("models/footer.php"); ?>

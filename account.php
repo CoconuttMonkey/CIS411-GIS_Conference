@@ -12,10 +12,10 @@ require_once("models/header.php");
 	<?php include("models/main-nav.php"); ?>
 	<section class="container">
 		<h1>Dashboard</h1>
-		<div class="col-lg-10 col-md-10">
+		<div class="col-lg-12">
 			<?php if ($loggedInUser->checkPermission(array(2)) || $loggedInUser->checkPermission(array(4))) { ?>
 			<div class="row">
-				<div class="col-lg-3">
+				<div class="col-lg-3 col-md-3 col-sm-6">
 	        <div class="panel panel-info">
 	          <div class="panel-heading">
 	            <div class="row">
@@ -37,75 +37,7 @@ require_once("models/header.php");
 	        </div>
 	      </div>
 	      
-	      <div class="col-lg-3">
-	        <div class="panel panel-warning">
-	          <div class="panel-heading">
-	            <div class="row">
-	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">0</p>
-	                <p class="announcement-text">Pending Presentations</p>
-	              </div>
-	            </div>
-	          </div>
-	          <a href="conf_presentations.php?list=pending">
-	            <div class="panel-footer announcement-bottom">
-	              <div class="row">
-	                <div class="col-xs-12">
-	                  View Pending
-	                </div>
-	              </div>
-	            </div>
-	          </a>
-	        </div>
-	      </div>
-	      
-	      <div class="col-lg-3">
-	        <div class="panel panel-warning">
-	          <div class="panel-heading">
-	            <div class="row">
-	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">0</p>
-	                <p class="announcement-text">Pending Exhibits</p>
-	              </div>
-	            </div>
-	          </div>
-	          <a href="conf_exhibits.php?list=pending">
-	            <div class="panel-footer announcement-bottom">
-	              <div class="row">
-	                <div class="col-xs-12">
-	                  View Pending
-	                </div>
-	              </div>
-	            </div>
-	          </a>
-	        </div>
-	      </div>
-	      
-	      <div class="col-lg-3">
-	        <div class="panel panel-danger">
-	          <div class="panel-heading">
-	            <div class="row">
-	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">3</p>
-	                <p class="announcement-text">Pending Sponsors</p>
-	              </div>
-	            </div>
-	          </div>
-	          <a href="conf_sponsors.php?list=pending">
-	            <div class="panel-footer announcement-bottom">
-	              <div class="row">
-	                <div class="col-xs-12">
-	                  View Pending
-	                </div>
-	              </div>
-	            </div>
-	          </a>
-	        </div>
-	      </div>
-			</div><!-- /.row -->
-	      
-			<div class="row">
-				<div class="col-lg-3">
+				<div class="col-lg-3 col-md-3 col-sm-6">
 	        <div class="panel panel-info">
 	          <div class="panel-heading">
 	            <div class="row">
@@ -127,7 +59,29 @@ require_once("models/header.php");
 	        </div>
 	      </div>
 	      
-	      <div class="col-lg-3">
+	      <div class="col-lg-3 col-md-3 col-sm-6">
+	        <div class="panel panel-warning">
+	          <div class="panel-heading">
+	            <div class="row">
+	              <div class="col-xs-12 text-right">
+	                <p class="announcement-heading">0</p>
+	                <p class="announcement-text">Pending Presentations</p>
+	              </div>
+	            </div>
+	          </div>
+	          <a href="conf_presentations.php?list=pending">
+	            <div class="panel-footer announcement-bottom">
+	              <div class="row">
+	                <div class="col-xs-12">
+	                  View Pending
+	                </div>
+	              </div>
+	            </div>
+	          </a>
+	        </div>
+	      </div>
+	      
+	      <div class="col-lg-3 col-md-3 col-sm-6">
 	        <div class="panel panel-success">
 	          <div class="panel-heading">
 	            <div class="row">
@@ -148,8 +102,33 @@ require_once("models/header.php");
 	          </a>
 	        </div>
 	      </div>
+			</div><!-- /.row -->
 	      
-				<div class="col-lg-3">
+			<div class="row">
+	      
+	      <div class="col-lg-3 col-md-3 col-sm-6">
+	        <div class="panel panel-warning">
+	          <div class="panel-heading">
+	            <div class="row">
+	              <div class="col-xs-12 text-right">
+	                <p class="announcement-heading">0</p>
+	                <p class="announcement-text">Pending Exhibits</p>
+	              </div>
+	            </div>
+	          </div>
+	          <a href="conf_exhibits.php?list=pending">
+	            <div class="panel-footer announcement-bottom">
+	              <div class="row">
+	                <div class="col-xs-12">
+	                  View Pending
+	                </div>
+	              </div>
+	            </div>
+	          </a>
+	        </div>
+	      </div>
+	      
+				<div class="col-lg-3 col-md-3 col-sm-6">
 	        <div class="panel panel-success">
 	          <div class="panel-heading">
 	            <div class="row">
@@ -171,7 +150,29 @@ require_once("models/header.php");
 	        </div>
 	      </div>
 	      
-				<div class="col-lg-3">
+	      <div class="col-lg-3 col-md-3 col-sm-6">
+	        <div class="panel panel-danger">
+	          <div class="panel-heading">
+	            <div class="row">
+	              <div class="col-xs-12 text-right">
+	                <p class="announcement-heading">3</p>
+	                <p class="announcement-text">Pending Sponsors</p>
+	              </div>
+	            </div>
+	          </div>
+	          <a href="conf_sponsors.php?list=pending">
+	            <div class="panel-footer announcement-bottom">
+	              <div class="row">
+	                <div class="col-xs-12">
+	                  View Pending
+	                </div>
+	              </div>
+	            </div>
+	          </a>
+	        </div>
+	      </div>
+	      
+				<div class="col-lg-3 col-md-3 col-sm-6">
 	        <div class="panel panel-success">
 	          <div class="panel-heading">
 	            <div class="row">
@@ -185,7 +186,7 @@ require_once("models/header.php");
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
-	                  View Exhibits
+	                  View Sponsors
 	                </div>
 	              </div>
 	            </div>

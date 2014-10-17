@@ -39,6 +39,10 @@ require_once("models/header.php");
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
+		<ol class="breadcrumb">
+		  <li><a href="account.php">Dashboard</a></li>
+		  <li class="active"><a href="#"><? echo $pageTitle; ?></a></li>
+		</ol>
 		<div class='row'>
 			<div class='col-lg-10 col-md-10 col-sm-8'>
 				<? echo resultBlock($errors,$successes); ?>

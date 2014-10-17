@@ -10,3 +10,14 @@
 	font-size: 5em;
 	font-weight: 100;
 }
+
+.drop-shadow {
+    -webkit-box-shadow: 0 5px 10px -5px #999;
+    -moz-box-shadow:    0 5px 10px -5px #999;
+    box-shadow:		    0 5px 10px -5px #999;
+}
+.inset-shadow {
+    -webkit-box-shadow: 0 5px 8px -5px #999;
+    -moz-box-shadow:    0 5px 8px -5px #999;
+    box-shadow:   inset 0 -5px 8px -5px #999;
+}
