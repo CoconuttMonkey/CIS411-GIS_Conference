@@ -8,10 +8,10 @@
 	<section class="container">
 		<h1>Contact Us</h1>
 		<div class="row">
-			<article class="col-lg-8">
+			<article class="col-lg-8 col-md-8 col-sm-8">
 				<div id='googlemap'></div>
 			</article>
-			<article class="col-lg-4">
+			<article class="col-lg-4 col-md-4 col-sm-4">
 				<form method="post" action="<? $_SERVER['PHP_SELF'] ?>" class="forms">
 						<div class="input-group">
 							<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
@@ -23,8 +23,22 @@
 						  <input type="text" class="form-control" name="email" placeholder="Email Address" required>
 						</div>
 						<br>
+				    <div class="input-group">
+				      <div class="input-group-btn">
+				        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Subject <span class="caret"></span></button>
+				        <ul class="dropdown-menu" role="menu">
+				          <li><a href="#">General Questions</a></li>
+				          <li><a href="#">Presentation</a></li>
+				          <li><a href="#">Exhibit</a></li>
+				          <li class="divider"></li>
+				          <li><a href="#">Sponsorship</a></li>
+				        </ul>
+				      </div><!-- /btn-group -->
+				      <input type="text" class="form-control">
+				    </div><!-- /input-group -->
+						<br>
 				    <div class="form-group">
-						  <textarea class="form-control" rows="5" id="comment" placeholder="Write you message here!"></textarea>
+						  <textarea class="form-control" rows="8" id="comment" placeholder="Write you message here!"></textarea>
 						</div>
 				    <button type="submit" class="btn btn-success">Send</button>
 				</form>
@@ -186,6 +200,7 @@
     	height: 400px;
     	display: block;
         border: 4px solid #fff;
+        margin-bottom: 1em;
     }
     .gm-style-iw * {
         display: block;

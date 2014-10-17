@@ -44,7 +44,7 @@ require_once("models/header.php");
 		  <li class="active"><a href="#"><? echo $pageTitle; ?></a></li>
 		</ol>
 		<div class='row'>
-			<div class='col-lg-10 col-md-10 col-sm-8'>
+			<div class='col-lg-12'>
 				<? echo resultBlock($errors,$successes); ?>
 				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms'>
 					<div class="panel panel-default">
@@ -64,11 +64,16 @@ require_once("models/header.php");
 							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></td>
 							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['email']; ?></td>
 							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['title']; ?></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? if ($v1['active'] === 1) { 
-									echo '<span class="success">Paid</span>';
-								} else if ($v1['paid'] === 0) { 
-									echo '<span class="error">Not Paid</span>';
-								} ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>">
+								<? //Display payment status
+								if ($v1['active'] == '1'){
+									echo " <span class='label label-success'>Active</span>";	
+								}
+								else{
+									echo " <span class='label label-danger'>Not Active</span>
+									";
+								} ?>
+							</td>
 						</tr> <? } ?>
 							
 					  </table>
@@ -76,15 +81,6 @@ require_once("models/header.php");
 					<input type='submit' name='Submit' value='Delete' class='btn btn-danger' />
 				</form>
 			</div>
-			<aside class="col-lg-2 col-md-2 col-sm-4">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
 	<?php include("models/footer.php"); ?>

@@ -85,19 +85,11 @@ require_once("models/header.php");
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<section class="container">
-	<h1>Login</h1>
 		<div class="row">
-			<article class="col-30 centered">
+			<article class="col-lg-4 col-lg-push-4 col-md-6 col-md-push-3 col-sm-8 col-sm-push-2">
 				<?php echo resultBlock($errors,$successes); ?>
-				<form name='login' action='<? echo $_SERVER['PHP_SELF']; ?>' method='post' class="forms text-centered">
-					<label>
-						<input type='email' name='email' class="width-100" placeholder="Email address" required />
-					</label>
-					<label>
-						<input type='password' name='password' class="width-100" placeholder="Password" required />
-					</label>
-					<input type='submit' value='Login' class="btn width-50" />
-				</form>
+				
+				<?php include('models/loginForm.php'); ?>
 			</article>
 		</div>
 	</section>

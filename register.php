@@ -83,36 +83,43 @@ require_once("models/header.php");
 		<div class="row">
 			<?php echo resultBlock($errors,$successes); ?>
 			<form name='newUser' action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
-				<div class="col-33 centered">
-				    <fieldset id="general-info" class="text-centered">
-				        <legend>Account Information</legend>
-						<label>
-							<input type='text' name='first_name' class="width-100" placeholder='First Name' required />
-						</label>
-
-						<label>
-							<input type='text' name='last_name' class="width-100" placeholder='Last Name' required />
-						</label>
-						
-						<label>
-							<input type='email' name='email' class="width-100" placeholder='Email Address' required />
-						</label>
-
-						<label>
-							<input type='password' name='password' class="width-100" placeholder="Password" required />
-						</label>
-						
-						<label>
-							<input type='password' name='passwordc' class="width-100" placeholder="Confirm" required />
-						</label>
-
-						<img src='models/captcha.php'class="width-50" >
-						<label>
-							<input name='captcha' type='text' class="width-50 centered" placeholder="Security Code" required >
-						</label>
-						
-						<input type='submit' value='Register' class="btn col-50 centered"/>
-					</fieldset>
+				<div class="col-lg-4 col-lg-push-4 col-md-6 col-md-push-3 col-sm-8 col-sm-push-2">
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+						  <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
+						</div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+						  <input type="text" class="form-control" name="first_name" placeholder="Last Name" required>
+						</div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+						  <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+						</div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+						  <input type="password" class="form-control" name="password" placeholder="Password" required>
+						</div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+						  <input type="password" class="form-control" name="passwordc" placeholder="Password" required>
+						</div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon" style="border-right: 1px solid #ccc;"><span class="glyphicon glyphicon-question-sign"></span></span>
+							<img src='models/captcha.php'class="width-50" >
+						</div>
+						<br>
+						<div class="input-group col-lg-8 col-md-6 col-sm-6 col-xs-6">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-question-sign"></span></span>
+						  <input type="text" class="form-control" name='captcha' placeholder="Enter Security Code" required>
+						</div>
+						<br>
+						<input type='submit' value='Register' class="btn btn-success"/>
 				</div>
 			</form>
 		</div>

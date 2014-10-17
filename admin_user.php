@@ -149,121 +149,117 @@ require_once("models/header.php");
 		  <li><a href="account.php">Dashboard</a></li>
 		  <li><a href="admin_users.php">Users</a></li>
 		  <li class="active"><a href="#"><? echo $userdetails['first_name']." ".$userdetails['last_name']; ?></a></li>
-		</ol>
-		<div class='container'>
-				<h1>Edit User</h1>
-				<? echo resultBlock($errors,$successes); ?>
-				<form name='adminUser' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $userId; ?>' method='post'>
-					<div class="row">
-						<div class='col-lg-6'>
-					      <h3>Account Information</h3>
-								<div class="input-group">
-									<span class="input-group-addon">First Name</span>
-								  <input type="text" class="form-control" name="first_name" value='<? echo $userdetails['first_name']; ?>' required>
-								</div>
-								<br>
-								<div class="input-group">
-									<span class="input-group-addon">Last Name</span>
-								  <input type="text" class="form-control" name="last_name" value='<? echo $userdetails['last_name']; ?>' required>
-								</div>
-								<br>
-								<div class="input-group">
-									<span class="input-group-addon">@</span>
-								  <input type="text" class="form-control" name="email" value='<? echo $userdetails['email']; ?>' required>
-								</div>
-								
-						</div>
-					</div>
-					<div class='col-lg-6'>
-						<fieldset id='general-info'>
-							<legend>Account Details</legend>
-							<label>Active:
-								<? //Display activation link, if account inactive
+							<h4 style="float: right; margin-top: -1px;">
+								<? //Display payment status
 								if ($userdetails['active'] == '1'){
-									echo "Yes";	
+									echo " <span class='label label-success'>Active</span>";	
 								}
 								else{
-									echo "No
-									</p>
-									<p>
+									echo " <span class='label label-danger'>Not Active</span>
 									<label>Activate:</label>
 									<input type='checkbox' name='activate' id='activate' value='activate'></label>
 									";
 								} ?>
-							</label>
+							</h4>
+		</ol>
+		<div class='container'>
+					<h1>Edit User</h1>
+				</div>
+					<? echo resultBlock($errors,$successes); ?>
+					<form name='adminUser' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $userId; ?>' method='post'>
+						<div class="row">
+							<div class='col-lg-6'>
+								<div class="panel panel-primary">
+									<div class="panel-heading">Account Information</div>
+								  <div class="panel-body">
+											<div class="input-group">
+												<span class="input-group-addon">First Name</span>
+											  <input type="text" class="form-control" name="first_name" value='<? echo $userdetails['first_name']; ?>' required>
+											</div>
+											<br>
+											<div class="input-group">
+												<span class="input-group-addon">Last Name</span>
+											  <input type="text" class="form-control" name="last_name" value='<? echo $userdetails['last_name']; ?>' required>
+											</div>
+											<br>
+											<div class="input-group">
+												<span class="input-group-addon">@</span>
+											  <input type="text" class="form-control" name="email" value='<? echo $userdetails['email']; ?>' required>
+											</div>
+								  </div>
+								</div>
+							</div>
 							
-							<label>Paid:
-								<? //Display payment status
-								if ($userdetails['paid'] == '1'){
-									echo " <span class='success'>Yes</span>";	
-								}
-								else{
-									echo " <span class='error'>No</span>
-									";
-								} ?>
-							</label>
-							
-							<label>Title 
-								<input type='text' name='title' value='<? echo $userdetails['title']; ?>' />
-							</label>
-							
-							<label>Sign Up: <? echo date("j M, Y", $userdetails['sign_up_stamp']); ?></label>
-							
-							<label>Last Sign In:
-								<? //Last sign in, interpretation
-								if ($userdetails['last_sign_in_stamp'] == '0'){
-									echo "Never";	
-								}
-								else {
-									echo date("j M, Y", $userdetails['last_sign_in_stamp']);
-								} ?>
-
-							</label>
-							
-							<label>
-								<input type='checkbox' name='delete[<? echo $userdetails['id']; ?>]' id='delete[<? echo $userdetails['id']; ?>]' value='<? echo $userdetails['id']; ?>'> Delete User
-							</label>
-						</fieldset>
-
-						<?
-						//Settings for permission level 4 (web master)
-						if ($loggedInUser->checkPermission(array(4))){
-						echo "
-						<fieldset>
-						<legend>Account Permission</legend>
-						<div id='regbox'>
-						<p><strong>Remove Permission:</strong>";
-	
-						//List of permission levels user is apart of
-						foreach ($permissionData as $v1) {
-							if(isset($userPermission[$v1['id']])){
-								echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
-							}
-						}
-	
-						//List of permission levels user is not apart of
-						echo "</p><p><strong>Add Permission:</strong>";
-						foreach ($permissionData as $v1) {
-							if(!isset($userPermission[$v1['id']])){
-								echo "<label style='margin: 0; padding: 0; line-height: 1.6em;'><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name']."</label>";
-							}
-						} ?>
-						</p>
-						</fieldset>
-						<? } ?>
-						<input type='submit' value='Update' class='btn' />
-					</div>
+							<div class='col-lg-6'>
+								<div class="panel panel-primary">
+									<div class="panel-heading">Account Status</div>
+								  <div class="panel-body">
+								  	<div class="input-group">
+													<span class="input-group-addon">Title</span>
+												  <input type="text" class="form-control" name="title" value='<? echo $userdetails['title']; ?>' required>
+												</div>
+												<br>
+												<div class="input-group">
+													<span class="input-group-addon">Sign Up</span>
+												  <input type="text" class="form-control" name="title" value='<? echo date("j M, Y", $userdetails['sign_up_stamp']); ?>' disabled="disabled">
+												</div>
+												<br>
+												<div class="input-group">
+													<span class="input-group-addon">Last Sign In</span>
+												  <input type="text" class="form-control" name="title" value='<? //Last sign in, interpretation
+													if ($userdetails['last_sign_in_stamp'] == '0'){
+														echo "Never";	
+													}
+													else {
+														echo date("j M, Y", $userdetails['last_sign_in_stamp']);
+													} ?>' disabled="disabled">
+												</div>
+											</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class='col-lg-6'>
+								<div class="panel panel-primary">
+									<div class="panel-heading">Account Permissions</div>
+								  <div class="panel-body">
+								  	<? //Settings for permission level 4 (web master)
+										if ($loggedInUser->checkPermission(array(4))){
+										echo "
+										<legend>Account Permission</legend>
+										
+										<strong>Remove Permission</strong>";
+					
+										//List of permission levels user is apart of
+										foreach ($permissionData as $v1) {
+											if(isset($userPermission[$v1['id']])){
+												echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
+											}
+										}
+					
+										//List of permission levels user is not apart of
+										echo "<br><br><strong>Add Permission</strong>";
+										foreach ($permissionData as $v1) {
+											if(!isset($userPermission[$v1['id']])){
+												echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
+											}
+										} ?>
+										<? } ?>
+								  	</div>
+								</div>
+							</div>
+							<div class='col-lg-6'>
+								<div class="panel panel-primary">
+									<div class="panel-heading">Apply Changes</div>
+								  <div class="panel-body text-center">
+								  	<input type='submit' value='Update' class='btn btn-success' />
+								</div>
+							</div>
+							</div>
+						</div>
 				</form>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
 	<?php include("models/footer.php"); ?>
