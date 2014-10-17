@@ -10,4 +10,5 @@
 	<script src='models/funcs.js' type='text/javascript'></script>
 	<script src='js/bootstrap.min.js' type='text/javascript'></script>
 	<meta content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
 </head>
