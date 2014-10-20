@@ -108,77 +108,102 @@ require_once("models/header.php");
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
+		<ol class="breadcrumb">
+		  <li><a href="account.php">Dashboard</a></li>
+		  <li><a href="admin_permissions.php">Permissions</a></li>
+		  <li class="active"><a href="#"><? echo $permissionDetails['name']; ?></a></li>
+		</ol>
 		<div class='row'>
-			<div class='col-80'>
-				<h1>Admin Permissions</h1>
-				<? echo resultBlock($errors,$successes); ?>
-				<form name='adminPermission' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $permissionId; ?>' method='post' class='forms'>
-					<div class='col-50'>
-						<h3>Permission Information</h3>
-						<label>ID: <? echo $permissionDetails['id']; ?></label>
-
-						<label>Name <input type='text' name='name' value='<? echo $permissionDetails['name']; ?>' /></label>
-
-						<label>
-							<input type='checkbox' name='delete[<? echo $permissionDetails['id']; ?>]' id='delete[<? echo $permissionDetails['id']; ?>]' value='<? echo $permissionDetails['id']; ?>'>
-Delete
-						</label>
+			<h1>Admin Permissions</h1>
+			<? echo resultBlock($errors,$successes); ?>
+			<form name='adminPermission' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $permissionId; ?>' method='post'>
+				
+					<div class='col-lg-6'>
+						<div class="panel panel-primary">
+							<div class="panel-heading">Permission Information</div>
+						  <div class="panel-body">
+								<div class="form-group">
+									<label>Permission ID</label>
+								  <input type="text" class="form-control" name="id" value='<? echo $permissionDetails['id']; ?>' disabled="disabled">
+								</div>
+								
+								<div class="form-group">
+									<label>Permission Name</label>
+								  <input type="text" class="form-control" name="name" value='<? echo $permissionDetails['name']; ?>'>
+								</div>
+								
+								<div class="form-group">
+								  <input type='checkbox' name='delete[<? echo $permissionDetails['id']; ?>]' id='delete[<? echo $permissionDetails['id']; ?>]' value='<? echo $permissionDetails['id']; ?>'>&nbsp;
+									<label for="delete[<? echo $permissionDetails['id']; ?>]">Delete Permission</label>
+								</div>
+						  </div>
+						</div>
 						
-						<h3>Permission Membership</h3>
-						<strong>Remove Members</strong>
-						<? //List users with permission level
-						foreach ($userData as $v1) {
-							if(isset($permissionUsers[$v1['id']])){
-								echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['first_name']." ".$v1['last_name'];
-							}
-						} ?><br>
-						<strong>Add Members</strong>
-						<? //List users without permission level
-						foreach ($userData as $v1) {
-							if(!isset($permissionUsers[$v1['id']])){
-								echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['first_name']." ".$v1['last_name'];
-							}
-						} ?>
+						
+						<div class="panel panel-primary">
+							<div class="panel-heading">Permission Members</div>
+						  <div class="panel-body">
+								<div class="form-group">
+									<label>Remove Members</label>
+								  <? //List users with permission level
+									foreach ($userData as $v1) {
+										if(isset($permissionUsers[$v1['id']])){
+											echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['first_name']." ".$v1['last_name']."</label>";
+										}
+									} ?>
+								</div>
+								
+								<div class="form-group">
+									<label>Add Members</label>
+								  <? //List users without permission level
+									foreach ($userData as $v1) {
+										if(!isset($permissionUsers[$v1['id']])){
+											echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['first_name']." ".$v1['last_name'];
+										}
+									} ?>
+								</div>
+						  </div>
+						</div>
 					</div>
 
-					<div class='col-40'>
-						<h3>Permission Access</h3>
-						<strong>Public Access:</strong>
-						<? //List public pages
-						foreach ($pageData as $v1) {
-							if($v1['private'] != 1){
-								echo "<br>".$v1['page'];
-							}
-						} ?> 
-						<br>
-						<strong>Remove Access:</strong>
-						<? //List pages accessible to permission level
-						foreach ($pageData as $v1) {
-							if(isset($pagePermissions[$v1['id']]) AND $v1['private'] == 1){
-								echo "<br><input type='checkbox' name='removePage[".$v1['id']."]' id='removePage[".$v1['id']."]' value='".$v1['id']."'> ".$v1['page'];
-							}
-						} ?>
-						<br>
-						<strong>Add Access:</strong>
-						<? //List pages inaccessible to permission level
-						foreach ($pageData as $v1) {
-							if(!isset($pagePermissions[$v1['id']]) AND $v1['private'] == 1){
-								echo "<br><input type='checkbox' name='addPage[".$v1['id']."]' id='addPage[".$v1['id']."]' value='".$v1['id']."'> ".$v1['page'];
-							}
-						} ?>
+					<div class='col-lg-6'>
+						<div class="panel panel-primary">
+							<div class="panel-heading">Permission Access</div>
+						  <div class="panel-body">
+								<div class="form-group">
+									<label>Public Access</label>
+								  <? //List public pages
+									foreach ($pageData as $v1) {
+										if($v1['private'] != 1){
+											echo "<br>".$v1['page'];
+										}
+									} ?> 
+								</div>
+								
+								<div class="form-group">
+									<label>Remove Access</label>
+								  <? //List pages accessible to permission level
+									foreach ($pageData as $v1) {
+										if(isset($pagePermissions[$v1['id']]) AND $v1['private'] == 1){
+											echo "<br><input type='checkbox' name='removePage[".$v1['id']."]' id='removePage[".$v1['id']."]' value='".$v1['id']."'> ".$v1['page'];
+										}
+									} ?>
+								</div>
+								
+								<div class="form-group">
+									<label>Add Access</label>
+								  <? //List pages inaccessible to permission level
+									foreach ($pageData as $v1) {
+										if(!isset($pagePermissions[$v1['id']]) AND $v1['private'] == 1){
+											echo "<br><input type='checkbox' name='addPage[".$v1['id']."]' id='addPage[".$v1['id']."]' value='".$v1['id']."'> ".$v1['page'];
+										}
+									} ?>
+								</div>
+						  </div>
+						</div>
+								<input type='submit' value='Update' class='btn btn-lg btn-success' />
 					</div>
-					<input type='submit' value='Update' class='btn' />
 				</form>
-			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
 	<?php include("models/footer.php"); ?>

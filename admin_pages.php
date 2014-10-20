@@ -47,45 +47,42 @@ require_once("models/header.php");
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<div class='row'>
-			<div class='col-80'>
-				<h1>Web Pages</h1>
-				<table class='admin width-100 table-hovered table-flat'>
-					<tr style='text-align: left;'><th>Id</th><th>Page</th><th>Access</th></tr>
-					<? //Display list of pages
-					foreach ($dbpages as $page){
-						echo "
-						<tr class='clickableCell' href='admin_page.php?id=".$page['id']."' >
-						<td>
-						".$page['id']."
-						</td>
-						<td>
-						".$page['page']."</a>
-						</td>
-						<td>";
-						
-						//Show public/private setting of page
-						if($page['private'] == 0){
-							echo "Public";
-						}
-						else {
-							echo "Private";	
-						}
-						
-						echo "
-						</td>
-						</tr>";
-					} ?>
-				</table>
+			<div class="col-lg-6 col-lg-push-3 col-md-6 col-md-push-3">
+				<div class="panel panel-default">
+				  <div class="panel-heading"><h1>Web Pages</h1></div>
+				  		
+					<!-- Table -->
+				  <table class="table">
+						<tr style='text-align: left;'>
+							<th>ID</th><th>Page</th><th>Access</th>
+						</tr>
+						<? //Display list of pages
+						foreach ($dbpages as $page){
+							echo "
+							<tr class='clickableCell' href='admin_page.php?id=".$page['id']."' >
+							<td>
+							".$page['id']."
+							</td>
+							<td>
+							".$page['page']."</a>
+							</td>
+							<td>";
+							
+							//Show public/private setting of page
+							if($page['private'] == 0){
+								echo "Public";
+							}
+							else {
+								echo "Private";	
+							}
+							
+							echo "
+							</td>
+							</tr>";
+						} ?>
+					</table>
+				</div>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
 	<?php include("models/footer.php"); ?>

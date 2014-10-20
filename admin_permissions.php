@@ -50,7 +50,7 @@ require_once("models/header.php");
 		<div class='row'>
 			<? echo resultBlock($errors,$successes); ?>
 			<form name='adminPermissions' action='<? $_SERVER['PHP_SELF']; ?>' method='post'>
-				<div class='col-lg-5 col-md-10 col-sm-8'>
+				<div class='col-lg-4 col-lg-push-4 col-md-6 col-md-push-3 col-sm-8 col-sm-push-2'>
 					<div class="panel panel-default">
 			  		<div class="panel-heading"><h1>Permission Levels</h1></div>
 			

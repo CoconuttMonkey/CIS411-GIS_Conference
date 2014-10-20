@@ -76,57 +76,68 @@ require_once("models/header.php");
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<div class='row'>
-			<div class='col-80'>
 				<h1>Admin Page</h1>
 				<? echo resultBlock($errors,$successes); ?>
 				<form name='adminPage' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $pageId ?>' method='post'>
-					<input type='hidden' name='process' value='1'>
-					<h3>Page Information</h3>
-					<label>ID: <? echo $pageDetails['id']; ?></label>
-					<br>
-					<label>Name: <? echo $pageDetails['page']; ?></label>
-					<br>
-					<label>Private:
-						<? //Display private checkbox
-						if ($pageDetails['private'] == 1){
-							echo "<input type='checkbox' name='private' id='private' value='Yes' checked>";
-						}
-						else {
-							echo "<input type='checkbox' name='private' id='private' value='Yes'>";	
-						} ?>
-					</label>
 					
-					<h3>Page Access</h3>
+					<div class='col-lg-6'>
+						<div class="panel panel-primary">
+							<div class="panel-heading">Page Information</div>
+						  <div class="panel-body">
+								<div class="form-group">
+									<label>Permission ID</label>
+								  <input type="text" class="form-control" name="id" value='<? echo $pageDetails['id']; ?>' disabled="disabled">
+								</div>
+								
+								<div class="form-group">
+									<label>Permission Name</label>
+								  <input type="text" class="form-control" name="name" value='<? echo $pageDetails['page']; ?>' disabled="disabled">
+								</div>
+								
+								<div class="form-group">
+									<? //Display private checkbox
+									if ($pageDetails['private'] == 1){
+										echo "<input type='checkbox' name='private' id='private' value='Yes' checked>";
+									}
+									else {
+										echo "<input type='checkbox' name='private' id='private' value='Yes'>";	
+									} ?>
+									<label>Private</label>
+								</div>
+						  </div>
+						</div>
+					</div>
 					
-					<strong>Remove Access</strong>
-					<? //Display list of permission levels with access
-					foreach ($permissionData as $v1) {
-						if(isset($pagePermissions[$v1['id']])){
-							echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
-						}
-					} ?>
-					<br><br>
-					<strong>Add Access</strong>
-					<? //Display list of permission levels without access
-					foreach ($permissionData as $v1) {
-						if(!isset($pagePermissions[$v1['id']])){
-							echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
-						}
-					} ?>
-					<p>
-						<input type='submit' value='Update' class='btn' />
-					</p>
+					<div class='col-lg-6'>
+						<div class="panel panel-primary">
+							<div class="panel-heading">Page Information</div>
+							  <div class="panel-body">
+									<div class="form-group">
+										<label>Remove Access</label>
+										<? //Display list of permission levels with access
+										foreach ($permissionData as $v1) {
+											if(isset($pagePermissions[$v1['id']])){
+												echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
+											}
+										} ?>
+									</div>
+									
+									<div class="form-group">
+										<label>Add Access</label>
+										<? //Display list of permission levels without access
+										foreach ($permissionData as $v1) {
+											if(!isset($pagePermissions[$v1['id']])){
+												echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
+											}
+										} ?>
+									</div>
+								</div>
+						  </div>
+						</div>
+					</div>
+					<input type='submit' value='Update' class='btn btn-lg btn-success' />
 				</form>
 			</div>
-			<aside class="col-20">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
 	<?php include("models/footer.php"); ?>

@@ -38,6 +38,7 @@ if(!empty($_POST))
 		else
 		{
 			$userdetails = fetchUserDetails($email);
+			
 			//See if the user's account is activated
 			if($userdetails["active"]==0)
 			{
@@ -66,6 +67,23 @@ if(!empty($_POST))
 					$loggedInUser->title = $userdetails["title"];
 					$loggedInUser->first_name = $userdetails["first_name"];
 					$loggedInUser->last_name = $userdetails["last_name"];
+					
+					// Check if user is an attendee
+					if (userIsAttendee($userdetails["id"])) {
+						
+						// Get attendee details
+						$attendeeDetails = fetchAttendeeDetails($userdetails["id"]);
+						
+						$loggedInUser->country = $attendeeDetails["country"];
+						$loggedInUser->phone = $attendeeDetails["phone"];
+						$loggedInUser->address_1 = $attendeeDetails["address_1"];
+						$loggedInUser->address_2 = $attendeeDetails["address_2"];
+						$loggedInUser->city = $attendeeDetails["city"];
+						$loggedInUser->state = $attendeeDetails["state"];
+						$loggedInUser->zip = $attendeeDetails["zip"];
+						$loggedInUser->company = $attendeeDetails["company"];
+						$loggedInUser->reg_type = $attendeeDetails["reg_type"];
+					}
 					
 					//Update last sign in
 					$loggedInUser->updateLastSignIn();

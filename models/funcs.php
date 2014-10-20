@@ -273,7 +273,7 @@ function fetchAllUsers()
 	$stmt->bind_result($id, $first_name, $last_name, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
 	
 	while ($stmt->fetch()){
-		$row[] = array('id' => $id, 'first_name' => $first_name, 'last_name' => $last_name, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
+		$row[] = array('user_id' => $id, 'first_name' => $first_name, 'last_name' => $last_name, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
 	}
 	$stmt->close();
 	return ($row);

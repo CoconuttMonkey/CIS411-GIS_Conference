@@ -55,6 +55,11 @@ $lang = array_merge($lang,array(
 	"ACCOUNT_PERMISSION_REMOVED"		=> "Removed access from %m1% permission levels",
 	"ACCOUNT_INVALID_USERNAME"		=> "Invalid username",
 	));
+	
+//Attendee
+$lang = array_merge($lang,array(
+	"ATTENDEE_EXISTS" 		=> "You have already signed up for the conference",
+	));
 
 //Configuration
 $lang = array_merge($lang,array(

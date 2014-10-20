@@ -7,20 +7,25 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 require_once("models/header.php");
+
 ?>
+<style>
+	.announcement-heading { font-size: 3.2em; }
+</style>
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<section class="container">
-		<h1>Dashboard</h1>
+		<h1>Dashboard <? if(!userIsAttendee($loggedInUser->user_id)) echo '<a href="conf_register.php" class="btn btn-success" style="float: right;">Register for the next conference!</a>'; ?></h1>
 		<div class="col-lg-12">
 			<?php if ($loggedInUser->checkPermission(array(2)) || $loggedInUser->checkPermission(array(4))) { ?>
+			<h3>Admin Dashboard</h3>
 			<div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-6">
 	        <div class="panel panel-info">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">456</p>
+	                <p class="announcement-heading"><? echo count(fetchAllUsers()); ?></p>
 	                <p class="announcement-text">Total Users</p>
 	              </div>
 	            </div>
@@ -42,7 +47,7 @@ require_once("models/header.php");
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">96</p>
+	                <p class="announcement-heading"><? echo count(fetchAllAttendees()); ?></p>
 	                <p class="announcement-text">Attendees</p>
 	              </div>
 	            </div>
@@ -105,7 +110,6 @@ require_once("models/header.php");
 			</div><!-- /.row -->
 	      
 			<div class="row">
-	      
 	      <div class="col-lg-3 col-md-3 col-sm-6">
 	        <div class="panel panel-warning">
 	          <div class="panel-heading">
@@ -194,17 +198,74 @@ require_once("models/header.php");
 	        </div>
 	      </div>
 			</div><!-- /.row -->
-		</div>
+			<hr>
+			<h3>User Dashboard</h3>
 			<? } ?>
-		<aside class="col-lg-2">
-			<? 
-			if(isUserLoggedIn()) {
-				include('models/sideNav.php');
-			} else {
-				include('models/loginForm.php');
-			}
-			?>
-		</aside>
+			<?php if ($loggedInUser->checkPermission(array(1))) { ?>
+			<div class="row">
+	      <div class="col-lg-4">
+	        <div class="panel panel-danger">
+	          <div class="panel-heading">
+	            <div class="row">
+	              <div class="col-xs-12 text-right">
+	                <p class="announcement-heading">Presentations</p>
+	              </div>
+	            </div>
+	          </div>
+	          <a href="presentation.php?type=new">
+	            <div class="panel-footer announcement-bottom">
+	              <div class="row">
+	                <div class="col-xs-12">
+	                  Request a Presentation
+	                </div>
+	              </div>
+	            </div>
+	          </a>
+	        </div>
+	      </div>
+	      <div class="col-lg-4">
+	        <div class="panel panel-success">
+	          <div class="panel-heading">
+	            <div class="row">
+	              <div class="col-xs-12 text-right">
+	                <p class="announcement-heading">Exhibits</p>
+	              </div>
+	            </div>
+	          </div>
+	          <a href="presentation.php?type=new">
+	            <div class="panel-footer announcement-bottom">
+	              <div class="row">
+	                <div class="col-xs-12">
+	                  Request an Exhibit
+	                </div>
+	              </div>
+	            </div>
+	          </a>
+	        </div>
+	      </div>
+	      <div class="col-lg-4">
+	        <div class="panel panel-warning">
+	          <div class="panel-heading">
+	            <div class="row">
+	              <div class="col-xs-12 text-right">
+	                <p class="announcement-heading">Sponsors</p>
+	              </div>
+	            </div>
+	          </div>
+	          <a href="presentation.php?type=new">
+	            <div class="panel-footer announcement-bottom">
+	              <div class="row">
+	                <div class="col-xs-12">
+	                  Become a Sponsor
+	                </div>
+	              </div>
+	            </div>
+	          </a>
+	        </div>
+	      </div>
+			</div>
+			<? } ?>
+		</div>
 	</section>
 	<?php include("models/footer.php"); ?>
 </body>

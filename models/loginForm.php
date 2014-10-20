@@ -1,15 +1,46 @@
-<form name='login' action='login.php' method='post' class="forms text-centered">
+<form name='login' action='login.php' method='post' class="forms text-centered" id="loginForm">
 	<h3>Login</h3>
-		<div class="input-group">
-			<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-		  <input type="text" class="form-control" name="email" placeholder="Email Address" required>
-		</div>
-		<br>
-		<div class="input-group">
-			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-		  <input type="password" class="form-control" name="password" placeholder="Password" required>
-		</div>
-		<br>
+  <div class="form-group">
+      <label>Email address</label>
+      <input type="text" class="form-control" name="email" />
+  </div>
+
+  <div class="form-group">
+      <label>Password</label>
+      <input type="password" class="form-control" name="password" />
+  </div>
 	<input type='submit' value='Login' class="btn btn-success" /> 
 	<a href='register.php' class='small'>Register</a> | <a href='forgot-password.php' class='small'>Forgot Password</a>
 </form>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#loginForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        //group: '.form-group',
+        fields: {
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'Your email is required to log in'
+                    },
+                    emailAddress: {
+                        message: 'The input is not a valid email address'
+                    }
+                }
+            },
+            password: {
+                validators: {
+                    notEmpty: {
+                        message: 'The password is required to login'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>

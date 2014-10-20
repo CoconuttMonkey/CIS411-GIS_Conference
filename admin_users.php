@@ -7,18 +7,6 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
-//List posted
-if(!empty($_GET))
-{
-	if ($_GET['list'] == 'attendees')
-		$pageTitle = "Attendees";
-	else if ($_GET['list'] == 'unpaid')
-		$pageTitle = "Unpaid Users";
-	else
-		$pageTitle = "All Users";
-} else {
-	$pageTitle = "All Users";
-}
 
 //Forms posted
 if(!empty($_POST))
@@ -32,7 +20,31 @@ if(!empty($_POST))
 	}
 }
 
-$userData = fetchAllUsers(); //Fetch information for all users
+//List posted
+if(!empty($_GET))
+{
+	if ($_GET['list'] == 'attendees') 
+	{
+		$pageTitle = "Attendees";
+		$userData = fetchAllAttendees();
+	}
+	else if ($_GET['list'] == 'unpaid')
+	{
+		$pageTitle = "Unpaid Users";
+		$status = 'unpaid';
+		$userData = fetchAllAttendees($status);
+	}
+	else 
+	{
+		$pageTitle = "All Users";
+		$userData = fetchAllUsers(); //Fetch information for all users
+	}
+}
+ else 
+{
+	$pageTitle = "All Users";
+	$userData = fetchAllUsers(); //Fetch information for all users
+}
 
 require_once("models/header.php");
 ?>
@@ -49,7 +61,7 @@ require_once("models/header.php");
 				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms'>
 					<div class="panel panel-default">
 			  		<div class="panel-heading"><h1><? echo $pageTitle; ?></h1></div>
-			
+			  		
 						<!-- Table -->
 					  <table class="table">
 							<tr style='text-align: left;'>
@@ -60,11 +72,11 @@ require_once("models/header.php");
 						foreach ($userData as $v1) {
 						?>
 						<tr>
-							<td><input type='checkbox' name='delete[<?php echo $v1['id']; ?>]' id='delete[<?php echo $v1['id']; ?>]' value='<?php echo $v1['id']; ?>'></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['email']; ?></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['title']; ?></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>">
+							<td><input type='checkbox' name='delete[<?php echo $v1['user_id']; ?>]' id='delete[<?php echo $v1['user_id']; ?>]' value='<?php echo $v1['user_id']; ?>'></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>"><?php echo $v1['email']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>"><?php echo $v1['title']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>">
 								<? //Display payment status
 								if ($v1['active'] == '1'){
 									echo " <span class='label label-success'>Active</span>";	

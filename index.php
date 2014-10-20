@@ -42,6 +42,7 @@ require_once("models/header.php");
 		bottom: 90px;
 	}
 </style>
+
 <body>
 	<? require_once("models/main-nav.php"); ?>
 	<header id="banner" class="row drop-shadow">
