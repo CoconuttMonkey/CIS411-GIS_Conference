@@ -63,17 +63,18 @@ require_once("models/header.php");
 			  		<div class="panel-heading"><h1><? echo $pageTitle; ?></h1></div>
 			  		
 						<!-- Table -->
-					  <table class="table">
-							<tr style='text-align: left;'>
-								<th>Delete</th><th>Name</th><th>Email</th><th>Title</th><th>Active</th>
-							</tr>
-							
+					  <table class="tablesorter-bootstrap">
+							<thead>
+								<th>User ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Title</th><th>Active</th>
+							</thead>
+							<tbody>
 							<? //Cycle through users
 						foreach ($userData as $v1) {
 						?>
 						<tr>
-							<td><input type='checkbox' name='delete[<?php echo $v1['user_id']; ?>]' id='delete[<?php echo $v1['user_id']; ?>]' value='<?php echo $v1['user_id']; ?>'></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>"><? echo $v1['user_id']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>"><? echo $v1['first_name']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>"><? echo $v1['last_name']; ?></td>
 							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>"><?php echo $v1['email']; ?></td>
 							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>"><?php echo $v1['title']; ?></td>
 							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['user_id']; ?>">
@@ -87,10 +88,12 @@ require_once("models/header.php");
 								} ?>
 							</td>
 						</tr> <? } ?>
-							
+							</tbody>
 					  </table>
 					</div>
-					<input type='submit' name='Submit' value='Delete' class='btn btn-danger' />
+					<p class="text-center">
+					<input id="clear-filters" type='reset' name='Submit' value='Clear Filters' class='btn btn-warning' />
+					</p>
 				</form>
 			</div>
 		</div>
@@ -101,7 +104,24 @@ require_once("models/header.php");
 		$(".clickableCell").click(function() {
 			window.document.location = $(this).attr("href");
 		});
+		
+		$('.tablesorter-bootstrap').tablesorter({
+			usNumberFormat : false,
+			sortReset      : true,
+			sortRestart    : true,
+			theme : 'bootstrap',
+			headerTemplate: '{content} {icon}',
+			widgets    : ['zebra', 'uitheme', 'filter'],
+			widgetOptions: {
+	      filter_reset: '.reset',
+				filter_cssFilter   : 'form-control',
+	    }
+		});
 	});
+	  $('#clear-filters').click(function(){
+	    $('.tablesorter-bootstrap').trigger('filterReset');
+	    return false;
+		});
 	</script>
 </body>
 </html>

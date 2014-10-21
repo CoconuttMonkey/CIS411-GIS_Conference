@@ -49,8 +49,8 @@
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Web Master <span class="caret"></span></a>
 		          <ul class="dropdown-menu" role="menu">
 								<li><a href='admin_configuration.php'>Site Settings</a></li>
-								<li><a href='admin_users.php'>User List</a></li>
-								<li><a href='admin_permissions.php'>Permission List</a></li>
+								<li><a href='admin_users.php'>User Listing</a></li>
+								<li><a href='admin_permissions.php'>Permission Levels</a></li>
 								<li><a href='admin_pages.php'>Web Pages</a></li>
 		          </ul>
 		        </li>

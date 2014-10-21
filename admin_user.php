@@ -13,7 +13,11 @@ if(!userIdExists($userId)){
 	header("Location: admin_users.php"); die();
 }
 
-$userdetails = fetchUserDetails(NULL, NULL, $userId); //Fetch user details
+if(userIsAttendee($userId)) {
+	$userdetails = fetchAttendeeDetails($userId); //Fetch attendee details
+} else {
+	$userdetails = fetchUserDetails(NULL, NULL, $userId); //Fetch user details
+}
 
 //Forms posted
 if(!empty($_POST))
@@ -30,36 +34,6 @@ if(!empty($_POST))
 	}
 	else
 	{
-		//Update display name
-		if ($userdetails['display_name'] != $_POST['display']){
-			$displayname = trim($_POST['display']);
-			
-			//Validate display name
-			if(displayNameExists($displayname))
-			{
-				$errors[] = lang("ACCOUNT_DISPLAYNAME_IN_USE",array($displayname));
-			}
-			elseif(minMaxRange(5,25,$displayname))
-			{
-				$errors[] = lang("ACCOUNT_DISPLAY_CHAR_LIMIT",array(5,25));
-			}
-			elseif(!ctype_alnum($displayname)){
-				$errors[] = lang("ACCOUNT_DISPLAY_INVALID_CHARACTERS");
-			}
-			else {
-				if (updateDisplayName($userId, $displayname)){
-					$successes[] = lang("ACCOUNT_DISPLAYNAME_UPDATED", array($displayname));
-				}
-				else {
-					$errors[] = lang("SQL_ERROR");
-				}
-			}
-			
-		}
-		else {
-			$displayname = $userdetails['display_name'];
-		}
-		
 		//Activate account
 		if(isset($_POST['activate']) && $_POST['activate'] == "activate"){
 			if (setUserActive($userdetails['activation_token'])){
@@ -133,7 +107,7 @@ if(!empty($_POST))
 			}
 		}
 		
-		$userdetails = fetchUserDetails(NULL, NULL, $userId);
+		
 	}
 }
 
@@ -141,6 +115,7 @@ $userPermission = fetchUserPermissions($userId);
 $permissionData = fetchAllPermissions();
 
 require_once("models/header.php");
+
 ?>
 <body>
 	<?php include("models/main-nav.php"); ?>
@@ -155,10 +130,7 @@ require_once("models/header.php");
 									echo " <span class='label label-success'>Active</span>";	
 								}
 								else{
-									echo " <span class='label label-danger'>Not Active</span>
-									<label>Activate:</label>
-									<input type='checkbox' name='activate' id='activate' value='activate'></label>
-									";
+									echo " <span class='label label-danger'>Inactive</span>";
 								} ?>
 							</h4>
 		</ol>
@@ -172,20 +144,20 @@ require_once("models/header.php");
 								<div class="panel panel-primary">
 									<div class="panel-heading">Account Information</div>
 								  <div class="panel-body">
-											<div class="input-group">
-												<span class="input-group-addon">First Name</span>
-											  <input type="text" class="form-control" name="first_name" value='<? echo $userdetails['first_name']; ?>' required>
-											</div>
-											<br>
-											<div class="input-group">
-												<span class="input-group-addon">Last Name</span>
-											  <input type="text" class="form-control" name="last_name" value='<? echo $userdetails['last_name']; ?>' required>
-											</div>
-											<br>
-											<div class="input-group">
-												<span class="input-group-addon">@</span>
-											  <input type="text" class="form-control" name="email" value='<? echo $userdetails['email']; ?>' required>
-											</div>
+										<div class="form-group">
+											<label>First Name</label>
+										  <input type="text" class="form-control" name="first_name" value='<? echo $userdetails['first_name']; ?>' required>
+										</div>
+										
+										<div class="form-group">
+											<label>Last Name</label>
+										  <input type="text" class="form-control" name="last_name" value='<? echo $userdetails['last_name']; ?>' required>
+										</div>
+										
+										<div class="form-group">
+											<label>Email Address</label>
+										  <input type="text" class="form-control" name="email" value='<? echo $userdetails['email']; ?>' required>
+										</div>
 								  </div>
 								</div>
 							</div>
@@ -194,27 +166,27 @@ require_once("models/header.php");
 								<div class="panel panel-primary">
 									<div class="panel-heading">Account Status</div>
 								  <div class="panel-body">
-								  	<div class="input-group">
-													<span class="input-group-addon">Title</span>
-												  <input type="text" class="form-control" name="title" value='<? echo $userdetails['title']; ?>' required>
-												</div>
-												<br>
-												<div class="input-group">
-													<span class="input-group-addon">Sign Up</span>
-												  <input type="text" class="form-control" name="title" value='<? echo date("j M, Y", $userdetails['sign_up_stamp']); ?>' disabled="disabled">
-												</div>
-												<br>
-												<div class="input-group">
-													<span class="input-group-addon">Last Sign In</span>
-												  <input type="text" class="form-control" name="title" value='<? //Last sign in, interpretation
-													if ($userdetails['last_sign_in_stamp'] == '0'){
-														echo "Never";	
-													}
-													else {
-														echo date("j M, Y", $userdetails['last_sign_in_stamp']);
-													} ?>' disabled="disabled">
-												</div>
-											</div>
+								  	<div class="form-group">
+											<label>Title</label>
+										  <input type="text" class="form-control" name="title" value='<? echo $userdetails['title']; ?>' required>
+										</div>
+										
+										<div class="form-group">
+											<label>Sign Up</label>
+										  <input type="text" class="form-control" name="sign_up_stamp" value='<? echo date("j M, Y", $userdetails['sign_up_stamp']); ?>' disabled="disabled">
+										</div>
+										
+										<div class="form-group">
+											<label>Last Sign In</label>
+										  <input type="text" class="form-control" name="title" value='<? //Last sign in, interpretation
+											if ($userdetails['last_sign_in_stamp'] == '0'){
+												echo "Never";	
+											}
+											else {
+												echo date("j M, Y", $userdetails['last_sign_in_stamp']);
+											} ?>' disabled="disabled">
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -249,15 +221,69 @@ require_once("models/header.php");
 								  	</div>
 								</div>
 							</div>
+							<? if(userIsAttendee($userId)) { ?>
 							<div class='col-lg-6'>
 								<div class="panel panel-primary">
-									<div class="panel-heading">Apply Changes</div>
-								  <div class="panel-body text-center">
-								  	<input type='submit' value='Update' class='btn btn-success' />
+									<div class="panel-heading">Contact Information</div>
+								  <div class="panel-body">
+									  
+										<div class="form-group">
+											<label>Country</label>
+			                <select class="form-control" name="country" data-bv-notempty data-bv-notempty-message="The country is required">
+		                    <option value="">-- Select a country --</option>
+		                    <option value="US" <? if ($userdetails['country'] == 'US') echo 'selected="selected"';?>>United States</option>
+		                    <option value="FR" <? if ($userdetails['country'] == 'FR') echo 'selected="selected"';?>>France</option>
+		                    <option value="DE" <? if ($userdetails['country'] == 'DE') echo 'selected="selected"';?>>Germany</option>
+		                    <option value="IT" <? if ($userdetails['country'] == 'IT') echo 'selected="selected"';?>>Italy</option>
+		                    <option value="JP" <? if ($userdetails['country'] == 'JP') echo 'selected="selected"';?>>Japan</option>
+		                    <option value="RU" <? if ($userdetails['country'] == 'RU') echo 'selected="selected"';?>>Russia</option>
+		                    <option value="GB" <? if ($userdetails['country'] == 'GB') echo 'selected="selected"';?>>United Kingdom</option>
+			                </select>
+				            </div>
+				                    
+										<div class="form-group">
+											<label>Phone Number</label>
+										  <input type="text" class="form-control" name="phone" value="<? echo $userdetails['phone']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>Address Line 1</label>
+										  <input type="text" class="form-control" name="address_1" value="<? echo $userdetails['address_1']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>Address Line 2</label>
+										  <input type="text" class="form-control" name="address_2" value="<? echo $userdetails['address_2']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>City</label>
+										  <input type="text" class="form-control" name="city"  value="<? echo $userdetails['city']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>State</label>
+										  <input type="text" class="form-control" name="state"  value="<? echo $userdetails['state']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>Zip</label>
+										  <input type="text" class="form-control" name="zip"  value="<? echo $userdetails['zip']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>Company / Institution</label>
+										  <input type="text" class="form-control" name="company"  value="<? echo $userdetails['company']; ?>">
+										</div>
+										
+									</div>
 								</div>
 							</div>
-							</div>
+							<? } ?>
 						</div>
+						<p style="text-align: center;">
+							<input type='submit' value='Update' class='btn btn-lg btn-success' />
+						</p>
 				</form>
 			</div>
 		</div>

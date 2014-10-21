@@ -134,53 +134,53 @@ require_once("models/header.php");
 						<div class="col-lg-6 col-md-6">
 							<h3>Contact Information</h3>
 							<div class="form-group">
-			                <label>Country</label>
-			                <select class="form-control" name="country" data-bv-notempty data-bv-notempty-message="The country is required">
-			                    <option value="">-- Select a country --</option>
-			                    <option value="US" <? if ($loggedInUser->country == 'US') echo 'selected="selected"';?>>United States</option>
-			                    <option value="FR" <? if ($loggedInUser->country == 'FR') echo 'selected="selected"';?>>France</option>
-			                    <option value="DE" <? if ($loggedInUser->country == 'DE') echo 'selected="selected"';?>>Germany</option>
-			                    <option value="IT" <? if ($loggedInUser->country == 'IT') echo 'selected="selected"';?>>Italy</option>
-			                    <option value="JP" <? if ($loggedInUser->country == 'JP') echo 'selected="selected"';?>>Japan</option>
-			                    <option value="RU" <? if ($loggedInUser->country == 'RU') echo 'selected="selected"';?>>Russia</option>
-			                    <option value="GB" <? if ($loggedInUser->country == 'GB') echo 'selected="selected"';?>>United Kingdom</option>
-			                </select>
-			            </div>
-			                    
-									<div class="form-group">
-										<label>Phone Number</label>
-									  <input type="text" class="form-control" name="phone" value="<? echo $loggedInUser->phone; ?>">
-									</div>
-									
-									<div class="form-group">
-										<label>Address Line 1</label>
-									  <input type="text" class="form-control" name="address_1" value="<? echo $loggedInUser->address_1; ?>">
-									</div>
-									
-									<div class="form-group">
-										<label>Address Line 2</label>
-									  <input type="text" class="form-control" name="address_2" value="<? echo $loggedInUser->address_2; ?>">
-									</div>
-									
-									<div class="form-group">
-										<label>City</label>
-									  <input type="text" class="form-control" name="city"  value="<? echo $loggedInUser->city; ?>">
-									</div>
-									
-									<div class="form-group">
-										<label>State</label>
-									  <input type="text" class="form-control" name="state"  value="<? echo $loggedInUser->state; ?>">
-									</div>
-									
-									<div class="form-group">
-										<label>Zip</label>
-									  <input type="text" class="form-control" name="zip"  value="<? echo $loggedInUser->zip; ?>">
-									</div>
-									
-									<div class="form-group">
-										<label>Company / Institution</label>
-									  <input type="text" class="form-control" name="company"  value="<? echo $loggedInUser->company; ?>">
-									</div>
+                <label>Country</label>
+                <select class="form-control" name="country" data-bv-notempty data-bv-notempty-message="The country is required">
+                    <option value="">-- Select a country --</option>
+                    <option value="US" <? if ($loggedInUser->country == 'US') echo 'selected="selected"';?>>United States</option>
+                    <option value="FR" <? if ($loggedInUser->country == 'FR') echo 'selected="selected"';?>>France</option>
+                    <option value="DE" <? if ($loggedInUser->country == 'DE') echo 'selected="selected"';?>>Germany</option>
+                    <option value="IT" <? if ($loggedInUser->country == 'IT') echo 'selected="selected"';?>>Italy</option>
+                    <option value="JP" <? if ($loggedInUser->country == 'JP') echo 'selected="selected"';?>>Japan</option>
+                    <option value="RU" <? if ($loggedInUser->country == 'RU') echo 'selected="selected"';?>>Russia</option>
+                    <option value="GB" <? if ($loggedInUser->country == 'GB') echo 'selected="selected"';?>>United Kingdom</option>
+                </select>
+	            </div>
+	                    
+							<div class="form-group">
+								<label>Phone Number</label>
+							  <input type="text" class="form-control" name="phone" value="<? echo $loggedInUser->phone; ?>">
+							</div>
+							
+							<div class="form-group">
+								<label>Address Line 1</label>
+							  <input type="text" class="form-control" name="address_1" value="<? echo $loggedInUser->address_1; ?>">
+							</div>
+							
+							<div class="form-group">
+								<label>Address Line 2</label>
+							  <input type="text" class="form-control" name="address_2" value="<? echo $loggedInUser->address_2; ?>">
+							</div>
+							
+							<div class="form-group">
+								<label>City</label>
+							  <input type="text" class="form-control" name="city"  value="<? echo $loggedInUser->city; ?>">
+							</div>
+							
+							<div class="form-group">
+								<label>State</label>
+							  <input type="text" class="form-control" name="state"  value="<? echo $loggedInUser->state; ?>">
+							</div>
+							
+							<div class="form-group">
+								<label>Zip</label>
+							  <input type="text" class="form-control" name="zip"  value="<? echo $loggedInUser->zip; ?>">
+							</div>
+							
+							<div class="form-group">
+								<label>Company / Institution</label>
+							  <input type="text" class="form-control" name="company"  value="<? echo $loggedInUser->company; ?>">
+							</div>
 						</div><? } ?>
 					</section>
 				</form>

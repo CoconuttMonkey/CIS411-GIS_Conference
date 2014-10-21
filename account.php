@@ -65,7 +65,7 @@ require_once("models/header.php");
 	      </div>
 	      
 	      <div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-warning">
+	        <div class="panel panel-danger">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
@@ -87,7 +87,7 @@ require_once("models/header.php");
 	      </div>
 	      
 	      <div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-success">
+	        <div class="panel panel-danger">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
@@ -111,7 +111,7 @@ require_once("models/header.php");
 	      
 			<div class="row">
 	      <div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-warning">
+	        <div class="panel panel-success">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
@@ -155,7 +155,7 @@ require_once("models/header.php");
 	      </div>
 	      
 	      <div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-danger">
+	        <div class="panel panel-warning">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
@@ -177,7 +177,7 @@ require_once("models/header.php");
 	      </div>
 	      
 				<div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-success">
+	        <div class="panel panel-warning">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
@@ -199,7 +199,7 @@ require_once("models/header.php");
 	      </div>
 			</div><!-- /.row -->
 			<hr>
-			<h3>User Dashboard</h3>
+			<h3>Attendee Dashboard</h3>
 			<? } ?>
 			<?php if ($loggedInUser->checkPermission(array(1))) { ?>
 			<div class="row">
