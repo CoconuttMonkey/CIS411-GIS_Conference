@@ -78,7 +78,7 @@ if (!empty($_POST)) {
 		
 		//End data validation
 		if(count($errors) == 0) {
-			updateAttendeeDetail($loggedInUser->phone, 'phone', $phone);
+			updateAttendeeDetail($loggedInUser->user_id, 'phone', $phone);
 			$loggedInUser->phone = $phone;
 			$successes[] = lang("ACCOUNT_PHONE_UPDATED");
 		}
@@ -94,7 +94,7 @@ if (!empty($_POST)) {
 		
 		//End data validation
 		if(count($errors) == 0) {
-			updateAttendeeDetail($loggedInUser->address_1, 'address_1', $address_1);
+			updateAttendeeDetail($loggedInUser->user_id, 'address_1', $address_1);
 			$loggedInUser->address_1 = $address_1;
 			$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
 		}
@@ -109,7 +109,7 @@ if (!empty($_POST)) {
 		
 		//End data validation
 		if(count($errors) == 0) {
-			updateAttendeeDetail($loggedInUser->address_2, 'address_2', $address_2);
+			updateAttendeeDetail($loggedInUser->user_id, 'address_2', $address_2);
 			$loggedInUser->address_2 = $address_2;
 			$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
 		}
@@ -125,7 +125,7 @@ if (!empty($_POST)) {
 		
 		//End data validation
 		if(count($errors) == 0) {
-			updateAttendeeDetail($loggedInUser->city, 'city', $city);
+			updateAttendeeDetail($loggedInUser->user_id, 'city', $city);
 			$loggedInUser->city = $city;
 			$successes[] = lang("ACCOUNT_CITY_UPDATED");
 		}
@@ -141,7 +141,7 @@ if (!empty($_POST)) {
 		
 		//End data validation
 		if(count($errors) == 0) {
-			updateAttendeeDetail($loggedInUser->state, 'state', $state);
+			updateAttendeeDetail($loggedInUser->user_id, 'state', $state);
 			$loggedInUser->state = $state;
 			$successes[] = lang("ACCOUNT_STATE_UPDATED");
 		}
@@ -157,7 +157,7 @@ if (!empty($_POST)) {
 		
 		//End data validation
 		if(count($errors) == 0) {
-			updateAttendeeDetail($loggedInUser->zip, 'zip', $zip);
+			updateAttendeeDetail($loggedInUser->user_id, 'zip', $zip);
 			$loggedInUser->zip = $zip;
 			$successes[] = lang("ACCOUNT_ZIP_UPDATED");
 		}
@@ -167,7 +167,7 @@ if (!empty($_POST)) {
 		Update Company
 	*/
 	if ($company != $loggedInUser->company) {
-		updateAttendeeDetail($loggedInUser->company, 'company', $company);
+		updateAttendeeDetail($loggedInUser->user_id, 'company', $company);
 		$loggedInUser->company = $company;
 		$successes[] = lang("ACCOUNT_STATE_UPDATED");
 	}
