@@ -89,4 +89,18 @@ function fetchAllAttendees()
 	$stmt->close();
 	return ($row);
 }
+
+
+
+//Update attendee field
+function updateAttendeeDetail($user_id, $field, $value)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE conf_attendees
+		SET `{$field}` = '{$value}'
+		WHERE
+		user_id = {$user_id}");
+	$result = $stmt->execute();
+	$stmt->close();
+}
 ?>

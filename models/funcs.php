@@ -145,8 +145,9 @@ function resultBlock($errors,$successes){
 	//Error block
 	if(count($errors) > 0)
 	{
-		echo "<div id='error'>
-		<a href='#' onclick=\"showHide('error');\">[X]</a>
+		echo "<div id='result' class='col-lg-4 col-lg-push-4 col-md-6 col-md-push-3 col-sm-12 alert alert-danger'>
+		<a href='#' onclick=\"showHide('result');\"><span class='glyphicon glyphicon-remove'></span></a>
+		<label>Error</label>
 		<ul>";
 		foreach($errors as $error)
 		{
@@ -158,8 +159,9 @@ function resultBlock($errors,$successes){
 	//Success block
 	if(count($successes) > 0)
 	{
-		echo "<div id='success'>
-		<a href='#' onclick=\"showHide('success');\">[X]</a>
+		echo "<div id='result' class='col-lg-4 col-lg-push-4 col-md-6 col-md-push-3 col-sm-12 alert alert-success'>
+		<a href='#' onclick=\"showHide('result');\"><span class='glyphicon glyphicon-remove'></span></a>
+		<label>Success</label>
 		<ul>";
 		foreach($successes as $success)
 		{
@@ -393,16 +395,14 @@ function setUserActive($token)
 	return $result;
 }
 
-//Change a user's display name
-function updateDisplayName($id, $display)
+//Update user field
+function updateUserDetail($user_id, $field, $value)
 {
 	global $mysqli,$db_table_prefix;
-	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
-		SET display_name = ?
+	$stmt = $mysqli->prepare("UPDATE user_users
+		SET `{$field}` = '{$value}'
 		WHERE
-		id = ?
-		LIMIT 1");
-	$stmt->bind_param("si", $display, $id);
+		id = {$user_id}");
 	$result = $stmt->execute();
 	$stmt->close();
 	return $result;

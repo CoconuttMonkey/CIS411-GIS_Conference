@@ -17,6 +17,15 @@ if (!empty($_POST)) {
 	$password_new = $_POST["passwordc"];
 	$password_confirm = $_POST["passwordcheck"];
 	
+	$country = $_POST["country"];
+	$phone = $_POST["phone"];
+	$address_1 = $_POST["address_1"];
+	$address_2 = $_POST["address_2"];
+	$city = $_POST["city"];
+	$state = $_POST["state"];
+	$zip = $_POST["zip"];
+	$company = $_POST["company"];
+	
 	$errors = array();
 	$email = $_POST["email"];
 	
@@ -50,6 +59,122 @@ if (!empty($_POST)) {
 		}
 	}
 	
+	/*
+		Update Country Code
+	*/
+	if($country != $loggedInUser->country) {
+		updateAttendeeDetail($loggedInUser->user_id, 'country', $country);
+		$loggedInUser->country = $country;
+		$successes[] = lang("ACCOUNT_COUNTRY_UPDATED");
+	}
+	
+	/*
+		Update Phone Number
+	*/
+	if ($phone != $loggedInUser->phone) {
+		if(trim($phone) == "") {
+			$errors[] = lang("ACCOUNT_SPECIFY_PHONE");
+		}
+		
+		//End data validation
+		if(count($errors) == 0) {
+			updateAttendeeDetail($loggedInUser->phone, 'phone', $phone);
+			$loggedInUser->phone = $phone;
+			$successes[] = lang("ACCOUNT_PHONE_UPDATED");
+		}
+	}
+	
+	/*
+		Update Address 1
+	*/
+	if ($address_1 != $loggedInUser->address_1) {
+		if(trim($address_1) == "") {
+			$errors[] = lang("ACCOUNT_SPECIFY_ADDRESS");
+		}
+		
+		//End data validation
+		if(count($errors) == 0) {
+			updateAttendeeDetail($loggedInUser->address_1, 'address_1', $address_1);
+			$loggedInUser->address_1 = $address_1;
+			$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
+		}
+	}
+	
+	/*
+		Update Address 2
+	*/	if ($address_2 != $loggedInUser->address_2) {
+		if(trim($address_2) == "") {
+			$errors[] = lang("ACCOUNT_SPECIFY_ADDRESS");
+		}
+		
+		//End data validation
+		if(count($errors) == 0) {
+			updateAttendeeDetail($loggedInUser->address_2, 'address_2', $address_2);
+			$loggedInUser->address_2 = $address_2;
+			$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
+		}
+	}
+	
+	/*
+		Update City
+	*/
+	if ($city != $loggedInUser->city) {
+		if(trim($city) == "") {
+			$errors[] = lang("ACCOUNT_SPECIFY_CITY");
+		}
+		
+		//End data validation
+		if(count($errors) == 0) {
+			updateAttendeeDetail($loggedInUser->city, 'city', $city);
+			$loggedInUser->city = $city;
+			$successes[] = lang("ACCOUNT_CITY_UPDATED");
+		}
+	}
+
+	/*
+		Update State
+	*/
+	if ($state != $loggedInUser->state) {
+		if(trim($state) == "") {
+			$errors[] = lang("ACCOUNT_SPECIFY_STATE");
+		}
+		
+		//End data validation
+		if(count($errors) == 0) {
+			updateAttendeeDetail($loggedInUser->state, 'state', $state);
+			$loggedInUser->state = $state;
+			$successes[] = lang("ACCOUNT_STATE_UPDATED");
+		}
+	}
+
+	/*
+		Update Zip
+	*/
+	if ($zip != $loggedInUser->zip) {
+		if(trim($zip) == "") {
+			$errors[] = lang("ACCOUNT_SPECIFY_ZIP");
+		}
+		
+		//End data validation
+		if(count($errors) == 0) {
+			updateAttendeeDetail($loggedInUser->zip, 'zip', $zip);
+			$loggedInUser->zip = $zip;
+			$successes[] = lang("ACCOUNT_ZIP_UPDATED");
+		}
+	}
+
+	/*
+		Update Company
+	*/
+	if ($company != $loggedInUser->company) {
+		updateAttendeeDetail($loggedInUser->company, 'company', $company);
+		$loggedInUser->company = $company;
+		$successes[] = lang("ACCOUNT_STATE_UPDATED");
+	}
+	
+	/*
+		Update Password
+	*/
 	if ($password_new != "" OR $password_confirm != "") {
 		if (trim($password_new) == "") {
 			$errors[] = lang("ACCOUNT_SPECIFY_NEW_PASSWORD");
@@ -92,7 +217,7 @@ require_once("models/header.php");
 		</ol>
 			<? echo resultBlock($errors,$successes); ?>
 			<div class="col-lg-12">
-				<form name='updateAccount' action='<? $_SERVER['PHP_SELF'] ?>' method='post' style="margin-bottom: 100px;">
+				<form name='updateAccount' action='<? $_SERVER['PHP_SELF'] ?>' method='post' style="margin-bottom: 100px;" id="updateAccount">
 					<section class="row">
 						<div class="col-lg-6 col-md-6">
 					      <h3>Account Information</h3>
@@ -187,6 +312,88 @@ require_once("models/header.php");
 			</div>
 		</div>
 	</section>
-	<?php include("models/footer.php"); ?>
+	<? if(userIsAttendee($loggedInUser->user_id)) { ?>
+	<script>
+	$(document).ready(function() {
+	    $('#updateAccount').bootstrapValidator({
+	        message: 'This value is not valid',
+	        feedbackIcons: {
+	            valid: 'glyphicon glyphicon-ok',
+	            invalid: 'glyphicon glyphicon-remove',
+	            validating: 'glyphicon glyphicon-refresh'
+	        },
+	        fields: {
+	            phone: {
+	                message: 'The phone number is not valid',
+	                validators: {
+	                    notEmpty: {
+	                        message: 'The phone number is required'
+	                    },
+	                    digits: {
+	                        message: 'The value can contain only digits'
+	                    }
+	                }
+	            },
+	            address_1: {
+	                message: 'Address is not valid',
+	                validators: {
+	                    notEmpty: {
+	                        message: 'Your address is required and cannot be empty'
+	                    },
+	                    regexp: {
+	                        regexp: /^[a-zA-Z0-9_\s]+$/,
+	                        message: 'Your address can only consist of alphabetical, number and underscore'
+	                    }
+	                }
+	            },
+	            address_2: {
+	                validators: {
+	                    regexp: {
+	                        regexp: /^[a-zA-Z0-9_\s]+$/,
+	                        message: 'Your address can only consist of alphabetical, number and underscore'
+	                    }
+	                }
+	            },
+	            city: {
+	                message: 'City is not valid',
+	                validators: {
+	                    notEmpty: {
+	                        message: 'City field is required and cannot be empty'
+	                    },
+	                    regexp: {
+	                        regexp: /^[a-zA-Z0-9_\s]+$/,
+	                        message: 'City can only consist of alphabetical, number and underscore'
+	                    }
+	                }
+	            },
+	            state: {
+	                message: 'State is not valid',
+	                validators: {
+	                    notEmpty: {
+	                        message: 'State field is required and cannot be empty'
+	                    },
+	                    regexp: {
+	                        regexp: /^[a-zA-Z0-9_]+$/,
+	                        message: 'State can only consist of alphabetical, number and underscore'
+	                    }
+	                }
+	            },
+	            zip: {
+	                validators: {
+	                    zipCode: {
+	                        country: 'country',
+	                        // %s will be replaced with "US zipcode", "Italian postal code", and so on
+	                        // when you choose the country as US, IT, etc.
+	                        message: 'The value is not valid %s'
+	                    }
+	                }
+	            }
+	        }
+	    });
+	});	
+	</script>
+	<? }
+	
+		include("models/footer.php"); ?>
 </body>
 </html>

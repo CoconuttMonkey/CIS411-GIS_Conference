@@ -35,6 +35,3 @@
 			</div>
 		</div>
 	</footer>
-	<script>
-		$( '#result' ).delay(3000).fadeOut('slow','linear');
-	</script>

@@ -41,6 +41,7 @@ if(!empty($_POST))
 			}
 		}
 	}
+	
 	if(count($errors) == 0) {
 		$successes[] = $user->success;
 		// Check if user is an attendee

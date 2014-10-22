@@ -78,12 +78,159 @@ if(!empty($_POST))
 			}
 			else {
 				if (updateTitle($userId, $title)){
+				$userdetails['title'] = $title;
 					$successes[] = lang("ACCOUNT_TITLE_UPDATED", array ($displayname, $title));
 				}
 				else {
 					$errors[] = lang("SQL_ERROR");
 				}
 			}
+		}
+		
+		/*
+			Update First name
+		*/
+		if ($userdetails['first_name'] != $_POST['first_name']) {
+			if(trim($_POST['first_name']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_FIRST_NAME");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateUserDetail($userId, 'first_name', $_POST['first_name']);
+				$userdetails['first_name'] = $_POST['first_name'];
+				$successes[] = lang("ACCOUNT_FIRST_NAME_UPDATED");
+			}
+		}
+		
+		/*
+			Update Last name
+		*/
+		if ($userdetails['last_name'] != $_POST['last_name']) {
+			if(trim($_POST['last_name']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_LAST_NAME");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateUserDetail($userId, 'last_name', $_POST['last_name']);
+				$userdetails['last_name'] = $_POST['last_name'];
+				$successes[] = lang("ACCOUNT_LAST_NAME_UPDATED");
+			}
+		}
+	
+		/*
+			Update Country Code
+		*/
+		if($userdetails['country'] != $_POST['country']) {
+			updateAttendeeDetail($userId, 'country', $_POST['country']);
+			$userdetails['country'] = $_POST['country'];
+			$successes[] = lang("ACCOUNT_COUNTRY_UPDATED");
+		}
+		
+		/*
+			Update Phone Number
+		*/
+		if ($userdetails['phone'] != $_POST['phone']) {
+			if(trim($_POST['phone']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_PHONE");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'phone', $_POST['phone']);
+				$userdetails['phone'] = $_POST['phone'];
+				$successes[] = lang("ACCOUNT_PHONE_UPDATED");
+			}
+		}
+		
+		/*
+			Update Address 1
+		*/
+		if ($userdetails['address_1'] != $_POST['address_1']) {
+			if(trim($_POST['address_1']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_ADDRESS");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'address_1', $_POST['address_1']);
+				$userdetails['address_1'] = $_POST['address_1'];
+				$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
+			}
+		}
+		
+		/*
+			Update Address 2
+		*/
+		if ($userdetails['address_2'] != $_POST['address_2']) {
+			if(trim($_POST['address_2']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_ADDRESS");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'address_2', $_POST['address_2']);
+				$userdetails['address_2'] = $_POST['address_2'];
+				$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
+			}
+		}
+		
+		/*
+			Update City
+		*/
+		if ($userdetails['city'] != $_POST['city']) {
+			if(trim($_POST['city']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_CITY");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'city', $_POST['city']);
+				$userdetails['city'] = $_POST['city'];
+				$successes[] = lang("ACCOUNT_CITY_UPDATED");
+			}
+		}
+	
+		/*
+			Update State
+		*/
+		if ($userdetails['state'] != $_POST['state']) {
+			if(trim($_POST['state']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_STATE");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'state', $_POST['state']);
+				$userdetails['state'] = $_POST['state'];
+				$successes[] = lang("ACCOUNT_STATE_UPDATED");
+			}
+		}
+	
+		/*
+			Update Zip
+		*/
+		if ($userdetails['zip'] != $_POST['zip']) {
+			if(trim($_POST['zip']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_ZIP");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'zip', $_POST['zip']);
+				$userdetails['zip'] = $_POST['zip'];
+				$successes[] = lang("ACCOUNT_ZIP_UPDATED");
+			}
+		}
+	
+		/*
+			Update Company
+		*/
+		if($userdetails['company'] != $_POST['company']) {
+			updateAttendeeDetail($userId, 'company', $_POST['company']);
+			$userdetails['company'] = $_POST['company'];
+			$successes[] = lang("ACCOUNT_COMPANY_UPDATED");
 		}
 		
 		//Remove permission level
@@ -137,7 +284,9 @@ require_once("models/header.php");
 		<div class='container'>
 					<h1>Edit User</h1>
 				</div>
-					<? echo resultBlock($errors,$successes); ?>
+					<div class="row">
+						<? echo resultBlock($errors,$successes); ?>
+					</div>
 					<form name='adminUser' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $userId; ?>' method='post'>
 						<div class="row">
 							<div class='col-lg-6'>
