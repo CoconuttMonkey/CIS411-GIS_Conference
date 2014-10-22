@@ -92,7 +92,7 @@ require_once("models/header.php");
 					  </table>
 					</div>
 					<p class="text-center">
-					<input id="clear-filters" type='reset' name='Submit' value='Clear Filters' class='btn btn-warning' />
+						<input id="clear-filters" type='reset' name='Submit' value='Clear Filters' class='btn btn-warning' />
 					</p>
 				</form>
 			</div>

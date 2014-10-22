@@ -41,7 +41,7 @@
 								<li><a href='conf_presentations.php'>Presentations</a></li>
 								<li><a href='conf_exhibits.php'>Exhibits</a></li>
 								<li><a href='sponsors.php'>Sponsors</a></li>
-								<li><a href='admin_conference.php'>Conference Settings</a></li>
+								<li><a href='conf_settings.php'>Conference Settings</a></li>
 		          </ul>
 		        </li>
 		        <? } if ($loggedInUser->checkPermission(array(4))) { ?>

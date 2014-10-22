@@ -45,8 +45,8 @@ function fetchAttendeeDetails($user_id) {
 			conf_attendees.company,
 			conf_attendees.attendee_type
 			FROM conf_attendees
-	INNER JOIN `user_users` ON conf_attendees.user_id = 1
-    											AND user_users.id = 1;");
+	INNER JOIN `user_users` ON conf_attendees.user_id = {$user_id}
+    											AND user_users.id = {$user_id};");
 	$stmt->execute();
 	$stmt->bind_result($user_id, $first_name, $last_name, $email, $active, $title, $signUp, $phone, $address_1, $address_2, $city, $state, $zip, $country, $company, $attendee_type);
 	
