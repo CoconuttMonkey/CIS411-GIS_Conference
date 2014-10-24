@@ -1,10 +1,10 @@
 <?php
-	require_once("models/config.php");
+	require_once("../models/config.php");
 	if (!securePage($_SERVER['PHP_SELF'])){die();}
-	require_once("models/header.php");
+	require_once("../models/header.php");
 ?>
 <body>
-	<?php include("models/main-nav.php"); ?>
+	<?php include("../models/main-nav.php"); ?>
 	<section class="container">
 		<h1>Contact Us</h1>
 		<div class="row">
@@ -45,7 +45,7 @@
 			</article>
 		</div>
 	</section>
-	<?php include("models/footer.php"); ?>
+	<?php include("../models/footer.php"); ?>
 	<script src='https://maps.googleapis.com/maps/api/js?key=&sensor=false&extension=.js'></script> 
  
 <script> 

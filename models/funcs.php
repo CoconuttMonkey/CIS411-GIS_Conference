@@ -10,7 +10,7 @@ http://usercake.com
 //Retrieve a list of all .php files in models/languages
 function getLanguageFiles()
 {
-	$directory = "models/languages/";
+	$directory = "../models/languages/";
 	$languages = glob($directory . "*.php");
 	//print each file name
 	return $languages;
@@ -28,12 +28,14 @@ function getTemplateFiles()
 //Retrieve a list of all .php files in root files folder
 function getPageFiles()
 {
-	$directory = "";
+	$directory = "../";
 	$pages = glob($directory . "*.php");
 	//print each file name
 	foreach ($pages as $page){
 		$row[$page] = $page;
 	}
+	
+	
 	return $row;
 }
 

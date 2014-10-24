@@ -4,7 +4,7 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("models/config.php");
+require_once("../models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 //Forms posted
@@ -134,14 +134,14 @@ if(!empty($_POST))
 $languages = getLanguageFiles(); //Retrieve list of language files
 $templates = getTemplateFiles(); //Retrieve list of template files
 $permissionData = fetchAllPermissions(); //Retrieve list of all permission levels
-require_once("models/header.php");
+require_once("../models/header.php");
 ?>
 <body>
-	<?php include("models/main-nav.php"); ?>
+	<?php include("../models/main-nav.php"); ?>
 	<section class="container">
 		<ol class="breadcrumb">
-		  <li><a href="account.php">Admin Dashboard</a></li>
-		  <li class="active"><a href="admin_configuration.php">Site Settings</a></li>
+		  <li><a href="../admin/dashboard.php">Admin Dashboard</a></li>
+		  <li class="active"><a href="../admin/configuration.php">Site Settings</a></li>
 		</ol>
 		<? echo resultBlock($errors,$successes); ?>
 		<div class='row'>
@@ -177,10 +177,10 @@ require_once("models/header.php");
 		                    <? //Display language options
 												foreach ($languages as $optLang){
 													if ($optLang == $language){
-														echo "<option value='".$optLang."' selected>$optLang</option>";
+														echo "<option value='../".$optLang."' selected>../$optLang</option>";
 													}
 													else {
-														echo "<option value='".$optLang."'>$optLang</option>";
+														echo "<option value='../".$optLang."'>../$optLang</option>";
 													}
 												} ?>
 		                </select>
@@ -209,10 +209,10 @@ require_once("models/header.php");
 										<? //Display template options
 										foreach ($templates as $temp){
 											if ($temp == $template){
-												echo "<option value='".$temp."' selected>$temp</option>";
+												echo "<option value='../".$temp."' selected>$temp</option>";
 											}
 											else {
-												echo "<option value='".$temp."'>$temp</option>";
+												echo "<option value='../".$temp."'>$temp</option>";
 											}
 										} ?>
 										</select>
@@ -223,16 +223,7 @@ require_once("models/header.php");
 						</div>
 				</form>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
 		</section>
-	<?php include("models/footer.php"); ?>
+	<?php include("../models/footer.php"); ?>
 </body>
 </html>

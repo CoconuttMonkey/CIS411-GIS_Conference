@@ -4,12 +4,12 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("models/config.php");
+require_once("../models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-require_once("models/header.php");
+require_once("../models/header.php");
 ?>
 <body>
-	<? require_once("models/main-nav.php"); ?>
+	<? require_once("../models/main-nav.php"); ?>
 	<section class="container">
 		<div class="row">
 			<article class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
@@ -25,15 +25,15 @@ Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
 			<aside class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
 				<? 
 				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
+					include('../models/sideNav.php');
 				} else {
-					include('models/loginForm.php');
+					include('../models/loginForm.php');
 				}
 				?>
 			</aside>
 		</div>
 	</section>
-	<?php include("models/footer.php"); ?>
+	<?php include("../models/footer.php"); ?>
 </body>
 <script>$('#navbar-schedule').addClass("active");</script>
 </html>

@@ -4,7 +4,6 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 require_once("db-settings.php"); //Require DB connection
-
 //Retrieve settings
 $stmt = $mysqli->prepare("SELECT id, name, value
 	FROM ".$db_table_prefix."configuration");	
@@ -33,10 +32,10 @@ $default_hooks = array("#WEBSITENAME#","#WEBSITEURL#","#DATE#");
 $default_replace = array($websiteName,$websiteUrl,$emailDate);
 
 if (!file_exists($language)) {
-	$language = "models/languages/en.php";
+	$language = "../models/languages/en.php";
 }
 
-if(!isset($language)) $language = "models/languages/en.php";
+if(!isset($language)) $language = "../models/languages/en.php";
 
 //Pages to require
 require_once($language);

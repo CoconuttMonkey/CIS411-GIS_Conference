@@ -4,20 +4,20 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("models/config.php");
+require_once("../models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 //List posted
 if(!empty($_GET))
 {
 	if ($_GET['list'] == 'pending')
-		$pageTitle = "Pending Presentations";
+		$pageTitle = "Pending Exhibits";
 	else if ($_GET['list'] == 'active')
-		$pageTitle = "Scheduled Presentations";
+		$pageTitle = "Scheduled Exhibits";
 	else
-		$pageTitle = "All Presentations";
+		$pageTitle = "All Exhibits";
 } else {
-	$pageTitle = "All Presentations";
+	$pageTitle = "All Exhibits";
 }
 
 //Forms posted
@@ -34,14 +34,14 @@ if(!empty($_POST))
 
 $userData = fetchAllUsers(); //Fetch information for all users
 
-require_once("models/header.php");
+require_once("../models/header.php");
 ?>
 <body>
-	<?php include("models/main-nav.php"); ?>
+	<?php include("../models/main-nav.php"); ?>
 	<div class='container'>
 		<ol class="breadcrumb">
 		  <li><a href="account.php">Dashboard</a></li>
-		  <li class="active"><a href="#">Presentations</a></li>
+		  <li class="active"><a href="#">Exhibits</a></li>
 		</ol>
 		<div class='row'>
 			<div class='col-lg-12'>
@@ -52,21 +52,20 @@ require_once("models/header.php");
 						<!-- Table -->
 					  <table class="table">
 							<tr style='text-align: left;'>
-								<th>Title</th><th>Presenter</th><th>Track</th><th>Session</th><th>Active</th>
+								<th>Name</th><th>Email</th><th>Title</th><th>Active</th>
 							</tr>
 							
 							<? //Cycle through users
 						foreach ($userData as $v1) {
 						?>
 						<tr>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']; ?></td>
+							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></td>
 							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['email']; ?></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['last_name']; ?></td>
 							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['title']; ?></td>
 							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? if ($v1['active'] === 1) { 
-									echo '<span class="success">Scheduled</span>';
+									echo '<span class="success">Paid</span>';
 								} else if ($v1['paid'] === 0) { 
-									echo '<span class="warning">Pending</span>';
+									echo '<span class="error">Not Paid</span>';
 								} ?></td>
 						</tr> <? } ?>
 							
@@ -75,7 +74,7 @@ require_once("models/header.php");
 			</div>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php include("../models/footer.php"); ?>
 	<script>
 	jQuery(document).ready(function($) {
 		$(".clickableCell").click(function() {

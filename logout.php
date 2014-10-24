@@ -4,7 +4,8 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("models/config.php");
+require_once("models/config.php");
+
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 //Log the user out
@@ -22,7 +23,7 @@ if(!empty($websiteUrl))
 		$add_http = "http://";
 	}
 	
-	header("Location: ".$add_http.$websiteUrl);
+	header("Location: ../".$add_http.$websiteUrl);
 	die();
 }
 else

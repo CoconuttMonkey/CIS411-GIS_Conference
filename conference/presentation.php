@@ -4,12 +4,12 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("models/config.php");
+require_once("../models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-require_once("models/header.php");
+require_once("../models/header.php");
 ?>
 <body>
-	<?php include("models/main-nav.php"); ?>
+	<?php include("../models/main-nav.php"); ?>
 	<div class='container'>
 		<div class='row'>
 			<div class='col-80'>
@@ -60,17 +60,8 @@ require_once("models/header.php");
 					
 				</form>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('models/sideNav.php');
-				} else {
-					include('models/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php include("../models/footer.php"); ?>
 </body>
 </html>

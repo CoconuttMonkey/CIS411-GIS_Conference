@@ -3,7 +3,6 @@
 UserCake Version: 2.0.2
 http://usercake.com
 */
-
 //Database Information
 $host = $_SERVER['HTTP_HOST'];
 if ($host == 'cisprod.clarion.edu' || $host == 'cisprod.clarion.edu/~s_mrondo/') {
@@ -39,9 +38,9 @@ if(mysqli_connect_errno()) {
 }
 
 //Direct to install directory, if it exists
-if(is_dir("install/"))
+if(is_dir("../install/"))
 {
-	header("Location: install/");
+	header("Location: ../install/");
 	die();
 
 }
