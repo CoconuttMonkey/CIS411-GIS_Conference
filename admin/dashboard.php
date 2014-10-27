@@ -42,7 +42,7 @@ require_once("../models/header.php");
 	      </div>
 	      
 				<div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-info">
+	        <div class="panel panel-success">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
@@ -62,11 +62,33 @@ require_once("../models/header.php");
 	          </a>
 	        </div>
 	      </div>
+	      
+				<div class="col-lg-3 col-md-3 col-sm-6">
+	        <div class="panel panel-danger">
+	          <div class="panel-heading">
+	            <div class="row">
+	              <div class="col-xs-12 text-right">
+	                <p class="announcement-heading"><? echo count(fetchAllAttendees()); ?></p>
+	                <p class="announcement-text">Unpaid</p>
+	              </div>
+	            </div>
+	          </div>
+	          <a href="../admin/users.php?list=attendees">
+	            <div class="panel-footer announcement-bottom">
+	              <div class="row">
+	                <div class="col-xs-12">
+	                  View Unpaid Attendees
+	                </div>
+	              </div>
+	            </div>
+	          </a>
+	        </div>
+	      </div>
 			</div>
 			<div class="row">
 				<h2>Presentations</h2>
 	      <div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-danger">
+	        <div class="panel panel-info">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
@@ -88,7 +110,7 @@ require_once("../models/header.php");
 	      </div>
 	      
 	      <div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-danger">
+	        <div class="panel panel-success">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
@@ -112,7 +134,7 @@ require_once("../models/header.php");
 			<div class="row">
 				<h2>Exhibits</h2>
 	      <div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-success">
+	        <div class="panel panel-info">
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
@@ -154,54 +176,7 @@ require_once("../models/header.php");
 	          </a>
 	        </div>
 	      </div>
-			</div>
-			<div class="row">
-				<h2>Sponsors</h2>
-	      <div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-warning">
-	          <div class="panel-heading">
-	            <div class="row">
-	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">3</p>
-	                <p class="announcement-text">Pending Sponsors</p>
-	              </div>
-	            </div>
-	          </div>
-	          <a href="../conference/sponsors.php?list=pending">
-	            <div class="panel-footer announcement-bottom">
-	              <div class="row">
-	                <div class="col-xs-12">
-	                  View Pending
-	                </div>
-	              </div>
-	            </div>
-	          </a>
-	        </div>
-	      </div>
-	      
-				<div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-warning">
-	          <div class="panel-heading">
-	            <div class="row">
-	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">4</p>
-	                <p class="announcement-text">Active Sponsors</p>
-	              </div>
-	            </div>
-	          </div>
-	          <a href="../conference/sponsors.php?list=active">
-	            <div class="panel-footer announcement-bottom">
-	              <div class="row">
-	                <div class="col-xs-12">
-	                  View Sponsors
-	                </div>
-	              </div>
-	            </div>
-	          </a>
-	        </div>
-	      </div>
 			</div><!-- /.row -->
-		</div>
 	</section>
 	<?php include("../models/footer.php"); ?>
 </body>

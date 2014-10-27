@@ -90,40 +90,6 @@ if(!empty($_POST))
 		}
 	}
 	
-	//Validate new language selection
-	if ($newSettings[6] != $language) {
-		$newLanguage = $newSettings[6];
-		if(minMaxRange(1,150,$language))
-		{
-			$errors[] = lang("CONFIG_LANGUAGE_CHAR_LIMIT",array(1,150));
-		}
-		elseif (!file_exists($newLanguage)) {
-			$errors[] = lang("CONFIG_LANGUAGE_INVALID",array($newLanguage));				
-		}
-		else if (count($errors) == 0) {
-			$cfgId[] = 6;
-			$cfgValue[6] = $newLanguage;
-			$language = $newLanguage;
-		}
-	}
-	
-	//Validate new template selection
-	if ($newSettings[7] != $template) {
-		$newTemplate = $newSettings[7];
-		if(minMaxRange(1,150,$template))
-		{
-			$errors[] = lang("CONFIG_TEMPLATE_CHAR_LIMIT",array(1,150));
-		}
-		elseif (!file_exists($newTemplate)) {
-			$errors[] = lang("CONFIG_TEMPLATE_INVALID",array($newTemplate));				
-		}
-		else if (count($errors) == 0) {
-			$cfgId[] = 7;
-			$cfgValue[7] = $newTemplate;
-			$template = $newTemplate;
-		}
-	}
-	
 	//Update configuration table with new settings
 	if (count($errors) == 0 AND count($cfgId) > 0) {
 		updateConfig($cfgId, $cfgValue);
@@ -170,22 +136,6 @@ require_once("../models/header.php");
 									  <input type='text' name='settings[<? echo $settings['resend_activation_threshold']['id']; ?>]' value='<? echo $resend_activation_threshold; ?>'  class="form-control" />
 									</div>
 									
-									
-									<div class="form-group">
-		                <label>Language</label>
-		                <select class="form-control" name="settings[<? echo $settings['language']['id']; ?>]">
-		                    <? //Display language options
-												foreach ($languages as $optLang){
-													if ($optLang == $language){
-														echo "<option value='../".$optLang."' selected>../$optLang</option>";
-													}
-													else {
-														echo "<option value='../".$optLang."'>../$optLang</option>";
-													}
-												} ?>
-		                </select>
-			            </div>
-									
 									<div class="form-group">
 										<label>Email Activation</label>
 										<select class="form-control" name='settings[<? echo $settings['activation']['id']; ?>]'>";
@@ -203,20 +153,6 @@ require_once("../models/header.php");
 										</select>
 									</div>
 									
-									<div class="form-group">
-										<label>Template</label>
-										<select class="form-control" name='settings[<? echo $settings['template']['id']; ?>]'>";
-										<? //Display template options
-										foreach ($templates as $temp){
-											if ($temp == $template){
-												echo "<option value='../".$temp."' selected>$temp</option>";
-											}
-											else {
-												echo "<option value='../".$temp."'>$temp</option>";
-											}
-										} ?>
-										</select>
-									</div>
 									<input type='submit' name='Submit' value='Submit' class='btn btn-success' />
 							  </div>
 						  </div>

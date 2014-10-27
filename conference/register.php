@@ -12,7 +12,7 @@ if(!isUserLoggedIn()) { header("Location: ../login.php"); die(); }
 
 $reg_type = trim($_GET['type']);
 
-print_r($_POST);
+//print_r($_POST);
 if (isset($_POST['newPresentation'])) {
 	
 	require_once("../models/class.newpresentation.php");
@@ -33,35 +33,23 @@ if (isset($_POST['newPresentation'])) {
 	}
 	
 	//End data validation
-	if(count($errors) == 0)
-	{	
+	if(count($errors) == 0) {	
 		//Construct a presentation object
 		$presentation = new Presentation($main_presenter,$presenter_bio,$presentation_title,$presentation_abstract,$presentation_track,$presentation_day_request);
+		print_r($presentation);
 		
-		//Attempt to add the user to the database, carry out finishing  tasks like emailing the user (if required)
-		if(!$presentation->addPresentation())
-		{
-			if($presentation->mail_failure) $errors[] = lang("MAIL_ERROR");
-			if($presentation->sql_failure)  $errors[] = lang("SQL_ERROR");
+		echo "here";
+		//Attempt to add the presentation to the database
+		if(!$presentation->addPresentation()) {
+			echo "<p>error</p>";
+		} else {
+			echo "<p>success</p>";
+			$successes[] = lang("PRESENTATION_REGISTERED");
 		}
 	}
 	
 	if(count($errors) == 0) {
-		if($_POST['gallery']) {
-			//Construct a gallery object
-			$gallery = new Gallery($gallery_title,$gallery_abstract,$gallery_expertise_level,$gallery_critique,$main_presenter);
-		
-			//Attempt to add the user to the database, carry out finishing  tasks like emailing the user (if required)
-			if(!$gallery->addGallery())
-			{
-				if($gallery->mail_failure) $errors[] = lang("MAIL_ERROR");
-				if($gallery->sql_failure)  $errors[] = lang("SQL_ERROR");
-			}
-		}
-	}
-	
-	if(count($errors) == 0) {
-		$successes[] = $user->success;
+		$successes[] = $preseentation->success;
 	}
 	
 }
@@ -160,10 +148,10 @@ require_once("../models/header.php");
 								  <label for="presentation_track">Track</label>
 								  <select class="form-control" id="presentation_track" name="presentation_track">
 								    <option selected="selected" value="">Select a Track</option>
-								    <option value="ED">ED: GIS in Education</option>
-								    <option value="NA">NA: Natural Resources Management</option>
-								    <option value="EM">EM: Emergency Preparedness</option>
-								    <option value="AC">AC: GIS in Action</option>
+								    <option value="1">ED: GIS in Education</option>
+								    <option value="2">NA: Natural Resources Management</option>
+								    <option value="3">EM: Emergency Preparedness</option>
+								    <option value="4">AC: GIS in Action</option>
 								  </select>
 								</div>
 								

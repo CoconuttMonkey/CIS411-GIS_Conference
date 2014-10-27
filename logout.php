@@ -23,7 +23,7 @@ if(!empty($websiteUrl))
 		$add_http = "http://";
 	}
 	
-	header("Location: ../".$add_http.$websiteUrl);
+	header("Location: ".$add_http.$websiteUrl);
 	die();
 }
 else

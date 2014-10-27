@@ -90,11 +90,8 @@ function fetchAllAttendees()
 	return ($row);
 }
 
-
-
 //Update attendee field
-function updateAttendeeDetail($user_id, $field, $value)
-{
+function updateAttendeeDetail($user_id, $field, $value) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE conf_attendees
 		SET `{$field}` = '{$value}'
@@ -102,5 +99,58 @@ function updateAttendeeDetail($user_id, $field, $value)
 		user_id = {$user_id}");
 	$result = $stmt->execute();
 	$stmt->close();
+}
+
+//Retrieve information for all attendees
+function fetchPresentations($filter = NULL)
+{
+	if ($filter == 'pending') {
+		$filter = ' AND conf_presentations.session_id = 0';
+	} else {
+		$filter = '';
+	}
+	
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			conf_presentations.presentation_id, 
+	 		conf_presentations.main_presenter,
+	 		conf_presentations.title,
+			conf_presentations.session_id,
+			conf_presentations.track_id,
+			conf_presentations.gallery_id,
+			conf_presentations.active,
+			user_users.first_name, 
+			user_users.last_name
+			FROM conf_presentations
+	INNER JOIN `user_users` ON conf_presentations.main_presenter = user_users.id".$filter.";");
+	$stmt->execute();
+	$stmt->bind_result($presentation_id, $main_presenter_id, $presenation_title, $presenation_session_id, $presenation_track_id, $presenation_gallery_id, $presenation_active, $first_name, $last_name);
+	
+	while ($stmt->fetch()){
+		$row[] = array('presentation_id' => $presentation_id, 'main_presenter' => $main_presenter_id, 'presentation_title' => $presenation_title, 'presentation_session' => $presenation_session_id, 'presentation_track' => $presenation_track_id, 'gallery_id' => $presenation_gallery_id, 'active' => $presenation_active, 'first_name' => $first_name, 'last_name' => $last_name);
+	}
+	$stmt->close();
+	return ($row);
+}
+
+//Change a user from inactive to active
+function fetchTrackName($track_id)
+{
+	global $mysqli;
+	$stmt = $mysqli->prepare("SELECT
+		track_id,
+		short_name,
+		full_name
+		FROM
+		conf_track
+		WHERE track_id = {$track_id}");
+	$stmt->execute();
+	$stmt->bind_result($track_id, $short_name, $full_name);
+	
+	while ($stmt->fetch()){
+		$row = array('track_id' => $track_id, 'short_name' => $short_name, 'full_name' => $full_name);
+	}
+	$stmt->close();
+	return ($row);
 }
 ?>

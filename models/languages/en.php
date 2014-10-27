@@ -76,6 +76,11 @@ $lang = array_merge($lang,array(
 $lang = array_merge($lang,array(
 	"ATTENDEE_EXISTS" 		=> "You have already signed up for the conference",
 	));
+	
+//Presentation
+$lang = array_merge($lang,array(
+	"PRESENTATION_REGISTERED" 		=> "You have successfully registered your presentation",
+	));
 
 //Configuration
 $lang = array_merge($lang,array(

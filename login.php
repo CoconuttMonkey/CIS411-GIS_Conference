@@ -90,7 +90,7 @@ if(!empty($_POST))
 					$_SESSION["userCakeUser"] = $loggedInUser;
 					
 					//Redirect to user account page
-					header("Location: account.php");
+					header("Location: ../user/dashboard.php");
 					die();
 				}
 			}

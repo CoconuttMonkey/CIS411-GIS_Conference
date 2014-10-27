@@ -43,6 +43,7 @@ require_once("class.mail.php");
 require_once("class.user.php");
 require_once("class.newuser.php");
 require_once("class.newattendee.php");
+require_once("class.newpresentation.php");
 require_once("funcs.php");
 require_once("conf-funcs.php");
 
