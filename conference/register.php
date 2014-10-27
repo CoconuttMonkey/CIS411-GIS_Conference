@@ -34,12 +34,13 @@ if (isset($_POST['newPresentation'])) {
 	
 	//Construct a user object
 	$presentation = new Presentation($main_presenter,$presenter_bio,$presentation_title,$presentation_abstract,$presentation_track,$presentation_day_request);
-	print_r($presentation);
 	
-	if(!$presentation->addPresentation()) {
+	$presentation->addPresentation();
+	
+	if(count($presentation) == 0) {
 		$errors[] = lang("PRESENTATION_ERROR");
 	} else {
-		$successes = lang("PRESENTATION_REGISTERED");
+		$successes[] = lang("PRESENTATION_REGISTERED");
 	}
 	
 }
