@@ -12,6 +12,60 @@ if(!isUserLoggedIn()) { header("Location: ../login.php"); die(); }
 
 $reg_type = trim($_GET['type']);
 
+print_r($_POST);
+if (isset($_POST['newPresentation'])) {
+	
+	require_once("../models/class.newpresentation.php");
+	
+	$errors = array();
+	$main_presenter = $_POST['main_presenter'];
+	$presenter_bio = $_POST['presenter_bio'];
+	$copresenter = $_POST['copresenter'];
+	$presentation_title = $_POST['presentation_title'];
+	$presentation_abstract = $_POST['presentation_abstract'];
+	$presentation_track = $_POST['presentation_track'];
+	$presentation_day_request = $_POST['presentation_day_request'];
+	if($_POST['gallery']) {
+		$gallery_title = $_POST['gallery_title'];
+		$gallery_abstract = $_POST['gallery_abstract'];
+		$gallery_expertise_level = $_POST['gallery_expertise_level'];
+		$gallery_critique = $_POST['gallery_critique'];
+	}
+	
+	//End data validation
+	if(count($errors) == 0)
+	{	
+		//Construct a presentation object
+		$presentation = new Presentation($main_presenter,$presenter_bio,$presentation_title,$presentation_abstract,$presentation_track,$presentation_day_request);
+		
+		//Attempt to add the user to the database, carry out finishing  tasks like emailing the user (if required)
+		if(!$presentation->addPresentation())
+		{
+			if($presentation->mail_failure) $errors[] = lang("MAIL_ERROR");
+			if($presentation->sql_failure)  $errors[] = lang("SQL_ERROR");
+		}
+	}
+	
+	if(count($errors) == 0) {
+		if($_POST['gallery']) {
+			//Construct a gallery object
+			$gallery = new Gallery($gallery_title,$gallery_abstract,$gallery_expertise_level,$gallery_critique,$main_presenter);
+		
+			//Attempt to add the user to the database, carry out finishing  tasks like emailing the user (if required)
+			if(!$gallery->addGallery())
+			{
+				if($gallery->mail_failure) $errors[] = lang("MAIL_ERROR");
+				if($gallery->sql_failure)  $errors[] = lang("SQL_ERROR");
+			}
+		}
+	}
+	
+	if(count($errors) == 0) {
+		$successes[] = $user->success;
+	}
+	
+}
+
 require_once("../models/header.php");
 ?>
 
@@ -21,12 +75,13 @@ require_once("../models/header.php");
 		<?php echo resultBlock($errors,$successes); ?>
 		<?php if ($reg_type == 'presentation') { ?>
 		<form name='newPresentation' id="newPresentation" action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
+		  <input type="text" class="form-control" name="newPresentation" value="1" style="display:none;" />
 			<div class="row">
 				<h1>Presentation Registration</h1>
 				<div class="col-lg-4">
 					<div class="panel panel-primary">
 						<div class="panel-heading"><h4>Main Presenter</h4></div>
-		        <input type="text" class="form-control" name="first_name" value="<? echo $loggedInUser->user_id; ?>" disabled="disabled" style="display:none;" />
+		        <input type="text" class="form-control" name="main_presenter" value="<? echo $loggedInUser->user_id; ?>" style="display:none;" />
 					  <div class="panel-body">
 		          <div class="form-group">
 		              <label class="control-label">First Name</label>
@@ -50,7 +105,7 @@ require_once("../models/header.php");
 						<div class="panel-heading"><h4>Presenter Biography</h4></div>
 					  <div class="panel-body">
 		          <div class="form-group">
-						  	<textarea class="form-control" rows="8" id="biography" placeholder="Tell us about yourself"></textarea>
+						  	<textarea class="form-control" rows="8" name="presenter_bio" id="presenter_bio" placeholder="Tell us about yourself"></textarea>
 		          </div>
 					  </div>
 					</div>
@@ -96,15 +151,15 @@ require_once("../models/header.php");
 			
 			          <div class="form-group">
 			              <label class="control-label">Abstract</label>
-			              <textarea class="form-control" rows="8" id="presentation_abstract" placeholder="A description of your presentation."></textarea>
+			              <textarea class="form-control" rows="8" name="presentation_abstract" id="presentation_abstract" placeholder="A description of your presentation."></textarea>
 			          </div>
 						  </div>
 						  
 						  <div class="col-lg-6">
 							  <div class="form-group">
-								  <label for="track">Track</label>
-								  <select class="form-control" id="track" name="track">
-								    <option selected="selected">Select a Track</option>
+								  <label for="presentation_track">Track</label>
+								  <select class="form-control" id="presentation_track" name="presentation_track">
+								    <option selected="selected" value="">Select a Track</option>
 								    <option value="ED">ED: GIS in Education</option>
 								    <option value="NA">NA: Natural Resources Management</option>
 								    <option value="EM">EM: Emergency Preparedness</option>
@@ -138,9 +193,9 @@ require_once("../models/header.php");
               
 						  <div id="gallery_info" style="display: none;">
 							  <div class="form-group">
-								  <label for="track">Expertise Level</label>
-								  <select class="form-control" id="track" name="track">
-								    <option selected="selected">Select an expertise level</option>
+								  <label for="gallery_expertise_level">Expertise Level</label>
+								  <select class="form-control" id="gallery_expertise_level" name="gallery_expertise_level">
+								    <option selected="selected" value="">Select an expertise level</option>
 								    <option value="N">Novice</option>
 								    <option value="I">Intermediate</option>
 								    <option value="E">Expert</option>
@@ -162,13 +217,16 @@ require_once("../models/header.php");
 			
 			          <div class="form-group">
 			              <label class="control-label">Abstract</label>
-			              <textarea class="form-control" rows="8" id="gallery_abstract" placeholder="A description of your map or poster gallery."></textarea>
+			              <textarea class="form-control" rows="8" name="gallery_abstract" id="gallery_abstract" placeholder="A description of your map or poster gallery."></textarea>
 			          </div>
               </div>
 					 </div>
 				</div>
-				
 			</div>
+			</div><!-- /.row -->
+			
+			<div class="row text-center">
+				<input type="submit" class="btn btn-lg btn-success" value="Submit" />
 			</div><!-- /.row -->
 		</form>
 		<? } else if ($reg_type == 'exhibit') { ?>
@@ -250,6 +308,79 @@ require_once("../models/header.php");
 				</div>
 				
 			</div>
+			</div><!-- /.row -->
+		</form>
+		<? } else if ($reg_type == 'sponsor') { ?>
+		<form name='newSponsor' id="newSponsor" action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
+			<div class="row">
+				<h1>Sponsor Registration</h1>
+				<div class="col-lg-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><h4>Contact Person</h4></div>
+		        <input type="text" class="form-control" name="first_name" value="<? echo $loggedInUser->user_id; ?>" disabled="disabled" style="display:none;" />
+					  <div class="panel-body">
+		          <div class="form-group">
+	              <label class="control-label">First Name</label>
+	              <input type="text" class="form-control" name="first_name" value="<? echo $loggedInUser->first_name; ?>" disabled="disabled" />
+		          </div>
+		          <div class="form-group">
+	              <label class="control-label">Last name</label>
+	              <input type="text" class="form-control" name="last_name" value="<? echo $loggedInUser->last_name; ?>" disabled="disabled" />
+		          </div>
+		
+		          <div class="form-group">
+	              <label class="control-label">Email address</label>
+	              <input type="text" class="form-control" name="email" value="<? echo $loggedInUser->email; ?>" disabled="disabled" />
+		          </div>
+					  </div>
+					</div>
+				</div>
+			
+				<div class="col-lg-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><h4>Company Profile</h4></div>
+					  <div class="panel-body">
+		          <div class="form-group">
+						  	<textarea class="form-control" rows="8" id="exhibit_comp_profile" placeholder="Tell us about yourself"></textarea>
+		          </div>
+		          <div class="form-group">
+			          <label class="control-label">Company Logo</label>
+			          <div class="form-group">
+			            <input type="file" class="form-control" name="sponsor_logo" />
+			            <span class="help-block text-right">Choose a pdf file with a size less than 1M.</span>
+			          </div>
+			        </div>
+					  </div>
+					</div>
+				</div>
+			</div><!-- /.row -->
+				
+			<div class="row">
+				<div class="col-lg-6">
+						<div class="panel panel-primary">
+							<div class="panel-heading"><h4>Attendees</h4></div>
+						  <div class="panel-body">
+					      <label class="control-label">Email Addresses</label>
+	              <div class="row form-group">
+					        <div class="col-lg-9">
+					            <input type="text" class="form-control" name="sponsor_attendees[]" placeholder="Invite by email" />
+					        </div>
+					        <div class="col-lg-3">
+					            <button type="button" class="btn btn-success addButton"><span class="glyphicon glyphicon-plus"></span></button>
+					        </div>
+					    	</div>
+					    	<!-- The option field template containing an option field and a Remove button -->
+						    <div class="row form-group hide" id="sponsor_attendeesTemplate">
+					        <div class="col-lg-9">
+					          <input class="form-control" type="text" name="sponsor_attendees[]" placeholder="Invite by email" />
+					        </div>
+					        <div class="col-lg-3">
+					          <button type="button" class="btn btn-danger removeButton"><span class="glyphicon glyphicon-remove"></span></button>
+					        </div>
+						    </div>
+						  </div>
+						</div>
+					</div>
 			</div><!-- /.row -->
 		</form>
 		<? } ?>

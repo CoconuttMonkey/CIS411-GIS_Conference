@@ -65,7 +65,7 @@ require_once("../models/header.php");
 	              </div>
 	            </div>
 	          </div>
-	          <a href="../conference/regitster.php?type=new">
+	          <a href="../conference/register.php?type=sponsor">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
