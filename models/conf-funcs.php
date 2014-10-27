@@ -101,7 +101,7 @@ function updateAttendeeDetail($user_id, $field, $value) {
 	$stmt->close();
 }
 
-//Retrieve information for all attendees
+//Retrieve information for all presentations
 function fetchPresentations($filter = NULL)
 {
 	if ($filter == 'pending') {
@@ -153,4 +153,32 @@ function fetchTrackName($track_id)
 	$stmt->close();
 	return ($row);
 }
+
+//Retrieve information for all exhibits
+function fetchExhibits()
+{
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			conf_exhibits.exhibit_id, 
+	 		conf_exhibits.main_exhibitor,
+	 		conf_exhibits.table_number,
+	 		conf_exhibits.table_location,
+			conf_exhibitors.paidStatus,
+			user_users.first_name,
+			user_users.last_name,
+			conf_attendees.company
+			FROM conf_exhibits
+	INNER JOIN `conf_exhibitors` ON conf_exhibitors.exhibitor_id = conf_exhibits.main_exhibitor
+	INNER JOIN `user_users` ON conf_exhibitors.exhibitor_id = user_users.id
+	INNER JOIN `conf_attendees` ON conf_exhibitors.exhibitor_id = conf_attendees.user_id;");
+	$stmt->execute();
+	$stmt->bind_result($exhibit_id, $main_exhibitor, $table_number, $table_location, $paidStatus, $first_name, $last_name, $company);
+	
+	while ($stmt->fetch()){
+		$row[] = array('exhibit_id' => $exhibit_id, 'main_exhibitor' => $main_exhibitor, 'table_number' => $table_number, 'table_location' => $table_location, 'paidStatus' => $paidStatus, 'first_name' => $first_name, 'last_name' => $last_name, 'company' => $company);
+	}
+	$stmt->close();
+	return ($row);
+}
+
 ?>

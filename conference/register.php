@@ -32,27 +32,43 @@ if (isset($_POST['newPresentation'])) {
 		$gallery_critique = $_POST['gallery_critique'];
 	}
 	
-	//End data validation
-	if(count($errors) == 0) {	
-		//Construct a presentation object
-		$presentation = new Presentation($main_presenter,$presenter_bio,$presentation_title,$presentation_abstract,$presentation_track,$presentation_day_request);
-		print_r($presentation);
-		
-		echo "here";
-		//Attempt to add the presentation to the database
-		if(!$presentation->addPresentation()) {
-			echo "<p>error</p>";
-		} else {
-			echo "<p>success</p>";
-			$successes[] = lang("PRESENTATION_REGISTERED");
-		}
-	}
+	//Construct a user object
+	$presentation = new Presentation($main_presenter,$presenter_bio,$presentation_title,$presentation_abstract,$presentation_track,$presentation_day_request);
+	print_r($presentation);
 	
-	if(count($errors) == 0) {
-		$successes[] = $preseentation->success;
+	if(!$presentation->addPresentation()) {
+		$errors[] = lang("PRESENTATION_ERROR");
+	} else {
+		$successes = lang("PRESENTATION_REGISTERED");
 	}
 	
 }
+
+if (isset($_POST['newAttendee'])) {
+	$errors = array();
+	$country = trim($_POST["country"]);
+	$phone = trim($_POST["phone"]);
+	$address_1 = trim($_POST["address_1"]);
+	$address_2 = trim($_POST["address_2"]);
+	$city = trim($_POST["city"]);
+	$state = trim($_POST["state"]);
+	$zip = trim($_POST["zip"]);
+	$company = trim($_POST["company"]);
+	
+	if (!userIsAttendee($loggedInUser->user_id)) {
+		//Construct a user object
+		$attendee = new Attendee($loggedInUser->user_id,$country,$phone,$address_1,$address_2,$city,$state,$zip,$company);
+		
+		if(!$attendee->addAttendee()) {
+			if($attendee->mail_failure) $errors[] = lang("MAIL_ERROR");
+			if($attendee->sql_failure)  $errors[] = lang("SQL_ERROR");
+		} else {
+			$successes = lang("ATTENDEE_REGISTERED");
+		}
+	} else {
+		$errors[] = lang("ATTENDEE_EXISTS");
+	}
+} // COMPLETE
 
 require_once("../models/header.php");
 ?>
@@ -371,6 +387,72 @@ require_once("../models/header.php");
 					</div>
 			</div><!-- /.row -->
 		</form>
+		<? } else if ($reg_type == 'attendee') { ?>
+		<form name='newAttendee' id="newAttendee" action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
+		  <input type="text" class="form-control" name="newAttendee" value="1" style="display:none;" />
+			<div class="row">
+				<h1>Attendee Registration</h1>
+				<div class="col-lg-6 col-lg-push-3">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><h4>Contact Information</h4></div>
+					  <div class="panel-body">
+		          <div class="form-group">
+                <label>Country</label>
+                <select class="form-control" name="country" data-bv-notempty data-bv-notempty-message="The country is required">
+                    <option value="">-- Select a country --</option>
+                    <option value="US">United States</option>
+                    <option value="FR">France</option>
+                    <option value="DE">Germany</option>
+                    <option value="IT">Italy</option>
+                    <option value="JP">Japan</option>
+                    <option value="RU">Russia</option>
+                    <option value="GB">United Kingdom</option>
+                </select>
+	            </div>
+	                    
+							<div class="form-group">
+								<label>Phone Number</label>
+							  <input type="text" class="form-control" name="phone">
+							</div>
+							
+							<div class="form-group">
+								<label>Address Line 1</label>
+							  <input type="text" class="form-control" name="address_1" required>
+							</div>
+							
+							<div class="form-group">
+								<label>Address Line 2</label>
+							  <input type="text" class="form-control" name="address_2">
+							</div>
+							
+							<div class="form-group">
+								<label>City</label>
+							  <input type="text" class="form-control" name="city" required>
+							</div>
+							
+							<div class="form-group">
+								<label>State</label>
+							  <input type="text" class="form-control" name="state" required>
+							</div>
+							
+							<div class="form-group">
+								<label>Zip</label>
+							  <input type="text" class="form-control" name="zip" required>
+							</div>
+							
+							<div class="form-group">
+								<label>Company / Institution</label>
+							  <input type="text" class="form-control" name="company" required>
+							</div>
+							
+							<div class="form-group text-center">
+							  <input type="submit" class="btn btn-lg btn-success" value="Register Now!">
+							</div>
+					  </div>
+					</div>
+				</div>
+			</div><!-- /.row -->
+		</form>
 		<? } ?>
 	</section>
     <link rel="stylesheet" href="http://eonasdan.github.io/bootstrap-datetimepicker/content/bootstrap-datetimepicker.css"/>
@@ -378,6 +460,7 @@ require_once("../models/header.php");
     <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
+<?php if ($reg_type == 'presentation') { ?>
 			$('#gallery').click(function(){
 			    $('#gallery_info').toggle();
 			});
@@ -396,109 +479,110 @@ require_once("../models/header.php");
 
 			
 			
-		    // The maximum number of options
-		    var MAX_OPTIONS = 3;
-		
-		    $('#newPresentation')
-		        // Add button click handler
-		        .on('click', '.addButton', function() {
-		            var $template = $('#copresenterTemplate'),
-		                $clone    = $template
-		                                .clone()
-		                                .removeClass('hide')
-		                                .removeAttr('id')
-		                                .insertBefore($template),
-		                $option   = $clone.find('[name="copresenter[]"]');
-		
-		            // Add new field
-		            $('#newPresentation').bootstrapValidator('addField', $option);
-		        })
-		
-		        // Remove button click handler
-		        .on('click', '.removeButton', function() {
-		            var $row    = $(this).parents('.form-group'),
-		                $option = $row.find('[name="copresenter[]"]');
-		
-		            // Remove element containing the option
-		            $row.remove();
-		
-		            // Remove field
-		            $('#newPresentation').bootstrapValidator('removeField', $option);
-		        })
-		
-		        // Called after adding new field
-		        .on('added.field.bv', function(e, data) {
-		            // data.field   --> The field name
-		            // data.element --> The new field element
-		            // data.options --> The new field options
-		
-		            if (data.field === 'copresenter[]') {
-		                if ($('#newPresentation').find(':visible[name="copresenter[]"]').length >= MAX_OPTIONS) {
-		                    $('#newPresentation').find('.addButton').attr('disabled', 'disabled');
-		                }
-		            }
-		        })
-		
-		        // Called after removing the field
-		        .on('removed.field.bv', function(e, data) {
-		           if (data.field === 'copresenter[]') {
-		                if ($('#newPresentation').find(':visible[name="copresenter[]"]').length < MAX_OPTIONS) {
-		                    $('#newPresentation').find('.addButton').removeAttr('disabled');
-		                }
-		            }
-		        });
-		        
-		        // The maximum number of options
-		    var MAX_OPTIONS = 3;
-		
-		    $('#newExhibit')
-		        // Add button click handler
-		        .on('click', '.addButton', function() {
-		            var $template = $('#coexhibitorTemplate'),
-		                $clone    = $template
-		                                .clone()
-		                                .removeClass('hide')
-		                                .removeAttr('id')
-		                                .insertBefore($template),
-		                $option   = $clone.find('[name="coexhibitor[]"]');
-		
-		            // Add new field
-		            $('#newExhibit').bootstrapValidator('addField', $option);
-		        })
-		
-		        // Remove button click handler
-		        .on('click', '.removeButton', function() {
-		            var $row    = $(this).parents('.form-group'),
-		                $option = $row.find('[name="coexhibitor[]"]');
-		
-		            // Remove element containing the option
-		            $row.remove();
-		
-		            // Remove field
-		            $('#newExhibit').bootstrapValidator('removeField', $option);
-		        })
-		
-		        // Called after adding new field
-		        .on('added.field.bv', function(e, data) {
-		            // data.field   --> The field name
-		            // data.element --> The new field element
-		            // data.options --> The new field options
-		
-		            if (data.field === 'coexhibitor[]') {
-		                if ($('#newExhibit').find(':visible[name="coexhibitor[]"]').length >= MAX_OPTIONS) {
-		                    $('#newExhibit').find('.addButton').attr('disabled', 'disabled');
-		                }
-		            }
-		        })
-		
-		        // Called after removing the field
-		        .on('removed.field.bv', function(e, data) {
-		           if (data.field === 'coexhibitor[]') {
-		                if ($('#newExhibit').find(':visible[name="coexhibitor[]"]').length < MAX_OPTIONS) {
-		                    $('#newExhibit').find('.addButton').removeAttr('disabled');
-		                }
-		            }
-		        });
+	    // The maximum number of options
+	    var MAX_OPTIONS = 3;
+	
+	    $('#newPresentation')
+	        // Add button click handler
+	        .on('click', '.addButton', function() {
+	            var $template = $('#copresenterTemplate'),
+	                $clone    = $template
+	                                .clone()
+	                                .removeClass('hide')
+	                                .removeAttr('id')
+	                                .insertBefore($template),
+	                $option   = $clone.find('[name="copresenter[]"]');
+	
+	            // Add new field
+	            $('#newPresentation').bootstrapValidator('addField', $option);
+	        })
+	
+	        // Remove button click handler
+	        .on('click', '.removeButton', function() {
+	            var $row    = $(this).parents('.form-group'),
+	                $option = $row.find('[name="copresenter[]"]');
+	
+	            // Remove element containing the option
+	            $row.remove();
+	
+	            // Remove field
+	            $('#newPresentation').bootstrapValidator('removeField', $option);
+	        })
+	
+	        // Called after adding new field
+	        .on('added.field.bv', function(e, data) {
+	            // data.field   --> The field name
+	            // data.element --> The new field element
+	            // data.options --> The new field options
+	
+	            if (data.field === 'copresenter[]') {
+	                if ($('#newPresentation').find(':visible[name="copresenter[]"]').length >= MAX_OPTIONS) {
+	                    $('#newPresentation').find('.addButton').attr('disabled', 'disabled');
+	                }
+	            }
+      })
+
+      // Called after removing the field
+      .on('removed.field.bv', function(e, data) {
+         if (data.field === 'copresenter[]') {
+              if ($('#newPresentation').find(':visible[name="copresenter[]"]').length < MAX_OPTIONS) {
+                  $('#newPresentation').find('.addButton').removeAttr('disabled');
+              }
+          }
+      });
+<? } else if ($reg_type == 'exhibit') { ?>
+      // The maximum number of options
+	  var MAX_OPTIONS = 3;
+	
+	  $('#newExhibit')
+	      // Add button click handler
+	      .on('click', '.addButton', function() {
+	          var $template = $('#coexhibitorTemplate'),
+	              $clone    = $template
+	                              .clone()
+	                              .removeClass('hide')
+	                              .removeAttr('id')
+	                              .insertBefore($template),
+	              $option   = $clone.find('[name="coexhibitor[]"]');
+	
+	          // Add new field
+	          $('#newExhibit').bootstrapValidator('addField', $option);
+	      })
+	
+	      // Remove button click handler
+	      .on('click', '.removeButton', function() {
+	          var $row    = $(this).parents('.form-group'),
+	              $option = $row.find('[name="coexhibitor[]"]');
+	
+	          // Remove element containing the option
+	          $row.remove();
+	
+	          // Remove field
+	          $('#newExhibit').bootstrapValidator('removeField', $option);
+	      })
+	
+	      // Called after adding new field
+	      .on('added.field.bv', function(e, data) {
+	          // data.field   --> The field name
+	          // data.element --> The new field element
+	          // data.options --> The new field options
+	
+	          if (data.field === 'coexhibitor[]') {
+	              if ($('#newExhibit').find(':visible[name="coexhibitor[]"]').length >= MAX_OPTIONS) {
+	                  $('#newExhibit').find('.addButton').attr('disabled', 'disabled');
+	              }
+	          }
+      })
+
+      // Called after removing the field
+      .on('removed.field.bv', function(e, data) {
+         if (data.field === 'coexhibitor[]') {
+              if ($('#newExhibit').find(':visible[name="coexhibitor[]"]').length < MAX_OPTIONS) {
+                  $('#newExhibit').find('.addButton').removeAttr('disabled');
+              }
+          }
+      });
+<? } ?>
 		});
 	</script>
 

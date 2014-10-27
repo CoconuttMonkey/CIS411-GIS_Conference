@@ -15,6 +15,7 @@ require_once("../models/header.php");
 	<?php include("../models/main-nav.php"); ?>
 	<section class="container">
 			<h3>Attendee Dashboard</h3>
+			<? if(!userIsAttendee($loggedInUser->user_id)) { echo '<div class="col-lg-12 text-center"><a href="../conference/register.php?type=attendee" class="btn btn-lg btn-success">Register for the next conference!</a></div>'; } else { ?>
 			<div class="row">
 	      <div class="col-lg-4">
 	        <div class="panel panel-danger">
@@ -78,6 +79,7 @@ require_once("../models/header.php");
 	      </div>
 			</div>
 		</div>
+		<? } ?>
 	</section>
 	<?php include("../models/footer.php"); ?>
 </body>

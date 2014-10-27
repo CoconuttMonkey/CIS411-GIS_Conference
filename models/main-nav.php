@@ -32,7 +32,7 @@
 								<li><a href='../logout.php'>Logout</a></li>
 		          </ul>
 		        </li>
-						<? if($loggedInUser->checkPermission(array(3)) || $loggedInUser->checkPermission(array(4))) { ?>
+						<? if($loggedInUser->checkPermission(array(2)) || $loggedInUser->checkPermission(array(3)) || $loggedInUser->checkPermission(array(4))) { ?>
 		        <li class="dropdown">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
 		          <ul class="dropdown-menu" role="menu">

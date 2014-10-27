@@ -38,7 +38,7 @@ class Attendee {
 		}
 	}
 	
-	public function confAddAttendee($user_id,$country,$phone,$address_1,$address_2,$city,$state,$zip)
+	public function addAttendee()
 	{
 		global $mysqli,$websiteUrl;
 		
