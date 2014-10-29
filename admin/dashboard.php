@@ -6,6 +6,7 @@ http://usercake.com
 
 require_once("../models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
+if (!$loggedInUser){header("location: ../login.php");}
 require_once("../models/header.php");
 
 ?>
@@ -17,6 +18,10 @@ require_once("../models/header.php");
 	<section class="container">
 		<h1>Admin Dashboard <? if(!userIsAttendee($loggedInUser->user_id)) echo '<a href="../conference/register.php" class="btn btn-success" style="float: right;">Register for the next conference!</a>'; ?></h1>
 		<div class="col-lg-12">
+			<div class="row">
+				<a href="../conference/settings.php?new" class="btn btn-success">New Conference</a>
+				<a href="../conference/settings.php?current" class="btn btn-warning">Current Conference</a>
+			</div>
 			<div class="row">
 				<h2>Users</h2>
 				<div class="col-lg-3 col-md-3 col-sm-6">

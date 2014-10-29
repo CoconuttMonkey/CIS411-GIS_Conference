@@ -72,6 +72,22 @@ $lang = array_merge($lang,array(
 	"ACCOUNT_LAST_NAME_UPDATED"		=> "Last name has been updated",
 	));
 	
+//Conference
+$lang = array_merge($lang,array(
+	"CONFERENCE_SUCCESS" 		=> "You have successfully added a conference",
+	"CONFERENCE_ERROR" 		=> "There was an error, please try again",
+	"BANNER_FILE_EXISTS" 		=> "Banner file already exists",
+	"BANNER_ABOVE_FILE_SIZE" 		=> "Banner exceeds file size",
+	"BANNER_TYPE_ERROR" 		=> "Banner must be a JPG image",
+	"BANNER_UPLOAD_SUCCESS" 		=> "Banner uploaded successfully",
+	"BANNER_UPLOAD_ERROR" 		=> "There was an error uploading your banner",
+	"SCHEDULE_FILE_EXISTS" 		=> "Schedule file already exists",
+	"SCHEDULE_ABOVE_FILE_SIZE" 		=> "Schedule exceeds file size",
+	"SCHEDULE_TYPE_ERROR" 		=> "Schedule must be a JPG image",
+	"SCHEDULE_UPLOAD_SUCCESS" 		=> "Schedule uploaded successfully",
+	"SCHEDULE_UPLOAD_ERROR" 		=> "There was an error uploading your schedule",
+	));
+	
 //Attendee
 $lang = array_merge($lang,array(
 	"ATTENDEE_REGISTERED" 		=> "You have successfully signed up for the conference",
@@ -82,6 +98,9 @@ $lang = array_merge($lang,array(
 $lang = array_merge($lang,array(
 	"PRESENTATION_REGISTERED" 		=> "You have successfully registered your presentation",
 	"PRESENTATION_ERROR" 		=> "There was an error registering, please try again",
+	"PRESENTATION_NO_TITLE" 		=> "A presentation title is required",
+	"PRESENTATION_NO_ABSTRACT" 		=> "Please include an abstract description of your presentation",
+	"PRESENTER_NO_BIO" 		=> "Please include a short biography about yourself",
 	));
 
 //Configuration

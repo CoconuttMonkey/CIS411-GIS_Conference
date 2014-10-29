@@ -3,6 +3,7 @@
 UserCake Version: 2.0.2
 http://usercake.com
 */
+
 require_once("db-settings.php"); //Require DB connection
 //Retrieve settings
 $stmt = $mysqli->prepare("SELECT id, name, value

@@ -1,8 +1,7 @@
 <?php
 	
 //Checks if a username exists in the DB
-function userIsAttendee($user_id)
-{
+function userIsAttendee($user_id) {
 	global $mysqli;
 	$stmt = $mysqli->prepare("SELECT *
 		FROM conf_attendees
@@ -25,6 +24,7 @@ function userIsAttendee($user_id)
 	}
 }
 
+//Retrieve information for a single attendee
 function fetchAttendeeDetails($user_id) {
 	global $mysqli; 
 	$stmt = $mysqli->prepare("SELECT 
@@ -58,8 +58,7 @@ function fetchAttendeeDetails($user_id) {
 }
 
 //Retrieve information for all attendees
-function fetchAllAttendees()
-{
+function fetchAllAttendees() {
 	global $mysqli; 
 	$stmt = $mysqli->prepare("SELECT 
 			conf_attendees.user_id, 
@@ -102,8 +101,7 @@ function updateAttendeeDetail($user_id, $field, $value) {
 }
 
 //Retrieve information for all presentations
-function fetchPresentations($filter = NULL)
-{
+function fetchPresentations($filter = NULL) {
 	if ($filter == 'pending') {
 		$filter = ' AND conf_presentations.session_id = 0';
 	} else {
@@ -134,8 +132,7 @@ function fetchPresentations($filter = NULL)
 }
 
 //Change a user from inactive to active
-function fetchTrackName($track_id)
-{
+function fetchTrackName($track_id) {
 	global $mysqli;
 	$stmt = $mysqli->prepare("SELECT
 		track_id,
@@ -155,8 +152,7 @@ function fetchTrackName($track_id)
 }
 
 //Retrieve information for all exhibits
-function fetchExhibits()
-{
+function fetchExhibits() {
 	global $mysqli; 
 	$stmt = $mysqli->prepare("SELECT 
 			conf_exhibits.exhibit_id, 
@@ -176,6 +172,31 @@ function fetchExhibits()
 	
 	while ($stmt->fetch()){
 		$row[] = array('exhibit_id' => $exhibit_id, 'main_exhibitor' => $main_exhibitor, 'table_number' => $table_number, 'table_location' => $table_location, 'paidStatus' => $paidStatus, 'first_name' => $first_name, 'last_name' => $last_name, 'company' => $company);
+	}
+	$stmt->close();
+	return ($row);
+}
+
+//Retrieve information for conference by year
+function fetchConferenceSettings($year) {	
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			conf_id,
+			title,
+			tagline,
+			conf_startDate,
+			conf_endDate,
+			reg_openDate,
+			reg_closeDate,
+			abstract,
+			banner_img,
+			schedule_pdf
+	FROM conf_settings WHERE conf_id = {$year};"); 
+	$stmt->execute(); 
+	//$stmt->bind_result($conf_id, $title, $tagline, $conf_startDate, $conf_endDate, $reg_openDate, $reg_closeDate, $abstract, $banner_img, $schedule_pdf);
+	
+	while ($stmt->fetch()){
+		$row = array('conf_id' => $conf_id, 'title' => $title, 'tagline' => $tagline, 'conf_startDate' => $conf_startDate, 'conf_endDate' => $conf_endDate, 'reg_openDate' => $reg_openDate, 'reg_closeDate' => $reg_closeDate, 'abstract' => $abstract, 'banner_img' => $banner_img, 'schedule_pdf' => $schedule_pdf);
 	}
 	$stmt->close();
 	return ($row);

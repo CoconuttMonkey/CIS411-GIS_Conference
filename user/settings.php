@@ -215,103 +215,116 @@ require_once("../models/header.php");
 		  <li><a href="/user/dashboard.php">Dashboard</a></li>
 		  <li class="active"><a href="../user/settings.php">Settings</a></li>
 		</ol>
-			<? echo resultBlock($errors,$successes); ?>
-			<div class="col-lg-12">
-				<form name='updateAccount' action='<? $_SERVER['PHP_SELF'] ?>' method='post' style="margin-bottom: 100px;" id="updateAccount">
-					<section class="row">
-						<div class="col-lg-6 col-md-6">
-					      <h3>Account Information</h3>
-								<div class="form-group">
-									<label>First Name</label>
-								  <input type="text" class="form-control" name="first_name" value="<? echo $loggedInUser->first_name; ?>" required>
-								</div>
-								
-								<div class="form-group">
-									<label>Last Name</label>
-								  <input type="text" class="form-control" name="last_name" value="<? echo $loggedInUser->last_name; ?>" required>
-								</div>
-								
-								<div class="form-group">
-									<label>Email Address</label>
-								  <input type="email" class="form-control" name="email" value="<? echo $loggedInUser->email; ?>" required>
-								</div>
-								
-							  <h3>Change Password</h3>
-								<div class="form-group">
-									<label>New Password</label>
-								  <input type="password" class="form-control" name="passwordc" placeholder="New Password">
-								</div>
-								
-								<div class="form-group">
-									<label>Confirm New Password</label>
-								  <input type="password" class="form-control" name="passwordcheck" placeholder="New Password">
-								</div>
-								
-								<label>Current Password</label>
-								<div class="input-group">
-						      <input type='password' name='password' class="form-control" placeholder="Current Password" required />
-						      <span class="input-group-btn">
-						        <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-check"></span> Save Changes</button>
-						      </span>
-						    </div><!-- /input-group -->
+		<? echo resultBlock($errors,$successes); ?>
+		<section class="row">
+			<div class="col-lg-6 col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Account Information</div>
+				  <div class="panel-body">
+						<div class="form-group">
+							<label>First Name</label>
+						  <input type="text" class="form-control" name="first_name" value="<? echo $loggedInUser->first_name; ?>" required>
 						</div>
-						<? if(userIsAttendee($loggedInUser->user_id)) { ?>
-						<div class="col-lg-6 col-md-6">
-							<h3>Contact Information</h3>
-							<div class="form-group">
-                <label>Country</label>
-                <select class="form-control" name="country" data-bv-notempty data-bv-notempty-message="The country is required">
-                    <option value="">-- Select a country --</option>
-                    <option value="US" <? if ($loggedInUser->country == 'US') echo 'selected="selected"';?>>United States</option>
-                    <option value="FR" <? if ($loggedInUser->country == 'FR') echo 'selected="selected"';?>>France</option>
-                    <option value="DE" <? if ($loggedInUser->country == 'DE') echo 'selected="selected"';?>>Germany</option>
-                    <option value="IT" <? if ($loggedInUser->country == 'IT') echo 'selected="selected"';?>>Italy</option>
-                    <option value="JP" <? if ($loggedInUser->country == 'JP') echo 'selected="selected"';?>>Japan</option>
-                    <option value="RU" <? if ($loggedInUser->country == 'RU') echo 'selected="selected"';?>>Russia</option>
-                    <option value="GB" <? if ($loggedInUser->country == 'GB') echo 'selected="selected"';?>>United Kingdom</option>
-                </select>
-	            </div>
-	                    
-							<div class="form-group">
-								<label>Phone Number</label>
-							  <input type="text" class="form-control" name="phone" value="<? echo $loggedInUser->phone; ?>">
-							</div>
-							
-							<div class="form-group">
-								<label>Address Line 1</label>
-							  <input type="text" class="form-control" name="address_1" value="<? echo $loggedInUser->address_1; ?>">
-							</div>
-							
-							<div class="form-group">
-								<label>Address Line 2</label>
-							  <input type="text" class="form-control" name="address_2" value="<? echo $loggedInUser->address_2; ?>">
-							</div>
-							
-							<div class="form-group">
-								<label>City</label>
-							  <input type="text" class="form-control" name="city"  value="<? echo $loggedInUser->city; ?>">
-							</div>
-							
-							<div class="form-group">
-								<label>State</label>
-							  <input type="text" class="form-control" name="state"  value="<? echo $loggedInUser->state; ?>">
-							</div>
-							
-							<div class="form-group">
-								<label>Zip</label>
-							  <input type="text" class="form-control" name="zip"  value="<? echo $loggedInUser->zip; ?>">
-							</div>
-							
-							<div class="form-group">
-								<label>Company / Institution</label>
-							  <input type="text" class="form-control" name="company"  value="<? echo $loggedInUser->company; ?>">
-							</div>
-						</div><? } ?>
-					</section>
-				</form>
+						
+						<div class="form-group">
+							<label>Last Name</label>
+						  <input type="text" class="form-control" name="last_name" value="<? echo $loggedInUser->last_name; ?>" required>
+						</div>
+						
+						<div class="form-group">
+							<label>Email Address</label>
+						  <input type="email" class="form-control" name="email" value="<? echo $loggedInUser->email; ?>" required>
+						</div>
+				  </div>
+				</div>
+						
+				<div class="panel panel-primary">
+					<div class="panel-heading">Change Password</div>
+				  <div class="panel-body">
+						<div class="form-group">
+							<label>New Password</label>
+						  <input type="password" class="form-control" name="passwordc" placeholder="New Password">
+						</div>
+						
+						<div class="form-group">
+							<label>Confirm New Password</label>
+						  <input type="password" class="form-control" name="passwordcheck" placeholder="New Password">
+						</div>
+				  </div>
+				</div>
+				
+				<div class="panel panel-primary">
+					<div class="panel-heading text-center">Enter password to save changes</div>
+				  <div class="panel-body">
+						<label>Current Password</label>
+						<div class="input-group">
+				      <input type='password' name='password' class="form-control" placeholder="Current Password" required />
+				      <span class="input-group-btn">
+				        <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-check"></span> Save Changes</button>
+				      </span>
+				    </div><!-- /input-group -->
+				  </div>
+				</div>
 			</div>
-		</div>
-	</section>
+	
+			<? if(userIsAttendee($loggedInUser->user_id)) { ?>
+			<div class="col-lg-6 col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Contact Information</div>
+				  <div class="panel-body">
+						<div class="form-group">
+	            <label>Country</label>
+	            <select class="form-control" name="country" data-bv-notempty data-bv-notempty-message="The country is required">
+	                <option value="">-- Select a country --</option>
+	                <option value="US" <? if ($loggedInUser->country == 'US') echo 'selected="selected"';?>>United States</option>
+	                <option value="FR" <? if ($loggedInUser->country == 'FR') echo 'selected="selected"';?>>France</option>
+	                <option value="DE" <? if ($loggedInUser->country == 'DE') echo 'selected="selected"';?>>Germany</option>
+	                <option value="IT" <? if ($loggedInUser->country == 'IT') echo 'selected="selected"';?>>Italy</option>
+	                <option value="JP" <? if ($loggedInUser->country == 'JP') echo 'selected="selected"';?>>Japan</option>
+	                <option value="RU" <? if ($loggedInUser->country == 'RU') echo 'selected="selected"';?>>Russia</option>
+	                <option value="GB" <? if ($loggedInUser->country == 'GB') echo 'selected="selected"';?>>United Kingdom</option>
+	            </select>
+	          </div>
+	                  
+						<div class="form-group">
+							<label>Phone Number</label>
+						  <input type="text" class="form-control" name="phone" value="<? echo $loggedInUser->phone; ?>">
+						</div>
+						
+						<div class="form-group">
+							<label>Address Line 1</label>
+						  <input type="text" class="form-control" name="address_1" value="<? echo $loggedInUser->address_1; ?>">
+						</div>
+						
+						<div class="form-group">
+							<label>Address Line 2</label>
+						  <input type="text" class="form-control" name="address_2" value="<? echo $loggedInUser->address_2; ?>">
+						</div>
+						
+						<div class="form-group">
+							<label>City</label>
+						  <input type="text" class="form-control" name="city"  value="<? echo $loggedInUser->city; ?>">
+						</div>
+						
+						<div class="form-group">
+							<label>State</label>
+						  <input type="text" class="form-control" name="state"  value="<? echo $loggedInUser->state; ?>">
+						</div>
+						
+						<div class="form-group">
+							<label>Zip</label>
+						  <input type="text" class="form-control" name="zip"  value="<? echo $loggedInUser->zip; ?>">
+						</div>
+						
+						<div class="form-group">
+							<label>Company / Institution</label>
+						  <input type="text" class="form-control" name="company"  value="<? echo $loggedInUser->company; ?>">
+						</div>
+					</div>
+				</div>
+			</div><? } ?>
+		</section><!-- /.row -->
+	</section><!-- /.container -->
 	<? if(userIsAttendee($loggedInUser->user_id)) { ?>
 	<script>
 	$(document).ready(function() {
