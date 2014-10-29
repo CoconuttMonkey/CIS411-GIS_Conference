@@ -4,23 +4,21 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 if(!empty($_GET)) {
 	if (isset($_GET['new'])) {
 		$pageTitle = "New Conference";
-	} else if (isset($_GET['current'])) {
-		$pageTitle = "Conference Settings";
-		$year = date("Y");
-		$conferenceData = fetchConferenceSettings($year);
 	} else if (isset($_GET['year'])) {
 		$pageTitle = "Previous Conference";
 		$year = $_GET['year'];
 		$conferenceData = fetchConferenceSettings($year);
 	}
 } else {
-	header('location: ../admin/dashboard.php');
+	$pageTitle = "Conference Settings";
+	$year = date("Y");
+	$conferenceData = fetchConferenceSettings($year);
 }
 
 //print_r($conferenceData);
@@ -119,14 +117,14 @@ if (!empty($_POST)) {
 }
 
 $languages = getLanguageFiles(); //Retrieve list of language files
-require_once("../models/header.php");
+require_once("models/header.php");
 ?>
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<section class="container">
 		<ol class="breadcrumb">
-		  <li><a href="../admin/dashboard.php">Admin Dashboard</a></li>
-		  <li class="active"><a href="../conference/settings.php">Conference Settings</a></li>
+		  <li><a href="admin_dashboard.php">Admin Dashboard</a></li>
+		  <li class="active"><a href="conf_settings.php">Conference Settings</a></li>
 		</ol>
 		<? echo resultBlock($errors,$successes); ?>
 		<div class='row'>
@@ -265,6 +263,6 @@ require_once("../models/header.php");
       });
     });
 	</script>
-<?php include("../models/footer.php"); ?>
+<?php include("models/footer.php"); ?>
 </body>
 </html>

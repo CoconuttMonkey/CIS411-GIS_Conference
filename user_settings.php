@@ -4,11 +4,11 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 //Prevent the user visiting the logged in page if he is not logged in
-if (!isUserLoggedIn()) { header("Location: ../login.php"); die(); }
+if (!isUserLoggedIn()) { header("Location: login.php"); die(); }
 
 if (!empty($_POST)) {
 	$errors = array();
@@ -28,6 +28,8 @@ if (!empty($_POST)) {
 	
 	$errors = array();
 	$email = $_POST["email"];
+	$first_name = $_POST["first_name"];
+	$last_name = $_POST["last_name"];
 	
 	//Perform some validation
 	//Feel free to edit / change as required
@@ -206,17 +208,18 @@ if (!empty($_POST)) {
 	}
 }
 
-require_once("../models/header.php");
+require_once("models/header.php");
 ?>
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<section class="container">
 		<ol class="breadcrumb">
-		  <li><a href="/user/dashboard.php">Dashboard</a></li>
-		  <li class="active"><a href="../user/settings.php">Settings</a></li>
+		  <li><a href="user_dashboard.php">Dashboard</a></li>
+		  <li class="active"><a href="user_settings.php">Settings</a></li>
 		</ol>
 		<? echo resultBlock($errors,$successes); ?>
 		<section class="row">
+			<form name='userSettings' action='<? echo $_SERVER['PHP_SELF']; ?>' method='post'>
 			<div class="col-lg-6 col-md-6">
 				<div class="panel panel-primary">
 					<div class="panel-heading">Account Information</div>
@@ -323,6 +326,7 @@ require_once("../models/header.php");
 					</div>
 				</div>
 			</div><? } ?>
+			</form>
 		</section><!-- /.row -->
 	</section><!-- /.container -->
 	<? if(userIsAttendee($loggedInUser->user_id)) { ?>
@@ -407,6 +411,6 @@ require_once("../models/header.php");
 	</script>
 	<? }
 	
-		include("../models/footer.php"); ?>
+		include("models/footer.php"); ?>
 </body>
 </html>

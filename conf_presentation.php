@@ -4,9 +4,9 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-if(!isUserLoggedIn()) { header("Location: ../login.php"); die(); }
+if(!isUserLoggedIn()) { header("Location: login.php"); die(); }
 
 $reg_type = trim($_GET['type']);
 
@@ -56,10 +56,10 @@ if (isset($_POST['newPresentation'])) {
 	}
 } //COMPLETE
 
-require_once("../models/header.php");
+require_once("models/header.php");
 ?>
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<div class='row'>
 			<div class='col-lg-12'>
@@ -228,39 +228,6 @@ require_once("../models/header.php");
 	<script>
 		$(document).ready(function() {
 			
-			$('.forms').bootstrapValidator({
-        message: 'This value is not valid',
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            title: {
-                validators: {
-                    notEmpty: {
-                        message: 'A title is required and cannot be empty'
-                    }
-                }
-            },
-            abstract: {
-                validators: {
-                    notEmpty: {
-                        message: 'A description is required'
-                    }
-                }
-            },
-            presenter_bio: {
-                validators: {
-                    notEmpty: {
-                        message: 'A short biography is required'
-                    }
-                }
-            }
-          }  
-        }
-    	});
-			
 			
 			$('#gallery').click(function(){
 			    $('#gallery_info').toggle();
@@ -330,6 +297,6 @@ require_once("../models/header.php");
       });
     });	
 	</script>
-	<?php include("../models/footer.php"); ?>
+	<?php include("models/footer.php"); ?>
 </body>
 </html>

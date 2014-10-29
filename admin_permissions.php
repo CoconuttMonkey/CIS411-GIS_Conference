@@ -4,7 +4,7 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 //Forms posted
@@ -42,10 +42,10 @@ if(!empty($_POST))
 
 $permissionData = fetchAllPermissions(); //Retrieve list of all permission levels
 
-require_once("../models/header.php");
+require_once("models/header.php");
 ?>
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<div class='row'>
 			<? echo resultBlock($errors,$successes); ?>
@@ -64,7 +64,7 @@ require_once("../models/header.php");
 								echo "
 								<tr>
 								<td><input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'></td>
-								<td><a href='../admin/permission.php?id=".$v1['id']."'>".$v1['name']."</a></td>
+								<td><a href='../admin_permission.php?id=".$v1['id']."'>".$v1['name']."</a></td>
 								</tr>";
 							} ?>
 							<tr>
@@ -78,6 +78,6 @@ require_once("../models/header.php");
 			</div>
 		</div>
 	</div>
-	<?php include("../models/footer.php"); ?>
+	<?php include("models/footer.php"); ?>
 </body>
 </html>

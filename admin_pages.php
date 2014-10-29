@@ -4,7 +4,7 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 $pages = getPageFiles(); //Retrieve list of pages in root usercake folder
@@ -41,10 +41,10 @@ if (count($deletions) > 0) {
 //Update DB pages
 $dbpages = fetchAllPages();
 
-require_once("../models/header.php");
+require_once("models/header.php");
 ?>
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<div class='row'>
 			<div class="col-lg-6 col-lg-push-3 col-md-6 col-md-push-3">
@@ -85,7 +85,7 @@ require_once("../models/header.php");
 			</div>
 		</div>
 	</div>
-	<?php include("../models/footer.php"); ?>
+	<?php include("models/footer.php"); ?>
 	<script>
 	jQuery(document).ready(function($) {
 		$(".clickableCell").click(function() {

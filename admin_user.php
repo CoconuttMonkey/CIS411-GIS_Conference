@@ -4,13 +4,13 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 $userId = $_GET['id'];
 
 //Check if selected user exists
 if(!userIdExists($userId)){
-	header("Location: ../admin_users.php"); die();
+	header("Location: admin_users.php"); die();
 }
 
 if(userIsAttendee($userId)) {
@@ -253,23 +253,21 @@ if(!empty($_POST))
 				$errors[] = lang("SQL_ERROR");
 			}
 		}
-		
-		
 	}
 }
 
 $userPermission = fetchUserPermissions($userId);
 $permissionData = fetchAllPermissions();
 
-require_once("../models/header.php");
+require_once("models/header.php");
 
 ?>
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<ol class="breadcrumb">
-		  <li><a href="../admin/dashboard.php">Admin Dashboard</a></li>
-		  <li><a href="../admin/users.php">Users</a></li>
+		  <li><a href="../admin_dashboard.php">Admin Dashboard</a></li>
+		  <li><a href="#">Users</a></li>
 		  <li class="active"><a href="#"><? echo $userdetails['first_name']." ".$userdetails['last_name']; ?></a></li>
 							<h4 style="float: right; margin-top: -1px;">
 								<? //Display payment status
@@ -437,7 +435,7 @@ require_once("../models/header.php");
 			</div>
 		</div>
 	</div>
-	<?php include("../models/footer.php"); ?>
+	<?php include("models/footer.php"); ?>
 	<script>
 		$('edit-contact-info').click(function {
 			$( "form :disabled" ).removeAttr('disabled');

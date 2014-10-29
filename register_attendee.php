@@ -4,7 +4,7 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 //Prevent the user visiting the logged in page if he/she is already logged in
@@ -38,11 +38,11 @@ if (isset($_POST['newAttendee'])) {
 	}
 } // COMPLETE
 
-require_once("../models/header.php");
+require_once("models/header.php");
 ?>
 
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<section class="container">
 		<?php echo resultBlock($errors,$successes); ?>
 		<form name='newAttendee' id="newAttendee" action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
@@ -111,12 +111,9 @@ require_once("../models/header.php");
 			</div><!-- /.row -->
 		</form>
 	</section>
-  <link rel="stylesheet" href="http://eonasdan.github.io/bootstrap-datetimepicker/content/bootstrap-datetimepicker.css"/>
-  <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/moment.js"></script>
-  <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript">
 	</script>
 
-	<?php include("../models/footer.php"); ?>
+	<?php include("models/footer.php"); ?>
 </body>
 </html>

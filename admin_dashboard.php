@@ -4,23 +4,22 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-if (!$loggedInUser){header("location: ../login.php");}
-require_once("../models/header.php");
+require_once("models/header.php");
 
 ?>
 <style>
 	.announcement-heading { font-size: 3.2em; }
 </style>
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<section class="container">
 		<h1>Admin Dashboard <? if(!userIsAttendee($loggedInUser->user_id)) echo '<a href="../conference/register.php" class="btn btn-success" style="float: right;">Register for the next conference!</a>'; ?></h1>
 		<div class="col-lg-12">
 			<div class="row">
-				<a href="../conference/settings.php?new" class="btn btn-success">New Conference</a>
-				<a href="../conference/settings.php?current" class="btn btn-warning">Current Conference</a>
+				<a href="conf_settings.php?new" class="btn btn-success">New Conference</a>
+				<a href="conf_settings.php?current" class="btn btn-warning">Current Conference</a>
 			</div>
 			<div class="row">
 				<h2>Users</h2>
@@ -34,7 +33,7 @@ require_once("../models/header.php");
 	              </div>
 	            </div>
 	          </div>
-	          <a href="../admin/users.php?list=all">
+	          <a href="admin_users.php?list=all">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
@@ -56,7 +55,7 @@ require_once("../models/header.php");
 	              </div>
 	            </div>
 	          </div>
-	          <a href="../admin/users.php?list=attendees">
+	          <a href="admin_users.php?list=attendees">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
@@ -78,7 +77,7 @@ require_once("../models/header.php");
 	              </div>
 	            </div>
 	          </div>
-	          <a href="../admin/users.php?list=attendees">
+	          <a href="admin_users.php?list=attendees">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
@@ -102,7 +101,7 @@ require_once("../models/header.php");
 	              </div>
 	            </div>
 	          </div>
-	          <a href="../conference/presentations.php?list=pending">
+	          <a href="conf_presentations.php?list=pending">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
@@ -124,7 +123,7 @@ require_once("../models/header.php");
 	              </div>
 	            </div>
 	          </div>
-	          <a href="../conference/presentations.php?list=active">
+	          <a href="conf_presentations.php?list=active">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
@@ -148,7 +147,7 @@ require_once("../models/header.php");
 	              </div>
 	            </div>
 	          </div>
-	          <a href="../conference/exhibits.php?list=pending">
+	          <a href="conf_exhibits.php?list=pending">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
@@ -170,7 +169,7 @@ require_once("../models/header.php");
 	              </div>
 	            </div>
 	          </div>
-	          <a href="../conference/exhibits.php?list=active">
+	          <a href="conf_exhibits.php?list=active">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
@@ -183,6 +182,6 @@ require_once("../models/header.php");
 	      </div>
 			</div><!-- /.row -->
 	</section>
-	<?php include("../models/footer.php"); ?>
+	<?php include("models/footer.php"); ?>
 </body>
 </html>

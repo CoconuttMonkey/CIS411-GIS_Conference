@@ -4,13 +4,13 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 $permissionId = $_GET['id'];
 
 //Check if selected permission level exists
 if(!permissionIdExists($permissionId)){
-	header("Location: ../admin/permissions.php"); die();	
+	header("Location: admin_permissions.php"); die();	
 }
 
 $permissionDetails = fetchPermissionDetails($permissionId); //Fetch information specific to permission level
@@ -103,14 +103,14 @@ $permissionUsers = fetchPermissionUsers($permissionId); //Retrieve list of users
 $userData = fetchAllUsers(); //Fetch all users
 $pageData = fetchAllPages(); //Fetch all pages
 
-require_once("../models/header.php");
+require_once("models/header.php");
 ?>
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<ol class="breadcrumb">
-		  <li><a href="account.php">Dashboard</a></li>
-		  <li><a href="admin_permissions.php">Permissions</a></li>
+		  <li><a href="admin_dashboard.php">Dashboard</a></li>
+		  <li><a href="#">Permissions</a></li>
 		  <li class="active"><a href="#"><? echo $permissionDetails['name']; ?></a></li>
 		</ol>
 		<div class='row'>
@@ -206,6 +206,6 @@ require_once("../models/header.php");
 				</form>
 		</div>
 	</div>
-	<?php include("../models/footer.php"); ?>
+	<?php include("models/footer.php"); ?>
 </body>
 </html>

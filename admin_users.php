@@ -4,7 +4,7 @@ UserCake Version: 2.0.2
 http://usercake.com
 */
 
-require_once("../models/config.php");
+require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 
@@ -46,13 +46,13 @@ if(!empty($_GET))
 	$userData = fetchAllUsers(); //Fetch information for all users
 }
 
-require_once("../models/header.php");
+require_once("models/header.php");
 ?>
 <body>
-	<?php include("../models/main-nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<ol class="breadcrumb">
-		  <li><a href="../admin/dashboard.php">Admin Dashboard</a></li>
+		  <li><a href="admin_dashboard.php">Admin Dashboard</a></li>
 		  <li class="active"><a href="#"><? echo $pageTitle; ?></a></li>
 		</ol>
 		<div class='row'>
@@ -71,13 +71,13 @@ require_once("../models/header.php");
 							<? //Cycle through users
 						foreach ($userData as $v1) {
 						?>
-						<tr>
-							<td class="clickableCell" href="../admin/user.php?id=<? echo $v1['user_id']; ?>"><? echo $v1['user_id']; ?></td>
-							<td class="clickableCell" href="../admin/user.php?id=<? echo $v1['user_id']; ?>"><? echo $v1['first_name']; ?></td>
-							<td class="clickableCell" href="../admin/user.php?id=<? echo $v1['user_id']; ?>"><? echo $v1['last_name']; ?></td>
-							<td class="clickableCell" href="../admin/user.php?id=<? echo $v1['user_id']; ?>"><?php echo $v1['email']; ?></td>
-							<td class="clickableCell" href="../admin/user.php?id=<? echo $v1['user_id']; ?>"><?php echo $v1['title']; ?></td>
-							<td class="clickableCell" href="../admin/user.php?id=<? echo $v1['user_id']; ?>">
+						<tr class="clickableCell" href="../admin_user.php?id=<? echo $v1['user_id']; ?>">
+							<td><? echo $v1['user_id']; ?></td>
+							<td><? echo $v1['first_name']; ?></td>
+							<td><? echo $v1['last_name']; ?></td>
+							<td><?php echo $v1['email']; ?></td>
+							<td><?php echo $v1['title']; ?></td>
+							<td>
 								<? //Display payment status
 								if ($v1['active'] == '1'){
 									echo " <span class='label label-success'>Active</span>";	
