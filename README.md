@@ -1,4 +1,8 @@
-BootstrapUserCake
+Clarion University GIS Conference Web-Based Registration System
 =================
 
-User Cake with a Bootstrap Theme &amp; Top Nav Bar
+Shoutouts to:
+Bootstrap
+Bootstrap Validator
+Tablesorter 2.0
+UserCake
