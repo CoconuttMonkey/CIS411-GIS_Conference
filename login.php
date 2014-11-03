@@ -8,7 +8,7 @@ require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 //Prevent the user visiting the logged in page if he/she is already logged in
-if(isUserLoggedIn()) { header("Location: account.php"); die(); }
+if(isUserLoggedIn()) { header("Location: user_dashboard.php"); die(); }
 
 //Forms posted
 if(!empty($_POST))
@@ -37,7 +37,8 @@ if(!empty($_POST))
 		}
 		else
 		{
-			$userdetails = fetchUserDetails("","","",$email);
+			$userdetails = fetchUserDetails($email);
+			
 			//See if the user's account is activated
 			if($userdetails["active"]==0)
 			{
@@ -47,8 +48,7 @@ if(!empty($_POST))
 			{
 				//Hash the password and use the salt from the database to compare the password.
 				$entered_pass = generateHash($password,$userdetails["password"]);
-				//echo $entered_pass."<br>";
-				//echo $userdetails['password'];
+				
 				if($entered_pass != $userdetails["password"])
 				{
 					//Again, we know the password is at fault here, but lets not give away the combination incase of someone bruteforcing
@@ -65,22 +65,31 @@ if(!empty($_POST))
 					$loggedInUser->user_id = $userdetails["id"];
 					$loggedInUser->hash_pw = $userdetails["password"];
 					$loggedInUser->title = $userdetails["title"];
-					$loggedInUser->company = $userdetails["company"];
-					$loggedInUser->address_1 = $userdetails["address_1"];
-					$loggedInUser->address_2 = $userdetails["address_2"];
-					$loggedInUser->city = $userdetails["city"];
-					$loggedInUser->state = $userdetails["state"];
-					$loggedInUser->zip = $userdetails["zip"];
-					$loggedInUser->paid = $userdetails["paid"];
-					$loggedInUser->first_name = $userdetails["first_name"];
-					$loggedInUser->last_name = $userdetails["last_name"];
+					
+					// Check if user is an attendee
+					if (userIsAttendee($userdetails["id"])) {
+						
+						// Get attendee details
+						$attendeeDetails = fetchAttendeeDetails($userdetails["id"]);
+						
+						$loggedInUser->first_name = $attendeeDetails["f_name"];
+						$loggedInUser->last_name = $attendeeDetails["l_name"];
+						$loggedInUser->address_1 = $attendeeDetails["address_1"];
+						$loggedInUser->address_2 = $attendeeDetails["address_2"];
+						$loggedInUser->city = $attendeeDetails["city"];
+						$loggedInUser->state = $attendeeDetails["state"];
+						$loggedInUser->zip = $attendeeDetails["postal_code"];
+						$loggedInUser->country = $attendeeDetails["country"];
+						$loggedInUser->phone = $attendeeDetails["phone"];
+						$loggedInUser->company = $attendeeDetails["company"];
+					}
 					
 					//Update last sign in
 					$loggedInUser->updateLastSignIn();
 					$_SESSION["userCakeUser"] = $loggedInUser;
 					
-					//Redirect to user account page
-					header("Location: account.php");
+					//Redirect to logged in page
+					header("Location: user_dashboard.php");
 					die();
 				}
 			}
@@ -89,30 +98,34 @@ if(!empty($_POST))
 }
 
 require_once("models/header.php");
-?>
-<body>
-	<header class="row">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header>
-	<section class="container">
-	<h1>Login</h1>
-		<div class="row">
-			<article class="col-30 centered">
-				<?php echo resultBlock($errors,$successes); ?>
-				<form name='login' action='<? echo $_SERVER['PHP_SELF']; ?>' method='post' class="forms text-centered">
-					<label>
-						<input type='email' name='email' class="width-100" placeholder="Email address" required />
-					</label>
-					<label>
-						<input type='password' name='password' class="width-100" placeholder="Password" required />
-					</label>
-					<input type='submit' value='Login' class="btn width-50" />
-				</form>
-			</article>
-		</div>
-	</section>
-	<?php include("models/footer.php"); ?>
+
+echo "<body>";
+
+include("models/main-nav.php");
+echo "
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<div id='main'>";
+
+echo resultBlock($errors,$successes);
+
+echo "
+<link href='css/signin.css' rel='stylesheet'>
+	<div class='container'>
+		<form name='login' action='".$_SERVER['PHP_SELF']."' method='post' class='form-signin' role='form'>
+			<h2 class='form-signin-heading'>Login</h2>
+			<input type='email' class='form-control' placeholder='Email Address' name='email'  required autofocus />
+			<input type='password' class='form-control' placeholder='Password' name='password'  required/>
+			<button type='submit' class='btn btn-lg btn-primary btn-block'>Sign in</button>
+		</form>
+	</div>
+</div>
+<div id='bottom'></div>
+</div>";
+include("models/footer.php");
+include("models/BootstrapJavaScript.php");
+echo "
 </body>
-</html>
+</html>";
+?>

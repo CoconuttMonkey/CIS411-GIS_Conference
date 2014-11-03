@@ -137,86 +137,98 @@ $permissionData = fetchAllPermissions(); //Retrieve list of all permission level
 require_once("models/header.php");
 ?>
 <body>
-	<?php include("nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<section class="container">
+		<ol class="breadcrumb">
+		  <li><a href="admin_dashboard.php">Admin Dashboard</a></li>
+		  <li class="active"><a href="#">Site Settings</a></li>
+		</ol>
 		<? echo resultBlock($errors,$successes); ?>
 		<div class='row'>
-			<div class="col-80" syle="margin-left: 0 !important;">
 				<form name='adminConfiguration' action='<? echo $_SERVER['PHP_SELF']; ?>' method='post' class='forms'>
-					<h1>Site Configuration</h1>
-					<label>Website Name 
-						<input type='text' name='settings[<? echo $settings['website_name']['id']; ?>]' value='<? echo $websiteName ?>' class="width-30" />
-					</label>
-	
-					<label>Website URL 
-						<input type='text' name='settings[<? echo $settings['website_url']['id']; ?>]' value='<? echo $websiteUrl ?>' class="width-30" />
-					</label>
-	
-					<label>Email 
-						<input type='text' name='settings[<? echo $settings['email']['id']; ?>]' value='<? echo $emailAddress ?>' class="width-30" />
-					</label>
-	
-					<label>Activation Threshold 
-						<input type='text' name='settings[<? echo $settings['resend_activation_threshold']['id']; ?>]' value='<? echo $resend_activation_threshold; ?>' />
-					</label>
-	
-					<label>Language 
-						<select name='settings[<? echo $settings['language']['id']; ?>]'>
-						<? //Display language options
-						foreach ($languages as $optLang){
-							if ($optLang == $language){
-								echo "<option value='".$optLang."' selected>$optLang</option>";
-							}
-							else {
-								echo "<option value='".$optLang."'>$optLang</option>";
-							}
-						} ?>
-						</select>
-					</label>
-	
-					<label>Email Activation 
-						<select name='settings[<? echo $settings['activation']['id']; ?>]'>";
-							<? //Display email activation options
-							if ($emailActivation == "true"){
-								echo "
-								<option value='true' selected>True</option>
-								<option value='false'>False</option>";
-							}
-							else {
-								echo "
-								<option value='true'>True</option>
-								<option value='false' selected>False</option>";
-							} ?>
-						</select>
-					</label>
-							
-					<label>Template
-						<select name='settings[<? echo $settings['template']['id']; ?>]'>";
-						<? //Display template options
-						foreach ($templates as $temp){
-							if ($temp == $template){
-								echo "<option value='".$temp."' selected>$temp</option>";
-							}
-							else {
-								echo "<option value='".$temp."'>$temp</option>";
-							}
-						} ?>
-						</select>
-					</label>
-	
-					<input type='submit' name='Submit' value='Submit' class='btn' />
+						<div class='col-lg-6 col-lg-push-3 col-md-6 col-md-push-3'>
+							<div class="panel panel-primary">
+								<div class="panel-heading"><h2>Site Configuration</h2></div>
+							  <div class="panel-body">
+									<div class="form-group">
+										<label>Website Name</label>
+									  <input type='text' name='settings[<? echo $settings['website_name']['id']; ?>]' value='<? echo $websiteName ?>' class="form-control" />
+									</div>
+									
+									<div class="form-group">
+										<label>Website URL</label>
+									  <input type='text' name='settings[<? echo $settings['website_url']['id']; ?>]' value='<? echo $websiteUrl ?>' class="form-control" />
+									</div>
+									
+									<div class="form-group">
+										<label>Email</label>
+									  <input type='text' name='settings[<? echo $settings['email']['id']; ?>]' value='<? echo $emailAddress ?>' class="form-control" />
+									</div>
+									
+									<div class="form-group">
+										<label>Activation Threshold </label>
+									  <input type='text' name='settings[<? echo $settings['resend_activation_threshold']['id']; ?>]' value='<? echo $resend_activation_threshold; ?>'  class="form-control" />
+									</div>
+									
+									<div class="form-group">
+										<label>Email Activation</label>
+										<select class="form-control" name='settings[<? echo $settings['activation']['id']; ?>]'>";
+											<? //Display email activation options
+											if ($emailActivation == "true"){
+												echo "
+												<option value='true' selected>True</option>
+												<option value='false'>False</option>";
+											}
+											else {
+												echo "
+												<option value='true'>True</option>
+												<option value='false' selected>False</option>";
+											} ?>
+										</select>
+									</div>
+									
+									<div class="form-group">
+										<label>Language:</label>
+										<select name='settings[<?=$settings['language']['id']?>]'>";
+										<? //Display language options
+										foreach ($languages as $optLang){
+											if ($optLang == $language){
+												echo "<option value='".$optLang."' selected>$optLang</option>";
+											}
+											else {
+												echo "<option value='".$optLang."'>$optLang</option>";
+											}
+										}
+										?>
+										</select>
+									</div>
+									
+									<div class="form-group">
+										<label>Template:</label>
+										<select name='settings[<?=$settings['template']['id']?>]'>";
+										<? //Display template options
+										foreach ($templates as $temp){
+											if ($temp == $template){
+												echo "<option value='".$temp."' selected>$temp</option>";
+											}
+											else {
+												echo "<option value='".$temp."'>$temp</option>";
+											}
+										}
+										?>
+										</select>
+									</div>
+									
+									<input type='submit' name='Submit' value='Submit' class='btn btn-success' />
+							  </div>
+						  </div>
+						</div>
 				</form>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('includes/sideNav.php');
-				} else {
-					include('includes/loginForm.php');
-				}
-				?>
-			</aside>
 		</section>
-	<?php include("models/footer.php"); ?>
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	?>
 </body>
 </html>

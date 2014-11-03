@@ -4,33 +4,54 @@
 	require_once("models/header.php");
 ?>
 <body>
-	<?php include("nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<section class="container">
-		<h1>Contact</h1>
+		<h1>Contact Us</h1>
 		<div class="row">
-			<article class="col-70">
+			<article class="col-lg-8 col-md-8 col-sm-8">
 				<div id='googlemap'></div>
 			</article>
-			<article class="col-30">
+			<article class="col-lg-4 col-md-4 col-sm-4">
 				<form method="post" action="<? $_SERVER['PHP_SELF'] ?>" class="forms">
-				    <label>
-				        <input type="text" name="name" class="width-100" placeholder="Name" required />
-				    </label>
-				    <label>
-				        <input type="email" name="email" class="width-100" placeholder="Email Address" rrequired />
-				    </label>
-				    <label for="message">
-				        <textarea name="message" rows="4" class="width-100" placeholder="Message" rrequired></textarea>
-				    </label>
-				    <input type="submit" class="btn" value="Send">
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+						  <input type="text" class="form-control" name="name" placeholder="Name" required>
+						</div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+						  <input type="text" class="form-control" name="email" placeholder="Email Address" required>
+						</div>
+						<br>
+				    <div class="input-group">
+				      <div class="input-group-btn">
+				        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Subject <span class="caret"></span></button>
+				        <ul class="dropdown-menu" role="menu">
+				          <li><a href="#">General Questions</a></li>
+				          <li><a href="#">Presentation</a></li>
+				          <li><a href="#">Exhibit</a></li>
+				          <li class="divider"></li>
+				          <li><a href="#">Sponsorship</a></li>
+				        </ul>
+				      </div><!-- /btn-group -->
+				      <input type="text" class="form-control">
+				    </div><!-- /input-group -->
+						<br>
+				    <div class="form-group">
+						  <textarea class="form-control" rows="8" id="comment" placeholder="Write you message here!"></textarea>
+						</div>
+				    <button type="submit" class="btn btn-success">Send</button>
 				</form>
 			</article>
 		</div>
 	</section>
-	<?php include("models/footer.php"); ?>
-	<script src='https://maps.googleapis.com/maps/api/js?key=&sensor=false&extension=.js'></script> 
- 
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	?>
+	<script src='https://maps.googleapis.com/maps/api/js?key=&sensor=false&extension=.js'></script>
 <script> 
+		$('#navbar-contact').addClass("active");
     google.maps.event.addDomListener(window, 'load', init);
     var map;
     function init() {
@@ -181,6 +202,7 @@
     	height: 400px;
     	display: block;
         border: 4px solid #fff;
+        margin-bottom: 1em;
     }
     .gm-style-iw * {
         display: block;

@@ -45,46 +45,42 @@ $permissionData = fetchAllPermissions(); //Retrieve list of all permission level
 require_once("models/header.php");
 ?>
 <body>
-	<?php include("nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<div class='row'>
-			<div class='col-80'>
-				<h1>Permission Levels</h1>
-				<? echo resultBlock($errors,$successes); ?>
-
-				<form name='adminPermissions' action='<? echo $_SERVER['PHP_SELF'] ?>' method='post' class='forms width-100'>
-					<table class='admin width-100'>
-						<tr style='text-align: left;'>
-							<th>Delete</th><th>Permission Name</th>
-						</tr>
-						<? //List each permission level
-						foreach ($permissionData as $v1) {
-							echo "
+			<? echo resultBlock($errors,$successes); ?>
+			<form name='adminPermissions' action='<? $_SERVER['PHP_SELF']; ?>' method='post'>
+				<div class='col-lg-4 col-lg-push-4 col-md-6 col-md-push-3 col-sm-8 col-sm-push-2'>
+					<div class="panel panel-default">
+			  		<div class="panel-heading"><h1>Permission Levels</h1></div>
+			
+						<!-- Table -->
+					  <table class="table">
+							<tr style='text-align: left;'>
+								<th>Delete</th><th>Permission Name</th>
+							</tr>
+							<? //List each permission level
+							foreach ($permissionData as $v1) {
+								echo "
+								<tr>
+								<td><input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'></td>
+								<td><a href='../admin_permission.php?id=".$v1['id']."'>".$v1['name']."</a></td>
+								</tr>";
+							} ?>
 							<tr>
-							<td><input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'></td>
-							<td><a href='admin_permission.php?id=".$v1['id']."'>".$v1['name']."</a></td>
-							</tr>";
-						} ?>
-						<tr>
-							<td>Add New</td>
-							<td><input type='text' name='newPermission' /></td>
-						</tr>
-					</table>
-
-					<input type='submit' name='Submit' value='Submit' class='btn' />
+								<td>Add New</td>
+								<td><input type='text' name='newPermission' /></td>
+							</tr>
+						</table>
+					</div>
+					<input type='submit' name='Submit' value='Submit' class='btn btn-success' />
 				</form>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('includes/sideNav.php');
-				} else {
-					include('includes/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	?>
 </body>
 </html>

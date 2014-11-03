@@ -1,4 +1,4 @@
-CIS411-GIS_Conference
-=====================
+BootstrapUserCake
+=================
 
-Group project for CIS 411
+User Cake with a Bootstrap Theme &amp; Top Nav Bar

@@ -11,33 +11,14 @@ class User
 	private $clean_email;
 	public $status = false;
 	private $clean_password;
-	public $first_name;
-	public $last_name;
-	public $company;
-	public $address_1;
-	public $address_2;
-	public $city;
-	public $state;
-	public $zip;
 	public $sql_failure = false;
 	public $mail_failure = false;
 	public $email_taken = false;
-	public $username_taken = false;
-	public $displayname_taken = false;
 	public $activation_token = 0;
 	public $success = NULL;
 	
-	function __construct($password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn, $company, $address_1, $address_2, $city, $state, $zip, $paid, $first_name, $last_name)
+	function __construct($pass,$email)
 	{
-		//Used for display only
-		$this->first_name = $first_name;
-		$this->last_name = $last_name;
-		$this->company = $company;
-		$this->address_1 = $address_1;
-		$this->address_2 = $address_2;
-		$this->city = $city;
-		$this->state = $state;
-		$this->zip = $zip;
 		
 		//Sanitize
 		$this->clean_email = sanitize($email);
@@ -81,7 +62,7 @@ class User
 				//Define more if you want to build larger structures
 				$hooks = array(
 					"searchStrs" => array("#ACTIVATION-MESSAGE","#ACTIVATION-KEY","#USERNAME#"),
-					"subjectStrs" => array($activation_message,$this->activation_token,$this->first_name)
+					"subjectStrs" => array($activation_message,$this->activation_token,$this->displayname)
 					);
 				
 				/* Build the template - Optional, you can just use the sendMail function 
@@ -110,29 +91,19 @@ class User
 				$this->success = lang("ACCOUNT_REGISTRATION_COMPLETE_TYPE1");
 			}	
 			
-			
 			if(!$this->mail_failure)
 			{
 				//Insert the user into the database providing no errors have been found.
-				$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."users (
+				$stmt = $mysqli->prepare("INSERT INTO users (
 					password,
 					email,
 					activation_token,
 					last_activation_request,
-					lost_password_request,
+					lost_password_request, 
 					active,
 					title,
 					sign_up_stamp,
-					last_sign_in_stamp,
-					company,
-					address_1,
-					address_2,
-					city,
-					state,
-					zip,
-					paid,
-					first_name,
-					last_name
+					last_sign_in_stamp
 					)
 					VALUES (
 					?,
@@ -143,25 +114,16 @@ class User
 					?,
 					'New Member',
 					'".time()."',
-					'0',
-					?,
-					?,
-					?,
-					?,
-					?,
-					?,
-					'0',
-					?,
-					?
+					'0'
 					)");
 				
-				$stmt->bind_param("sssisssssiss", $secure_pass, $this->clean_email, $this->activation_token, $this->user_active, $this->company, $this->address_1, $this->address_2, $this->city, $this->state, $this->zip, $this->first_name, $this->last_name);
+				$stmt->bind_param("sssi", $secure_pass, $this->clean_email, $this->activation_token, $this->user_active);
 				$stmt->execute();
 				$inserted_id = $mysqli->insert_id;
 				$stmt->close();
 				
 				//Insert default permission into matches table
-				$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."user_permission_matches  (
+				$stmt = $mysqli->prepare("INSERT INTO user_permission_matches  (
 					user_id,
 					permission_id
 					)

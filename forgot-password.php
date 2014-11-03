@@ -174,38 +174,33 @@ if(!empty($_POST))
 }
 
 require_once("models/header.php");
-?>
-<body>
-	<header class="row">
-		<img src="http://fakeimg.pl/1920x480/?text=GIS Conference" width="100%" alt="Header Image">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header>
-	<?
 echo "
-<body>
-<div class='container'>
-<h1>Forgotton Password Tool</h1>
-<div class='row'>
-<div class='col-40 centered'>";
+<body>";
+include("top-nav.php");
+echo "
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<div id='main'>";
 
 echo resultBlock($errors,$successes);
 
 echo "
-<div id='regbox'>
-<form name='newLostPass' action='".$_SERVER['PHP_SELF']."' method='post' class='forms'>
-<label>Username <input type='text' name='username' /></label>
-
-<label>Email <input type='email' name='email' /></label>
-
-<input type='submit' value='Submit' class='submit' />
-</p>
-</form>
+<link href='css/signin.css' rel='stylesheet'>
+	<div class='container'>
+		<form name='newLostPass' action='".$_SERVER['PHP_SELF']."' method='post' class='form-signin' role='form'>
+			<h2 class='form-signin-heading'>Forgot Password</h2>
+			<input type='text' class='form-control' placeholder='User Name' name='username'  required autofocus />
+			<input type='text' class='form-control' placeholder='email' name='email'  required/>
+			<button type='submit' class='btn btn-lg btn-primary btn-block'>Submit</button>
+		</form>
+	</div>
 </div>
-</div>
+<div id='bottom'></div>
 </div>";
-?>
-	<?php include("models/footer.php"); ?>
+include("BootstrapJavaScript.php");
+echo "
 </body>
-</html>
+</html>";
+
+?>

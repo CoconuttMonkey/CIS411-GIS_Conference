@@ -112,25 +112,21 @@ if(!empty($_POST) && $emailActivation)
 if(isUserLoggedIn()) { header("Location: account.php"); die(); }
 
 require_once("models/header.php");
-?>
-<body>
-	<header class="row">
-		<img src="http://fakeimg.pl/1920x480/?text=GIS Conference" width="100%" alt="Header Image">
-		<?php 
-			include("nav.php"); 
-		?>
-	</header>
-	<?
+
 echo "
-<body>
-<div class='container'>
-<h1>Resend Activation</h1>
-<div class='row'>
-<div class='col-40 centered'>";
+<body>";
+include("top-nav.php");
+echo "
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<div id='main'>";
 
 echo resultBlock($errors,$successes);
 
-echo "<div id='regbox'>";
+echo "
+<link href='css/signin.css' rel='stylesheet'>
+	<div class='container'>";
 
 //Show disabled if email activation not required
 if(!$emailActivation)
@@ -139,21 +135,23 @@ if(!$emailActivation)
 }
 else
 {
-	echo "<form name='resendActivation' action='".$_SERVER['PHP_SELF']."' method='post' class='forms'>
-		<label>Username <input type='text' name='username' /></label>
-	
-        <label>Email <input type='text' name='email' /></label>
-        
-        <input type='submit' value='Submit' class='btn' />
-        </form>";
+	echo "
+		<form name='resendActivation' action='".$_SERVER['PHP_SELF']."' method='post' class='form-signin' role='form'>
+			<h2 class='form-signin-heading'>Resend Activation</h2>
+			<input type='text' class='form-control' placeholder='User Name' name='username'  required autofocus />
+			<input type='text' class='form-control' placeholder='email' name='email'  required/>
+			<button type='submit' class='btn btn-lg btn-primary btn-block'>Submit</button>
+		</form>";
 }
 
 echo "
-</div>  
+	</div>           
 </div>
+<div id='bottom'></div>
 </div>";
+include("BootstrapJavaScript.php");
+echo "
+</body>
+</html>";
 
 ?>
-	<?php include("models/footer.php"); ?>
-</body>
-</html>

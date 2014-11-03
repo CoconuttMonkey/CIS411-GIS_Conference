@@ -18,7 +18,7 @@ echo "
 <body>
 <div id='top'><div id='logo'></div></div>
 <div id='content'>
-<h1>GIS Conference</h1>
+<h1>UserCake</h1>
 <h2>Installer</h2>";	
 
 if(isset($_GET["install"]))
@@ -42,6 +42,8 @@ if(isset($_GET["install"]))
 	$users_sql = "
 	CREATE TABLE IF NOT EXISTS `".$db_table_prefix."users` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`user_name` varchar(50) NOT NULL,
+	`display_name` varchar(50) NOT NULL,
 	`password` varchar(225) NOT NULL,
 	`email` varchar(150) NOT NULL,
 	`activation_token` varchar(225) NOT NULL,
@@ -51,15 +53,6 @@ if(isset($_GET["install"]))
 	`title` varchar(150) NOT NULL,
 	`sign_up_stamp` int(11) NOT NULL,
 	`last_sign_in_stamp` int(11) NOT NULL,
-	`company` varchar(50) DEFAULT NULL,
-	`address_1` varchar(50) NOT NULL,
-	`address_2` varchar(50) DEFAULT NULL,
-	`city` varchar(50) NOT NULL,
-	`state` varchar(20) NOT NULL,
-	`zip` int(5) NOT NULL,
-	`paid` tinyint(1) NOT NULL,
-	`first_name` varchar(50) NOT NULL,
-	`last_name` varchar(50) NOT NULL
 	PRIMARY KEY (`id`)
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 	";

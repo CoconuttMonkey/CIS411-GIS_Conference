@@ -13,7 +13,11 @@ if(!userIdExists($userId)){
 	header("Location: admin_users.php"); die();
 }
 
-$userdetails = fetchUserDetails(NULL, NULL, $userId); //Fetch user details
+if(userIsAttendee($userId)) {
+	$userdetails = fetchAttendeeDetails($userId); //Fetch attendee details
+} else {
+	$userdetails = fetchUserDetails(NULL, NULL, $userId); //Fetch user details
+}
 
 //Forms posted
 if(!empty($_POST))
@@ -30,137 +34,6 @@ if(!empty($_POST))
 	}
 	else
 	{
-		$email = $_POST["email"];
-		$first_name = trim($_POST["first_name"]);
-		$last_name = trim($_POST["last_name"]);
-		$company = trim($_POST["company"]);
-		$email = trim($_POST["email"]);
-		$address_1 = trim($_POST["address_1"]);
-		$address_2 = trim($_POST["address_2"]);
-		$city = trim($_POST["city"]);
-		$state = trim($_POST["state"]);
-		$zip = trim($_POST["zip"]);
-
-		if ($email != $userdetails['email']) {
-			if(trim($email) == "") {
-				$errors[] = lang("ACCOUNT_SPECIFY_EMAIL");
-			} else if (!isValidEmail($email)) {
-				$errors[] = lang("ACCOUNT_INVALID_EMAIL"); 
-			} else if (emailExists($email)) {
-				$errors[] = lang("ACCOUNT_EMAIL_IN_USE", array($email));	
-			}
-			
-			//End data validation
-			if(count($errors) == 0) {
-				updateEmail($userdetails['id'], $email);
-				$successes[] = lang("ACCOUNT_EMAIL_UPDATED");
-			}
-		}
-
-		if ($first_name != $userdetails['first_name']) {
-			if(trim($first_name) == "") {
-				$errors[] = lang("ACCOUNT_SPECIFY_FNAME");
-			}
-			
-			//End data validation
-			if(count($errors) == 0) {
-				updateFirstName($userdetails['id'], $first_name);
-				$userdetails['first_name'] = $first_name;
-				$successes[] = lang("ACCOUNT_FNAME_UPDATED");
-			}
-		}
-
-		if ($last_name != $userdetails['last_name']) {
-			if(trim($last_name) == "") {
-				$errors[] = lang("ACCOUNT_SPECIFY_LNAME");
-			}
-			
-			//End data validation
-			if(count($errors) == 0) {
-				updateLastName($userdetails['id'], $last_name);
-				$userdetails['last_name'] = $last_name;
-				$successes[] = lang("ACCOUNT_LNAME_UPDATED");
-			}
-		}
-
-		if ($company != $userdetails['company']) {
-			if(trim($company) == "") {
-				$success[] = lang("ACCOUNT_SPECIFY_COMPANY");
-			}
-			
-			//End data validation
-			if(count($errors) == 0) {
-				updateCompany($userdetails['id'], $company);
-				$userdetails['company'] = $company;
-				$successes[] = lang("ACCOUNT_COMPANY_UPDATED");
-			}
-		}
-
-		if ($address_1 != $userdetails['address_1']) {
-			if(trim($address_1) == "") {
-				$errors[] = lang("ACCOUNT_SPECIFY_ADDRESS");
-			}
-			
-			//End data validation
-			if(count($errors) == 0) {
-				updateAddress_1($userdetails['id'], $address_1);
-				$userdetails['address_1'] = $address_1;
-				$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
-			}
-		}
-
-		if ($address_2 != $userdetails['address_2']) {
-			if(trim($address_2) == "") {
-				$errors[] = lang("ACCOUNT_SPECIFY_ADDRESS");
-			}
-			
-			//End data validation
-			if(count($errors) == 0) {
-				updateAddress_2($userdetails['id'], $address_1);
-				$userdetails['address_2'] = $address_2;
-				$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
-			}
-		}
-
-		if ($city != $userdetails['city']) {
-			if(trim($city) == "") {
-				$errors[] = lang("ACCOUNT_SPECIFY_CITY");
-			}
-			
-			//End data validation
-			if(count($errors) == 0) {
-				updateCity($userdetails['id'], $city);
-				$userdetails['city'] = $city;
-				$successes[] = lang("ACCOUNT_CITY_UPDATED");
-			}
-		}
-
-		if ($state != $userdetails['state']) {
-			if(trim($state) == "") {
-				$errors[] = lang("ACCOUNT_SPECIFY_STATE");
-			}
-			
-			//End data validation
-			if(count($errors) == 0) {
-				updateState($userdetails['id'], $state);
-				$userdetails['state'] = $state;
-				$successes[] = lang("ACCOUNT_STATE_UPDATED");
-			}
-		}
-
-		if ($zip != $userdetails['zip']) {
-			if(trim($zip) == "") {
-				$errors[] = lang("ACCOUNT_SPECIFY_ZIP");
-			}
-			
-			//End data validation
-			if(count($errors) == 0) {
-				updateZip($userdetails['id'], $zip);
-				$userdetails['zip'] = $zip;
-				$successes[] = lang("ACCOUNT_ZIP_UPDATED");
-			}
-		}
-		
 		//Activate account
 		if(isset($_POST['activate']) && $_POST['activate'] == "activate"){
 			if (setUserActive($userdetails['activation_token'])){
@@ -168,6 +41,29 @@ if(!empty($_POST))
 			}
 			else {
 				$errors[] = lang("SQL_ERROR");
+			}
+		}
+		
+		//Update email
+		if ($userdetails['email'] != $_POST['email']){
+			$email = trim($_POST["email"]);
+			
+			//Validate email
+			if(!isValidEmail($email))
+			{
+				$errors[] = lang("ACCOUNT_INVALID_EMAIL");
+			}
+			elseif(emailExists($email))
+			{
+				$errors[] = lang("ACCOUNT_EMAIL_IN_USE",array($email));
+			}
+			else {
+				if (updateEmail($userId, $email)){
+					$successes[] = lang("ACCOUNT_EMAIL_UPDATED");
+				}
+				else {
+					$errors[] = lang("SQL_ERROR");
+				}
 			}
 		}
 		
@@ -182,12 +78,159 @@ if(!empty($_POST))
 			}
 			else {
 				if (updateTitle($userId, $title)){
+				$userdetails['title'] = $title;
 					$successes[] = lang("ACCOUNT_TITLE_UPDATED", array ($displayname, $title));
 				}
 				else {
 					$errors[] = lang("SQL_ERROR");
 				}
 			}
+		}
+		
+		/*
+			Update First name
+		*/
+		if ($userdetails['first_name'] != $_POST['first_name']) {
+			if(trim($_POST['first_name']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_FIRST_NAME");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateUserDetail($userId, 'first_name', $_POST['first_name']);
+				$userdetails['first_name'] = $_POST['first_name'];
+				$successes[] = lang("ACCOUNT_FIRST_NAME_UPDATED");
+			}
+		}
+		
+		/*
+			Update Last name
+		*/
+		if ($userdetails['last_name'] != $_POST['last_name']) {
+			if(trim($_POST['last_name']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_LAST_NAME");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateUserDetail($userId, 'last_name', $_POST['last_name']);
+				$userdetails['last_name'] = $_POST['last_name'];
+				$successes[] = lang("ACCOUNT_LAST_NAME_UPDATED");
+			}
+		}
+	
+		/*
+			Update Country Code
+		*/
+		if($userdetails['country'] != $_POST['country']) {
+			updateAttendeeDetail($userId, 'country', $_POST['country']);
+			$userdetails['country'] = $_POST['country'];
+			$successes[] = lang("ACCOUNT_COUNTRY_UPDATED");
+		}
+		
+		/*
+			Update Phone Number
+		*/
+		if ($userdetails['phone'] != $_POST['phone']) {
+			if(trim($_POST['phone']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_PHONE");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'phone', $_POST['phone']);
+				$userdetails['phone'] = $_POST['phone'];
+				$successes[] = lang("ACCOUNT_PHONE_UPDATED");
+			}
+		}
+		
+		/*
+			Update Address 1
+		*/
+		if ($userdetails['address_1'] != $_POST['address_1']) {
+			if(trim($_POST['address_1']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_ADDRESS");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'address_1', $_POST['address_1']);
+				$userdetails['address_1'] = $_POST['address_1'];
+				$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
+			}
+		}
+		
+		/*
+			Update Address 2
+		*/
+		if ($userdetails['address_2'] != $_POST['address_2']) {
+			if(trim($_POST['address_2']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_ADDRESS");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'address_2', $_POST['address_2']);
+				$userdetails['address_2'] = $_POST['address_2'];
+				$successes[] = lang("ACCOUNT_ADDRESS_UPDATED");
+			}
+		}
+		
+		/*
+			Update City
+		*/
+		if ($userdetails['city'] != $_POST['city']) {
+			if(trim($_POST['city']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_CITY");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'city', $_POST['city']);
+				$userdetails['city'] = $_POST['city'];
+				$successes[] = lang("ACCOUNT_CITY_UPDATED");
+			}
+		}
+	
+		/*
+			Update State
+		*/
+		if ($userdetails['state'] != $_POST['state']) {
+			if(trim($_POST['state']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_STATE");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'state', $_POST['state']);
+				$userdetails['state'] = $_POST['state'];
+				$successes[] = lang("ACCOUNT_STATE_UPDATED");
+			}
+		}
+	
+		/*
+			Update Zip
+		*/
+		if ($userdetails['zip'] != $_POST['zip']) {
+			if(trim($_POST['zip']) == "") {
+				$errors[] = lang("ACCOUNT_SPECIFY_ZIP");
+			}
+			
+			//End data validation
+			if(count($errors) == 0) {
+				updateAttendeeDetail($userId, 'zip', $_POST['zip']);
+				$userdetails['zip'] = $_POST['zip'];
+				$successes[] = lang("ACCOUNT_ZIP_UPDATED");
+			}
+		}
+	
+		/*
+			Update Company
+		*/
+		if($userdetails['company'] != $_POST['company']) {
+			updateAttendeeDetail($userId, 'company', $_POST['company']);
+			$userdetails['company'] = $_POST['company'];
+			$successes[] = lang("ACCOUNT_COMPANY_UPDATED");
 		}
 		
 		//Remove permission level
@@ -210,8 +253,6 @@ if(!empty($_POST))
 				$errors[] = lang("SQL_ERROR");
 			}
 		}
-		
-		$userdetails = fetchUserDetails(NULL, NULL, $userId);
 	}
 }
 
@@ -219,151 +260,162 @@ $userPermission = fetchUserPermissions($userId);
 $permissionData = fetchAllPermissions();
 
 require_once("models/header.php");
+
 ?>
 <body>
-	<?php include("nav.php"); ?>
+	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
-		<div class='row'>
-			<div class='col-80'>
-				<h1>Edit User</h1>
-				<? echo resultBlock($errors,$successes); ?>
-				<form name='adminUser' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $userId; ?>' method='post' class='forms'>
-					<div class='col-50'>
-						<fieldset id='general-info' class='width-100'>
-						    <legend>Contact Information</legend>
-							<label>First Name
-								<input type='text' name='first_name' class='width-100 contact-info' value='<? echo $userdetails['first_name']; ?>' />
-							</label>
-						
-							<label>Last Name
-								<input type='text' name='last_name' class='width-100 contact-info' value='<? echo $userdetails['last_name']; ?>' />
-							</label>
-						
-							<label>Company / Institution
-								<input type='text' name='company' class='width-100 contact-info' value='<? echo $userdetails['company']; ?>' />
-							</label>
-							
-							<label>Email Address
-								<input type='email' name='email' class='width-100 contact-info' value='<? echo $userdetails['email']; ?>' />
-							</label>
-						
-							<label>Address Line 1
-								<input type='text' name='address_1' class='width-100 contact-info' value='<? echo $userdetails['address_1']; ?>' />
-							</label>
-						
-							<label>Address Line 2
-								<input type='text' name='address_2' class='width-100 contact-info' value='<? echo $userdetails['address_2']; ?>' />
-							</label>
-						
-							<label>City
-								<input type='text' name='city' class='width-100 contact-info' value='<? echo $userdetails['city']; ?>' />
-							</label>
-						
-							<label>State / Province
-								<input type='text' name='state' class='width-100 contact-info' value='<? echo $userdetails['state']; ?>' />
-							</label>
-						
-							<label>Zip Code
-								<input type='text' name='zip' class='width-100 contact-info' value='<? echo $userdetails['zip']; ?>' />
-							</label>
-						</fieldset>
-					</div>
-					<div class='col-40'>
-						<fieldset id='general-info' class='width-100'>
-							<legend>Account Details</legend>
-							<label>Active:
-								<? //Display activation link, if account inactive
-								if ($userdetails['active'] == '1'){
-									echo "Yes";	
-								}
-								else{
-									echo "No
-									</p>
-									<p>
-									<label>Activate:</label>
-									<input type='checkbox' name='activate' id='activate' value='activate'></label>
-									";
-								} ?>
-							</label>
-							
-							<label>Paid:
+		<ol class="breadcrumb">
+		  <li><a href="../admin_dashboard.php">Admin Dashboard</a></li>
+		  <li><a href="#">Users</a></li>
+		  <li class="active"><a href="#"><? echo $userdetails['first_name']." ".$userdetails['last_name']; ?></a></li>
+							<h4 style="float: right; margin-top: -1px;">
 								<? //Display payment status
-								if ($userdetails['paid'] == '1'){
-									echo " <span class='success'>Yes</span>";	
+								if ($userdetails['active'] == '1'){
+									echo " <span class='label label-success'>Active</span>";	
 								}
 								else{
-									echo " <span class='error'>No</span>
-									";
+									echo " <span class='label label-danger'>Inactive</span>";
 								} ?>
-							</label>
-							
-							<label>Title 
-								<input type='text' name='title' value='<? echo $userdetails['title']; ?>' />
-							</label>
-							
-							<label>Sign Up: <? echo date("j M, Y", $userdetails['sign_up_stamp']); ?></label>
-							
-							<label>Last Sign In:
-								<? //Last sign in, interpretation
-								if ($userdetails['last_sign_in_stamp'] == '0'){
-									echo "Never";	
-								}
-								else {
-									echo date("j M, Y", $userdetails['last_sign_in_stamp']);
-								} ?>
-
-							</label>
-							
-							<label>
-								<input type='checkbox' name='delete[<? echo $userdetails['id']; ?>]' id='delete[<? echo $userdetails['id']; ?>]' value='<? echo $userdetails['id']; ?>'> Delete User
-							</label>
-						</fieldset>
-
-						<?
-						//Settings for permission level 4 (web master)
-						if ($loggedInUser->checkPermission(array(4))){
-						echo "
-						<fieldset>
-						<legend>Account Permission</legend>
-						<div id='regbox'>
-						<p><strong>Remove Permission:</strong>";
-	
-						//List of permission levels user is apart of
-						foreach ($permissionData as $v1) {
-							if(isset($userPermission[$v1['id']])){
-								echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
-							}
-						}
-	
-						//List of permission levels user is not apart of
-						echo "</p><p><strong>Add Permission:</strong>";
-						foreach ($permissionData as $v1) {
-							if(!isset($userPermission[$v1['id']])){
-								echo "<label style='margin: 0; padding: 0; line-height: 1.6em;'><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name']."</label>";
-							}
-						} ?>
-						</p>
-						</fieldset>
-						<? } ?>
-						<input type='submit' value='Update' class='btn' />
+							</h4>
+		</ol>
+		<div class='container'>
+					<h1>Edit User</h1>
+				</div>
+					<div class="row">
+						<? echo resultBlock($errors,$successes); ?>
 					</div>
+					<form name='adminUser' action='<? echo $_SERVER['PHP_SELF']; ?>?id=<? echo $userId; ?>' method='post'>
+						<div class="row">
+							<div class='col-lg-6'>
+								<div class="panel panel-primary">
+									<div class="panel-heading">Account Information</div>
+								  <div class="panel-body">
+										<div class="form-group">
+											<label>First Name</label>
+										  <input type="text" class="form-control can-enable" name="first_name" value='<? echo $userdetails['f_name']; ?>' required>
+										</div>
+										
+										<div class="form-group">
+											<label>Last Name</label>
+										  <input type="text" class="form-control can-enable" name="last_name" value='<? echo $userdetails['l_name']; ?>' required>
+										</div>
+										
+										<div class="form-group">
+											<label>Email Address</label>
+										  <input type="text" class="form-control can-enable" name="email" value='<? echo $userdetails['email']; ?>' required>
+										</div>
+								  </div>
+								</div>
+								
+								<div class="panel panel-primary">
+									<div class="panel-heading">Account Status</div>
+								  <div class="panel-body">
+								  	<div class="form-group">
+											<label>Title</label>
+										  <input type="text" class="form-control can-enable" name="title" value='<? echo $userdetails['title']; ?>' required>
+										</div>
+								  	<?
+										echo "
+										<strong>Remove Permission</strong>";
+					
+										//List of permission levels user is apart of
+										foreach ($permissionData as $v1) {
+											if(isset($userPermission[$v1['id']])){
+												echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
+											}
+										}
+					
+										//List of permission levels user is not apart of
+										echo "<br><br><strong>Add Permission</strong>";
+										foreach ($permissionData as $v1) {
+											if(!isset($userPermission[$v1['id']])){
+												echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
+											}
+										} ?>
+								  	</div>
+								</div>
+							</div>
+							
+							<? if(userIsAttendee($userId)) { ?>
+							<div class='col-lg-6'>
+								<div class="panel panel-primary">
+									<div class="panel-heading">Contact Information</div>
+								  <div class="panel-body">
+									  
+										<div class="form-group">
+											<label>Country</label>
+			                <select class="form-control can-enable" name="country" data-bv-notempty data-bv-notempty-message="The country is required">
+		                    <option value="">-- Select a country --</option>
+		                    <option value="US" <? if ($userdetails['country'] == 'US') echo 'selected="selected"';?>>United States</option>
+		                    <option value="FR" <? if ($userdetails['country'] == 'FR') echo 'selected="selected"';?>>France</option>
+		                    <option value="DE" <? if ($userdetails['country'] == 'DE') echo 'selected="selected"';?>>Germany</option>
+		                    <option value="IT" <? if ($userdetails['country'] == 'IT') echo 'selected="selected"';?>>Italy</option>
+		                    <option value="JP" <? if ($userdetails['country'] == 'JP') echo 'selected="selected"';?>>Japan</option>
+		                    <option value="RU" <? if ($userdetails['country'] == 'RU') echo 'selected="selected"';?>>Russia</option>
+		                    <option value="GB" <? if ($userdetails['country'] == 'GB') echo 'selected="selected"';?>>United Kingdom</option>
+			                </select>
+				            </div>
+				                    
+										<div class="form-group">
+											<label>Phone Number</label>
+										  <input type="text" class="form-control can-enable" name="phone" value="<? echo $userdetails['phone']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>Address Line 1</label>
+										  <input type="text" class="form-control can-enable" name="address_1" value="<? echo $userdetails['address_1']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>Address Line 2</label>
+										  <input type="text" class="form-control can-enable" name="address_2" value="<? echo $userdetails['address_2']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>City</label>
+										  <input type="text" class="form-control can-enable" name="city"  value="<? echo $userdetails['city']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>State</label>
+										  <input type="text" class="form-control can-enable" name="state"  value="<? echo $userdetails['state']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>Zip</label>
+										  <input type="text" class="form-control can-enable" name="postal_code"  value="<? echo $userdetails['postal_code']; ?>">
+										</div>
+										
+										<div class="form-group">
+											<label>Company / Institution</label>
+										  <input type="text" class="form-control can-enable" name="company"  value="<? echo $userdetails['company']; ?>">
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							<? } ?>
+						<p style="text-align: center;">
+							<input type='submit' value='Save' class='btn btn-lg btn-success'/>
+							<input type='button' id='enable-fields' value='Edit' class='btn btn-lg btn-danger'/>
+						</p>
+						</div>
 				</form>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('includes/sideNav.php');
-				} else {
-					include('includes/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	 ?>
 	<script>
-		$('edit-contact-info').click(function {
-			$( "form :disabled" ).removeAttr('disabled');
+		$( document ).ready(function {
+			$(".can-enable").attr('disabled','disabled');
+		});
+		
+		$('#enable-fields').click(function {
+			$( ".can-enable" ).prop( "disabled", false );
 		});
 	</script>
 </body>

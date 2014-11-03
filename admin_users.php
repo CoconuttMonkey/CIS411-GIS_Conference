@@ -7,6 +7,7 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
+
 //Forms posted
 if(!empty($_POST))
 {
@@ -19,59 +20,112 @@ if(!empty($_POST))
 	}
 }
 
-$userData = fetchAllUsers(); //Fetch information for all users
+//List posted
+if(!empty($_GET))
+{
+	if ($_GET['list'] == 'attendees') 
+	{
+		$pageTitle = "Attendees";
+		$userData = fetchAllAttendees();
+	}
+	else if ($_GET['list'] == 'unpaid')
+	{
+		$pageTitle = "Unpaid Users";
+		$status = 'unpaid';
+		$userData = fetchAllAttendees($status);
+	}
+	else 
+	{
+		$pageTitle = "All Users";
+		$userData = fetchAllUsers(); //Fetch information for all users
+	}
+}
+ else 
+{
+	$pageTitle = "All Users";
+	$userData = fetchAllUsers(); //Fetch information for all users
+}
 
 require_once("models/header.php");
 ?>
 <body>
-	<?php include("nav.php"); ?>
-
+	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
+		<ol class="breadcrumb">
+		  <li><a href="admin_dashboard.php">Admin Dashboard</a></li>
+		  <li class="active"><a href="#"><? echo $pageTitle; ?></a></li>
+		</ol>
 		<div class='row'>
-			<div class='col-80'>
-				<h1>Registrants</h1>
+			<div class='col-lg-12'>
 				<? echo resultBlock($errors,$successes); ?>
-				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms width-100'>
-					<table class='admin width-100 table-hovered'>
-						<tr style='text-align: left;'>
-							<th>Delete</th><th>Name</th><th>Email</th><th>Title</th><th>Paid</th>
-						</tr>
-						<? //Cycle through users
+				<form name='adminUsers' action='<? $_SERVER['PHP_SELF']; ?>' method='post' class='forms'>
+					<div class="panel panel-default">
+			  		<div class="panel-heading"><h1><? echo $pageTitle; ?></h1></div>
+			  		
+						<!-- Table -->
+					  <table class="tablesorter-bootstrap">
+							<thead>
+								<th>User ID</th><th>Email</th><th>Name</th><th>Title</th><th>Active</th>
+							</thead>
+							<tbody>
+							<? //Cycle through users
 						foreach ($userData as $v1) {
 						?>
-						<tr>
-							<td><input type='checkbox' name='delete[<?php echo $v1['id']; ?>]' id='delete[<?php echo $v1['id']; ?>]' value='<?php echo $v1['id']; ?>'></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? echo $v1['first_name']." ".$v1['last_name'] ?></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['email']; ?></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><?php echo $v1['title']; ?></td>
-							<td class="clickableCell" href="admin_user.php?id=<? echo $v1['id']; ?>"><? if ($v1['paid'] === 1) { 
-									echo '<span class="success">Paid</span>';
-								} else if ($v1['paid'] === 0) { 
-									echo '<span class="error">Not Paid</span>';
-								} ?></td>
+						<tr class="clickableCell" href="../admin_user.php?id=<? echo $v1['user_id']; ?>">
+							<td><? echo $v1['user_id']; ?></td>
+							<td><?php echo $v1['email']; ?></td>
+							<td><? echo $v1['f_name']." ".$v1['l_name']; ?></td>
+							<td><?php echo $v1['title']; ?></td>
+							<td>
+								<? //Display payment status
+								if ($v1['active'] == '1'){
+									echo " <span class='label label-success'>Active</span>";	
+								}
+								else{
+									echo " <span class='label label-danger'>Inactive</span>
+									";
+								} ?>
+							</td>
 						</tr> <? } ?>
-					</table>
-					<input type='submit' name='Submit' value='Delete' class='btn' />
+							</tbody>
+					  </table>
+					</div>
+					<p class="text-center">
+						<input id="clear-filters" type='reset' name='Submit' value='Clear Filters' class='btn btn-warning' />
+					</p>
 				</form>
 			</div>
-			<aside class="col-20 nav">
-				<? 
-				if(isUserLoggedIn()) {
-					include('includes/sideNav.php');
-				} else {
-					include('includes/loginForm.php');
-				}
-				?>
-			</aside>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	?>
+	<script src='js/jquery.tablesorter.js' type='text/javascript'></script>
+	<script src='js/jquery.tablesorter.widgets.min.js' type='text/javascript'></script>
 	<script>
 	jQuery(document).ready(function($) {
 		$(".clickableCell").click(function() {
 			window.document.location = $(this).attr("href");
 		});
+		
+		$('.tablesorter-bootstrap').tablesorter({
+			usNumberFormat : false,
+			sortReset      : true,
+			sortRestart    : true,
+			theme : 'bootstrap',
+			headerTemplate: '{content} {icon}',
+			widgets    : ['zebra', 'uitheme', 'filter'],
+			widgetOptions: {
+	      filter_reset: '.reset',
+				filter_cssFilter   : 'form-control',
+	    }
+		});
 	});
+	  $('#clear-filters').click(function(){
+	    $('.tablesorter-bootstrap').trigger('filterReset');
+	    return false;
+		});
 	</script>
 </body>
 </html>

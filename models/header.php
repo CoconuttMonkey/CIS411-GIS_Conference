@@ -2,26 +2,13 @@
 <html>
 <head>
 	<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-	<title><?php echo $websiteName; ?></title>
-	<meta name="description" content="">
-	<meta name="keywords" content="<">
-	<meta name="author" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-	<!-- CSS Links
-	--------------------------------------------------- -->
-	<link rel="stylesheet" type="text/css" href="models/site-templates/css/normalize.min.css" />
-	<link rel="stylesheet" type="text/css" href="models/site-templates/css/skeleton.css">
-	<link rel="stylesheet" type="text/css" href="models/site-templates/css/layout.css">
-	<link rel="stylesheet" type="text/css" href="models/site-templates/css/custom.css">
-	<link rel='stylesheet' type='text/css' href="<?php echo $template; ?>" />
-	
-	<!-- JavaScript Links
-	--------------------------------------------------- -->
-	<script src="models/site-templates/js/jquery-1.11.1.min.js"></script>
+	<title><?php echo $websiteName; ?> - <? echo $pageTitle; ?></title>
+	<link href="css/bootstrap.css" rel="stylesheet" />
+	<link href="css/bootstrap-theme.css" rel="stylesheet" />
+	<link href="css/custom.css" rel="stylesheet" />
+	<script src='js/jquery-1.11.1.min.js' type='text/javascript'></script>
 	<script src='models/funcs.js' type='text/javascript'></script>
-
-	<!-- Favicons
-	--------------------------------------------------- -->
-	<link rel="shortcut icon" href="models/site-templates/assets/favicon.png">
+	<script src='js/bootstrap.min.js' type='text/javascript'></script>
+	<script src='js/bootstrapValidator.min.js' type='text/javascript'></script>
+	<meta content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no" name="viewport" />
 </head>
