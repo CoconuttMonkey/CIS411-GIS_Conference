@@ -10,14 +10,14 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 $current_conf = date("Y");
 
 
-$pageTitle = "All Presentations";
-$presentationData = fetchAllPresentations($current_conf); //Fetch information for all presentations this year
+$pageTitle = "Scheduled Presentations";
+$presentationData = fetchScheduledPresentations($current_conf); //Fetch information for all presentations this year
 	
 //List posted
 if(!empty($_GET)) {
 	if ($_GET['list'] == 'pending') {
 		$pageTitle = "Pending Presentations";
-		$presentationData = fetchAllPresentations();
+		$presentationData = fetchPendingPresentations();
 	}
 }
 require_once("models/header.php");

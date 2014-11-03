@@ -1341,8 +1341,35 @@ function updateAttendeeDetail($user_id, $field, $value) {
 	$stmt->close();
 }
 
+//Retrieve information for pending presentations
+function fetchPendingPresentations() {
+	global $mysqli; 
+	$stmt = $mysqli->prepare("
+	SELECT
+		presentation.presentation_id,
+		presentation.title,
+		presentation.active,
+		CONCAT_WS(' ', attendee.f_name, attendee.l_name) AS main_presenter,
+	  	track.full_name AS track_title
+	FROM
+		presentation
+	INNER JOIN `presenter`  ON presentation.presentation_id = presenter.presentation_id
+							AND presenter.main = 1
+	INNER JOIN `attendee`   ON presenter.attendee_user_id = attendee.user_id
+	INNER JOIN `track` 		ON presentation.track_id = track.track_id 
+  WHERE presentation.active IS NULL");
+	$stmt->execute();
+	$stmt->bind_result($presentation_id,$presentation_title,$active,$main_presenter,$track_title);
+	
+	while ($stmt->fetch()){
+		$row[] = array('presentation_id' => $presentation_id, 'title' => $presentation_title, 'active' => $active, 'main_presenter' => $main_presenter, 'track_title' => $track_title);
+	}
+	$stmt->close();
+	return ($row);
+}
+
 //Retrieve information for all presentations
-function fetchAllPresentations($conference_id = NULL, $track_id = NULL, $customfilter = NULL) {
+function fetchScheduledPresentations($conference_id = NULL, $track_id = NULL, $customfilter = NULL) {
 	if ($conference_id != NULL) {
 		$filter = " WHERE presentation.conference_id = {$conference_id}";
 		

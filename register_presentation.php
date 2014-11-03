@@ -24,14 +24,8 @@ if (isset($_POST['newPresentation'])) {
 	$track_id = trim($_POST['track_id']);
 	$day_request = trim($_POST['day_request']);
 	
-	echo "<p>POST</p>";
-	print_r($_POST);
-	
 	//Construct a user object
 	$presentation = new Presentation($conference_id, $title, $abstract, $track_id, $main_presenter_id, $main_presenter_bio);
-	
-	echo "<p>presentation object</p>";
-	print_r($presentation);
 	
 	if(!$presentation->addPresentation()) {
 		if($presentation->mail_failure) $errors[] = lang("MAIL_ERROR");
@@ -59,7 +53,7 @@ require_once("models/header.php");
 							  <div class="panel-body">
 				          <div class="form-group">
 				             <label class="control-label"><?= $loggedInUser->first_name." ".$loggedInUser->last_name."'s " ?>Biography</label>
-								  	<textarea class="form-control" rows="8" name="presenter_bio" id="presenter_bio" placeholder="Tell us about yourself"></textarea>
+								  	<textarea class="form-control" rows="8" name="main_presenter_bio" id="main_presenter_bio" placeholder="Tell us about yourself"></textarea>
 				          </div>
 							  </div>
 							</div>
