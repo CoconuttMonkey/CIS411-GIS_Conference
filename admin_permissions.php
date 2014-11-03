@@ -78,6 +78,9 @@ require_once("models/header.php");
 			</div>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	?>
 </body>
 </html>

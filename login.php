@@ -8,7 +8,7 @@ require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 //Prevent the user visiting the logged in page if he/she is already logged in
-if(isUserLoggedIn()) { header("Location: account.php"); die(); }
+if(isUserLoggedIn()) { header("Location: user_dashboard.php"); die(); }
 
 //Forms posted
 if(!empty($_POST))
@@ -65,8 +65,6 @@ if(!empty($_POST))
 					$loggedInUser->user_id = $userdetails["id"];
 					$loggedInUser->hash_pw = $userdetails["password"];
 					$loggedInUser->title = $userdetails["title"];
-					$loggedInUser->first_name = $userdetails["first_name"];
-					$loggedInUser->last_name = $userdetails["last_name"];
 					
 					// Check if user is an attendee
 					if (userIsAttendee($userdetails["id"])) {
@@ -74,23 +72,24 @@ if(!empty($_POST))
 						// Get attendee details
 						$attendeeDetails = fetchAttendeeDetails($userdetails["id"]);
 						
-						$loggedInUser->country = $attendeeDetails["country"];
-						$loggedInUser->phone = $attendeeDetails["phone"];
+						$loggedInUser->first_name = $attendeeDetails["f_name"];
+						$loggedInUser->last_name = $attendeeDetails["l_name"];
 						$loggedInUser->address_1 = $attendeeDetails["address_1"];
 						$loggedInUser->address_2 = $attendeeDetails["address_2"];
 						$loggedInUser->city = $attendeeDetails["city"];
 						$loggedInUser->state = $attendeeDetails["state"];
-						$loggedInUser->zip = $attendeeDetails["zip"];
+						$loggedInUser->zip = $attendeeDetails["postal_code"];
+						$loggedInUser->country = $attendeeDetails["country"];
+						$loggedInUser->phone = $attendeeDetails["phone"];
 						$loggedInUser->company = $attendeeDetails["company"];
-						$loggedInUser->reg_type = $attendeeDetails["reg_type"];
 					}
 					
 					//Update last sign in
 					$loggedInUser->updateLastSignIn();
 					$_SESSION["userCakeUser"] = $loggedInUser;
 					
-					//Redirect to user account page
-					header("Location: ../user_dashboard.php");
+					//Redirect to logged in page
+					header("Location: user_dashboard.php");
 					die();
 				}
 			}
@@ -99,18 +98,34 @@ if(!empty($_POST))
 }
 
 require_once("models/header.php");
-?>
-<body>
-	<?php include("models/main-nav.php"); ?>
-	<section class="container">
-		<div class="row">
-			<article class="col-lg-4 col-lg-push-4 col-md-6 col-md-push-3 col-sm-8 col-sm-push-2">
-				<?php echo resultBlock($errors,$successes); ?>
-				
-				<?php include('models/loginForm.php'); ?>
-			</article>
-		</div>
-	</section>
-	<?php include("models/footer.php"); ?>
+
+echo "<body>";
+
+include("models/main-nav.php");
+echo "
+<div id='wrapper'>
+<div id='top'><div id='logo'></div></div>
+<div id='content'>
+<div id='main'>";
+
+echo resultBlock($errors,$successes);
+
+echo "
+<link href='css/signin.css' rel='stylesheet'>
+	<div class='container'>
+		<form name='login' action='".$_SERVER['PHP_SELF']."' method='post' class='form-signin' role='form'>
+			<h2 class='form-signin-heading'>Login</h2>
+			<input type='email' class='form-control' placeholder='Email Address' name='email'  required autofocus />
+			<input type='password' class='form-control' placeholder='Password' name='password'  required/>
+			<button type='submit' class='btn btn-lg btn-primary btn-block'>Sign in</button>
+		</form>
+	</div>
+</div>
+<div id='bottom'></div>
+</div>";
+include("models/footer.php");
+include("models/BootstrapJavaScript.php");
+echo "
 </body>
-</html>
+</html>";
+?>

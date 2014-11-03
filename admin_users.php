@@ -65,7 +65,7 @@ require_once("models/header.php");
 						<!-- Table -->
 					  <table class="tablesorter-bootstrap">
 							<thead>
-								<th>User ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Title</th><th>Active</th>
+								<th>User ID</th><th>Email</th><th>Name</th><th>Title</th><th>Active</th>
 							</thead>
 							<tbody>
 							<? //Cycle through users
@@ -73,9 +73,8 @@ require_once("models/header.php");
 						?>
 						<tr class="clickableCell" href="../admin_user.php?id=<? echo $v1['user_id']; ?>">
 							<td><? echo $v1['user_id']; ?></td>
-							<td><? echo $v1['first_name']; ?></td>
-							<td><? echo $v1['last_name']; ?></td>
 							<td><?php echo $v1['email']; ?></td>
+							<td><? echo $v1['f_name']." ".$v1['l_name']; ?></td>
 							<td><?php echo $v1['title']; ?></td>
 							<td>
 								<? //Display payment status
@@ -83,7 +82,7 @@ require_once("models/header.php");
 									echo " <span class='label label-success'>Active</span>";	
 								}
 								else{
-									echo " <span class='label label-danger'>Not Active</span>
+									echo " <span class='label label-danger'>Inactive</span>
 									";
 								} ?>
 							</td>
@@ -98,7 +97,12 @@ require_once("models/header.php");
 			</div>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	?>
+	<script src='js/jquery.tablesorter.js' type='text/javascript'></script>
+	<script src='js/jquery.tablesorter.widgets.min.js' type='text/javascript'></script>
 	<script>
 	jQuery(document).ready(function($) {
 		$(".clickableCell").click(function() {

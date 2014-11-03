@@ -50,42 +50,10 @@ $lang = array_merge($lang,array(
 	"ACCOUNT_DELETIONS_SUCCESSFUL"		=> "You have successfully deleted %m1% users",
 	"ACCOUNT_MANUALLY_ACTIVATED"		=> "%m1%'s account has been manually activated",
 	"ACCOUNT_DISPLAYNAME_UPDATED"		=> "Displayname changed to %m1%",
-	"ACCOUNT_TITLE_UPDATED"			=> "Title changed to %m2%",
+	"ACCOUNT_TITLE_UPDATED"			=> "%m1%'s title changed to %m2%",
 	"ACCOUNT_PERMISSION_ADDED"		=> "Added access to %m1% permission levels",
 	"ACCOUNT_PERMISSION_REMOVED"		=> "Removed access from %m1% permission levels",
 	"ACCOUNT_INVALID_USERNAME"		=> "Invalid username",
-	"ACCOUNT_COUNTRY_UPDATED"		=> "Country updated",
-	"ACCOUNT_PHONE_UPDATED"		=> "Phone number updated",
-	"ACCOUNT_SPECIFY_PHONE"		=> "Invalid phone number",
-	"ACCOUNT_ADDRESS_UPDATED"		=> "Street address updated",
-	"ACCOUNT_SPECIFY_ADDRESS"		=> "Invalid street address",
-	"ACCOUNT_CITY_UPDATED"		=> "City has been updated",
-	"ACCOUNT_SPECIFY_CITY"		=> "Invalid city",
-	"ACCOUNT_STATE_UPDATED"		=> "State has been updated",
-	"ACCOUNT_SPECIFY_STATE"		=> "Invalid state",
-	"ACCOUNT_ZIP_UPDATED"		=> "Zip code has been updated",
-	"ACCOUNT_SPECIFY_ZIP"		=> "Invalid zip code",
-	"ACCOUNT_COMPANY_UPDATED"		=> "City has been updated",
-	"ACCOUNT_SPECIFY_FIRST_NAME"		=> "First name is required",
-	"ACCOUNT_FIRST_NAME_UPDATED"		=> "First name has been updated",
-	"ACCOUNT_SPECIFY_LAST_NAME"		=> "Last name is required",
-	"ACCOUNT_LAST_NAME_UPDATED"		=> "Last name has been updated",
-	));
-	
-//Conference
-$lang = array_merge($lang,array(
-	"CONFERENCE_SUCCESS" 		=> "You have successfully added a conference",
-	"CONFERENCE_ERROR" 		=> "There was an error, please try again",
-	"BANNER_FILE_EXISTS" 		=> "Banner file already exists",
-	"BANNER_ABOVE_FILE_SIZE" 		=> "Banner exceeds file size",
-	"BANNER_TYPE_ERROR" 		=> "Banner must be a JPG image",
-	"BANNER_UPLOAD_SUCCESS" 		=> "Banner uploaded successfully",
-	"BANNER_UPLOAD_ERROR" 		=> "There was an error uploading your banner",
-	"SCHEDULE_FILE_EXISTS" 		=> "Schedule file already exists",
-	"SCHEDULE_ABOVE_FILE_SIZE" 		=> "Schedule exceeds file size",
-	"SCHEDULE_TYPE_ERROR" 		=> "Schedule must be a JPG image",
-	"SCHEDULE_UPLOAD_SUCCESS" 		=> "Schedule uploaded successfully",
-	"SCHEDULE_UPLOAD_ERROR" 		=> "There was an error uploading your schedule",
 	));
 	
 //Attendee
@@ -149,6 +117,7 @@ $lang = array_merge($lang,array(
 	"PAGE_PRIVATE_TOGGLED"			=> "This page is now %m1%",
 	"PAGE_ACCESS_REMOVED"			=> "Page access removed for %m1% permission level(s)",
 	"PAGE_ACCESS_ADDED"			=> "Page access added for %m1% permission level(s)",
+	"PAGE_TITLE_UPDATED"	=> "Page title successfully updated",
 	));
 
 //Permissions

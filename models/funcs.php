@@ -10,7 +10,7 @@ http://usercake.com
 //Retrieve a list of all .php files in models/languages
 function getLanguageFiles()
 {
-	$directory = "../models/languages/";
+	$directory = "models/languages/";
 	$languages = glob($directory . "*.php");
 	//print each file name
 	return $languages;
@@ -28,14 +28,12 @@ function getTemplateFiles()
 //Retrieve a list of all .php files in root files folder
 function getPageFiles()
 {
-	$directory = "../";
+	$directory = "";
 	$pages = glob($directory . "*.php");
 	//print each file name
 	foreach ($pages as $page){
 		$row[$page] = $page;
 	}
-	
-	
 	return $row;
 }
 
@@ -147,30 +145,28 @@ function resultBlock($errors,$successes){
 	//Error block
 	if(count($errors) > 0)
 	{
-		echo "<div id='result' class='col-lg-4 col-lg-push-4 col-md-6 col-md-push-3 col-sm-12 alert alert-danger'>
-		<a href='#' onclick=\"showHide('result');\"><span class='glyphicon glyphicon-remove'></span></a>
-		<label>Error</label>
-		<ul>";
+		echo "<div id='result' class='col-lg-8 col-lg-push-2' style='pading: 50px;'><div class='alert alert-danger'>
+		<span class='btn btn-sm btn-danger glyphicon glyphicon-remove' style='float: right;' onclick=\"showHide('result');\"></span>
+		<ul style='padding-top:20px;'>";
 		foreach($errors as $error)
 		{
 			echo "<li>".$error."</li>";
 		}
 		echo "</ul>";
-		echo "</div>";
+		echo "</div></div>";
 	}
 	//Success block
 	if(count($successes) > 0)
 	{
-		echo "<div id='result' class='col-lg-4 col-lg-push-4 col-md-6 col-md-push-3 col-sm-12 alert alert-success'>
-		<a href='#' onclick=\"showHide('result');\"><span class='glyphicon glyphicon-remove'></span></a>
-		<label>Success</label>
-		<ul>";
+		echo "<div id='result' class='col-lg-8 col-lg-push-2' style='pading: 50px;'><div class='alert alert-success'>
+		<span class='btn btn-sm btn-danger glyphicon glyphicon-remove' style='float: right;'  onclick=\"showHide('result');\"></span>
+		<ul style='padding-top:20px;'>";
 		foreach($successes as $success)
 		{
 			echo "<li>".$success."</li>";
 		}
 		echo "</ul>";
-		echo "</div>";
+		echo "</div></div>";
 	}
 }
 
@@ -201,6 +197,31 @@ function deleteUsers($users) {
 	$stmt->close();
 	$stmt2->close();
 	return $i;
+}
+
+//Check if a display name exists in the DB
+function presentationExists($presentationID)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("SELECT *
+		FROM presentation
+		WHERE
+		presentation_id = ?
+		LIMIT 1");
+	$stmt->bind_param("s", $presentationID);	
+	$stmt->execute();
+	$stmt->store_result();
+	$num_returns = $stmt->num_rows;
+	$stmt->close();
+	
+	if ($num_returns > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;	
+	}
 }
 
 //Check if an email exists in the DB
@@ -260,9 +281,7 @@ function fetchAllUsers()
 {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
-		id,
-		first_name,
-		last_name,
+		id as user_id,
 		password,
 		email,
 		activation_token,
@@ -274,21 +293,25 @@ function fetchAllUsers()
 		last_sign_in_stamp
 		FROM ".$db_table_prefix."users");
 	$stmt->execute();
-	$stmt->bind_result($id, $first_name, $last_name, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
+	$stmt->bind_result($id, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
 	
 	while ($stmt->fetch()){
-		$row[] = array('user_id' => $id, 'first_name' => $first_name, 'last_name' => $last_name, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
+		$row[] = array('user_id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
 	}
 	$stmt->close();
 	return ($row);
 }
 
 //Retrieve complete user information by username, token or ID
-function fetchUserDetails($email=NULL,$token=NULL, $id=NULL)
+function fetchUserDetails($email=NULL,$username=NULL,$token=NULL, $id=NULL)
 {
 	if($email!=NULL) {
 		$column = "email";
 		$data = $email;
+	} 
+	elseif($username!=NULL) {
+		$column = "user_name";
+		$data = $username;
 	}
 	elseif($token!=NULL) {
 		$column = "activation_token";
@@ -301,8 +324,6 @@ function fetchUserDetails($email=NULL,$token=NULL, $id=NULL)
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
-		first_name,
-		last_name,
 		password,
 		email,
 		activation_token,
@@ -312,32 +333,32 @@ function fetchUserDetails($email=NULL,$token=NULL, $id=NULL)
 		title,
 		sign_up_stamp,
 		last_sign_in_stamp
-		FROM ".$db_table_prefix."users
+		FROM users
 		WHERE
 		$column = ?
 		LIMIT 1");
 		$stmt->bind_param("s", $data);
 	
 	$stmt->execute();
-	$stmt->bind_result($id, $first_name, $last_name, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
+	$stmt->bind_result($id, $password, $email, $token, $activationRequest, $passwordRequest, $active, $title, $signUp, $signIn);
 	while ($stmt->fetch()){
-		$row = array('id' => $id, 'first_name' => $first_name, 'last_name' => $last_name, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
+		$row = array('id' => $id, 'password' => $password, 'email' => $email, 'activation_token' => $token, 'last_activation_request' => $activationRequest, 'lost_password_request' => $passwordRequest, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'last_sign_in_stamp' => $signIn);
 	}
 	$stmt->close();
 	return ($row);
 }
 
 //Toggle if lost password request flag on or off
-function flagLostPasswordRequest($email,$value)
+function flagLostPasswordRequest($username,$value)
 {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
 		SET lost_password_request = ?
 		WHERE
-		email = ?
+		user_name = ?
 		LIMIT 1
 		");
-	$stmt->bind_param("ss", $value, $email);
+	$stmt->bind_param("ss", $value, $username);
 	$result = $stmt->execute();
 	$stmt->close();
 	return $result;
@@ -397,14 +418,16 @@ function setUserActive($token)
 	return $result;
 }
 
-//Update user field
-function updateUserDetail($user_id, $field, $value)
+//Change a user's display name
+function updateDisplayName($id, $display)
 {
 	global $mysqli,$db_table_prefix;
-	$stmt = $mysqli->prepare("UPDATE user_users
-		SET `{$field}` = '{$value}'
+	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
+		SET display_name = ?
 		WHERE
-		id = {$user_id}");
+		id = ?
+		LIMIT 1");
+	$stmt->bind_param("si", $display, $id);
 	$result = $stmt->execute();
 	$stmt->close();
 	return $result;
@@ -882,6 +905,22 @@ function createPages($pages) {
 	$stmt->close();
 }
 
+//Update a Page Title
+
+function updatePageTitle($id, $title)
+{
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE pages
+		SET 
+		title = ?
+		WHERE
+		id = ?");
+	$stmt->bind_param("si", $title, $id);
+	$result = $stmt->execute();
+	$stmt->close();	
+	return $result;	
+}
+
 //Delete a page from the DB
 function deletePages($pages) {
 	global $mysqli,$db_table_prefix; 
@@ -926,16 +965,17 @@ function fetchPageDetails($id)
 	$stmt = $mysqli->prepare("SELECT 
 		id,
 		page,
+		title,
 		private
-		FROM ".$db_table_prefix."pages
+		FROM pages
 		WHERE
 		id = ?
 		LIMIT 1");
 	$stmt->bind_param("i", $id);
 	$stmt->execute();
-	$stmt->bind_result($id, $page, $private);
+	$stmt->bind_result($id, $page, $title, $private);
 	while ($stmt->fetch()){
-		$row = array('id' => $id, 'page' => $page, 'private' => $private);
+		$row = array('id' => $id, 'page' => $page, 'title' => $title, 'private' => $private);
 	}
 	$stmt->close();
 	return ($row);
@@ -1159,7 +1199,244 @@ function securePage($uri){
 	}
 }
 
+// Returns page title
+function pageTitle($uri) {
+	//Separate document name from uri
+	$tokens = explode('/', $uri);
+	$page = $tokens[sizeof($tokens)-1];
+	global $mysqli,$loggedInUser;
+	//retrieve page details
+	$stmt = $mysqli->prepare("SELECT 
+		id,
+		page,
+		title,
+		private
+		FROM pages
+		WHERE
+		page = ?
+		LIMIT 1");
+	$stmt->bind_param("s", $page);
+	$stmt->execute();
+	$stmt->bind_result($id, $page, $title, $private);
+	while ($stmt->fetch()){
+		$pageDetails = array('id' => $id, 'page' => $page, 'title' => $title, 'private' => $private);
+	}
+	$stmt->close();
+	
+	return $pageDetails['title'];
+}
 
+//Retrieve a list of all .php files in models/languages
+function fetchTracks($conference_id)
+{
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			track_id,
+			full_name
+	FROM track WHERE conference_id = {$conference_id}");
+	$stmt->execute();
+	$stmt->bind_result($track_id, $track_title);
+	
+	while ($stmt->fetch()){
+		$row[] = array('track_id' => $track_id, 'full_name' => $track_title);
+	}
+	$stmt->close();
+	return ($row);
+}
 
+//Checks if a username exists in the DB
+function userIsAttendee($user_id) {
+	global $mysqli;
+	$stmt = $mysqli->prepare("SELECT *
+		FROM attendee
+		WHERE
+		user_id = ?
+		LIMIT 1");
+	$stmt->bind_param("i", $user_id);	
+	$stmt->execute();
+	$stmt->store_result();
+	$num_returns = $stmt->num_rows;
+	$stmt->close();
+	
+	if ($num_returns > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;	
+	}
+}
+
+//Retrieve information for all attendees
+function fetchAllAttendees() {
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			attendee.user_id, 
+			users.email,
+			users.active,
+			users.title,
+			users.sign_up_stamp,
+	 		attendee.f_name,
+	 		attendee.l_name,
+			attendee.address_1, 
+			attendee.address_2, 
+			attendee.city, 
+			attendee.state, 
+			attendee.postal_code,
+			attendee.country,
+			attendee.phone,
+			attendee.company
+			FROM attendee
+	INNER JOIN `users` on attendee.user_id = users.id;");
+	$stmt->execute();
+	$stmt->bind_result($user_id, $email, $active, $title, $signUp, $f_name, $l_name, $address_1, $address_2, $city, $state, $postal_code, $country, $phone, $company);
+	
+	while ($stmt->fetch()){
+		$row[] = array('user_id' => $user_id, 'email' => $email, 'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'f_name' => $f_name, 'l_name' => $l_name, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'postal_code' => $postal_code, 'country' => $country, 'phone' => $phone, 'company' => $company);
+	}
+	$stmt->close();
+	return ($row);
+}
+
+//Retrieve information for a single attendee
+function fetchAttendeeDetails($user_id) {
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			attendee.user_id, 
+			users.email,
+			users.active,
+			users.title,
+			users.sign_up_stamp,
+	 		attendee.f_name,
+	 		attendee.l_name,
+			attendee.address_1, 
+			attendee.address_2, 
+			attendee.city, 
+			attendee.state, 
+			attendee.postal_code,
+			attendee.country,
+			attendee.phone,
+			attendee.company
+			FROM attendee
+	INNER JOIN `users` ON attendee.user_id = {$user_id} AND users.id = {$user_id}");
+	$stmt->execute();
+	$stmt->bind_result($user_id, $email, $active, $title, $signUp, $f_name, $l_name, $address_1, $address_2, $city, $state, $zip, $country, $phone, $company);
+	
+	while ($stmt->fetch()){
+		$row = array('user_id' => $user_id, 'email' => $email,'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'f_name' => $f_name, 'l_name' => $l_name, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'zip' => $zip, 'country' => $country, 'phone' => $phone, 'company' => $company);
+	}
+	$stmt->close();
+	return ($row);
+}
+
+//Update attendee field
+function updateAttendeeDetail($user_id, $field, $value) {
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE attendee
+		SET `{$field}` = '{$value}'
+		WHERE
+		user_id = {$user_id}");
+	$result = $stmt->execute();
+	$stmt->close();
+}
+
+//Retrieve information for all presentations
+function fetchAllPresentations($conference_id = NULL, $track_id = NULL, $customfilter = NULL) {
+	if ($conference_id != NULL) {
+		$filter = " WHERE presentation.conference_id = {$conference_id}";
+		
+		if ($track_id != NULL) {
+			$filter .= " AND presentation.track_id = {$track_id}";
+			
+			if($customfilter != NULL) {
+				$filter .= " AND ".$customfilter;
+			}
+		}
+	}
+	
+	global $mysqli; 
+	$stmt = $mysqli->prepare("
+	SELECT
+		presentation.presentation_id,
+		presentation.title,
+		CONCAT_WS(' ', attendee.f_name, attendee.l_name) AS main_presenter,
+	  track.full_name AS track_title,
+	  session.week_day,
+		session.start_time,
+		session.end_time,
+		room.building,
+		room.room_number,
+		presentation.active
+	FROM
+		presentation
+	INNER JOIN `presenter`  ON presentation.presentation_id = presenter.presentation_id
+							AND presenter.main = 1
+	INNER JOIN `attendee`   ON presenter.attendee_user_id = attendee.user_id
+	INNER JOIN `track` 		ON presentation.track_id = track.track_id
+	INNER JOIN `session`    ON presentation.presentation_id = session.presentation_id
+	INNER JOIN `room`	    ON session.room_id = room.room_id");
+	$stmt->execute();
+	$stmt->bind_result($presentation_id,$presentation_title,$main_presenter,$track_title,$week_day,$start_time,$end_time,$building,$room_number,$active);
+	
+	while ($stmt->fetch()){
+		$row[] = array('presentation_id' => $presentation_id, 'title' => $presentation_title, 'main_presenter' => $main_presenter, 'track_title' => $track_title, 'week_day' => $week_day, 'start_time' => $start_time, 'end_time' => $end_time, 'building' => $building, 'room_number' => $room_number, 'active' => $active);
+	}
+	$stmt->close();
+	return ($row);
+}
+
+//Retrieve information for all presentations
+function fetchPresentationDetails($presentationId) {
+	
+	global $mysqli; 
+	$stmt = $mysqli->prepare("
+		SELECT
+		presentation.presentation_id,
+		presentation.conference_id,
+		presentation.title,
+		presentation.abstract,
+		presentation.active,
+		presentation.presentation_attachment,
+    presenter.attendee_user_id AS main_presenter_id,
+		CONCAT_WS(' ', attendee.f_name, attendee.l_name) AS main_presenter_name,
+    presenter.biography,
+	  track.full_name AS track_title,
+	 	session.week_day,
+		session.start_time,
+		session.end_time,
+		room.building,
+		room.room_number
+	FROM
+		presentation
+	INNER JOIN `presenter`  ON presentation.presentation_id = presenter.presentation_id
+							AND presenter.main = 1
+	INNER JOIN `attendee`   ON presenter.attendee_user_id = attendee.user_id
+	INNER JOIN `track` 		ON presentation.track_id = track.track_id
+	INNER JOIN `session`    ON presentation.presentation_id = session.presentation_id
+	INNER JOIN `room`	    ON session.room_id = room.room_id");
+	$stmt->execute();
+	$stmt->bind_result($presentation_id,
+										 $conference_id,
+										 $presentation_title,
+										 $abstract,
+										 $active,
+										 $presentation_attachment,
+										 $main_presenter_id,
+										 $main_presenter_name,
+										 $main_presenter_bio,
+										 $track_title,
+										 $week_day,
+										 $start_time,
+										 $end_time,
+										 $building,
+										 $room_number);
+	
+	while ($stmt->fetch()){
+		$row = array('presentation_id' => $presentation_id, 'conference_id' => $conference_id, 'title' => $presentation_title,  'abstract' => $abstract, 'active' => $active, 'presentation_attachment' => $presentation_attachment,   'main_presenter_id' => $main_presenter_id, 'main_presenter_name' => $main_presenter_name, 'main_presenter_bio' => $main_presenter_bio, 'track_title' => $track_title, 'week_day' => $week_day, 'start_time' => $start_time, 'end_time' => $end_time, 'building' => $building, 'room_number' => $room_number, 'active' => $active);
+	}
+	$stmt->close();
+	return ($row);
+}
 
 ?>

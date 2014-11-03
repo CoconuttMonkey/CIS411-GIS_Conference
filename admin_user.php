@@ -293,61 +293,30 @@ require_once("models/header.php");
 								  <div class="panel-body">
 										<div class="form-group">
 											<label>First Name</label>
-										  <input type="text" class="form-control" name="first_name" value='<? echo $userdetails['first_name']; ?>' required>
+										  <input type="text" class="form-control can-enable" name="first_name" value='<? echo $userdetails['f_name']; ?>' required>
 										</div>
 										
 										<div class="form-group">
 											<label>Last Name</label>
-										  <input type="text" class="form-control" name="last_name" value='<? echo $userdetails['last_name']; ?>' required>
+										  <input type="text" class="form-control can-enable" name="last_name" value='<? echo $userdetails['l_name']; ?>' required>
 										</div>
 										
 										<div class="form-group">
 											<label>Email Address</label>
-										  <input type="text" class="form-control" name="email" value='<? echo $userdetails['email']; ?>' required>
+										  <input type="text" class="form-control can-enable" name="email" value='<? echo $userdetails['email']; ?>' required>
 										</div>
 								  </div>
 								</div>
-							</div>
-							
-							<div class='col-lg-6'>
+								
 								<div class="panel panel-primary">
 									<div class="panel-heading">Account Status</div>
 								  <div class="panel-body">
 								  	<div class="form-group">
 											<label>Title</label>
-										  <input type="text" class="form-control" name="title" value='<? echo $userdetails['title']; ?>' required>
+										  <input type="text" class="form-control can-enable" name="title" value='<? echo $userdetails['title']; ?>' required>
 										</div>
-										
-										<div class="form-group">
-											<label>Sign Up</label>
-										  <input type="text" class="form-control" name="sign_up_stamp" value='<? echo date("j M, Y", $userdetails['sign_up_stamp']); ?>' disabled="disabled">
-										</div>
-										
-										<div class="form-group">
-											<label>Last Sign In</label>
-										  <input type="text" class="form-control" name="title" value='<? //Last sign in, interpretation
-											if ($userdetails['last_sign_in_stamp'] == '0'){
-												echo "Never";	
-											}
-											else {
-												echo date("j M, Y", $userdetails['last_sign_in_stamp']);
-											} ?>' disabled="disabled">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class='col-lg-6'>
-								<div class="panel panel-primary">
-									<div class="panel-heading">Account Permissions</div>
-								  <div class="panel-body">
-								  	<? //Settings for permission level 4 (web master)
-										if ($loggedInUser->checkPermission(array(4))){
+								  	<?
 										echo "
-										<legend>Account Permission</legend>
-										
 										<strong>Remove Permission</strong>";
 					
 										//List of permission levels user is apart of
@@ -364,10 +333,10 @@ require_once("models/header.php");
 												echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['name'];
 											}
 										} ?>
-										<? } ?>
 								  	</div>
 								</div>
 							</div>
+							
 							<? if(userIsAttendee($userId)) { ?>
 							<div class='col-lg-6'>
 								<div class="panel panel-primary">
@@ -376,7 +345,7 @@ require_once("models/header.php");
 									  
 										<div class="form-group">
 											<label>Country</label>
-			                <select class="form-control" name="country" data-bv-notempty data-bv-notempty-message="The country is required">
+			                <select class="form-control can-enable" name="country" data-bv-notempty data-bv-notempty-message="The country is required">
 		                    <option value="">-- Select a country --</option>
 		                    <option value="US" <? if ($userdetails['country'] == 'US') echo 'selected="selected"';?>>United States</option>
 		                    <option value="FR" <? if ($userdetails['country'] == 'FR') echo 'selected="selected"';?>>France</option>
@@ -390,55 +359,63 @@ require_once("models/header.php");
 				                    
 										<div class="form-group">
 											<label>Phone Number</label>
-										  <input type="text" class="form-control" name="phone" value="<? echo $userdetails['phone']; ?>">
+										  <input type="text" class="form-control can-enable" name="phone" value="<? echo $userdetails['phone']; ?>">
 										</div>
 										
 										<div class="form-group">
 											<label>Address Line 1</label>
-										  <input type="text" class="form-control" name="address_1" value="<? echo $userdetails['address_1']; ?>">
+										  <input type="text" class="form-control can-enable" name="address_1" value="<? echo $userdetails['address_1']; ?>">
 										</div>
 										
 										<div class="form-group">
 											<label>Address Line 2</label>
-										  <input type="text" class="form-control" name="address_2" value="<? echo $userdetails['address_2']; ?>">
+										  <input type="text" class="form-control can-enable" name="address_2" value="<? echo $userdetails['address_2']; ?>">
 										</div>
 										
 										<div class="form-group">
 											<label>City</label>
-										  <input type="text" class="form-control" name="city"  value="<? echo $userdetails['city']; ?>">
+										  <input type="text" class="form-control can-enable" name="city"  value="<? echo $userdetails['city']; ?>">
 										</div>
 										
 										<div class="form-group">
 											<label>State</label>
-										  <input type="text" class="form-control" name="state"  value="<? echo $userdetails['state']; ?>">
+										  <input type="text" class="form-control can-enable" name="state"  value="<? echo $userdetails['state']; ?>">
 										</div>
 										
 										<div class="form-group">
 											<label>Zip</label>
-										  <input type="text" class="form-control" name="zip"  value="<? echo $userdetails['zip']; ?>">
+										  <input type="text" class="form-control can-enable" name="postal_code"  value="<? echo $userdetails['postal_code']; ?>">
 										</div>
 										
 										<div class="form-group">
 											<label>Company / Institution</label>
-										  <input type="text" class="form-control" name="company"  value="<? echo $userdetails['company']; ?>">
+										  <input type="text" class="form-control can-enable" name="company"  value="<? echo $userdetails['company']; ?>">
 										</div>
 										
 									</div>
 								</div>
 							</div>
 							<? } ?>
-						</div>
 						<p style="text-align: center;">
-							<input type='submit' value='Update' class='btn btn-lg btn-success' />
+							<input type='submit' value='Save' class='btn btn-lg btn-success'/>
+							<input type='button' id='enable-fields' value='Edit' class='btn btn-lg btn-danger'/>
 						</p>
+						</div>
 				</form>
 			</div>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	 ?>
 	<script>
-		$('edit-contact-info').click(function {
-			$( "form :disabled" ).removeAttr('disabled');
+		$( document ).ready(function {
+			$(".can-enable").attr('disabled','disabled');
+		});
+		
+		$('#enable-fields').click(function {
+			$( ".can-enable" ).prop( "disabled", false );
 		});
 	</script>
 </body>

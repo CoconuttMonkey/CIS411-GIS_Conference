@@ -410,7 +410,7 @@ require_once("models/header.php");
 	});	
 	</script>
 	<? }
-	
-		include("models/footer.php"); ?>
+include("models/footer.php");
+include("models/BootstrapJavaScript.php"); ?>
 </body>
 </html>

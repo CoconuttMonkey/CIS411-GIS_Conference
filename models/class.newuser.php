@@ -11,22 +11,18 @@ class User
 	private $clean_email;
 	public $status = false;
 	private $clean_password;
-	private $first_name;
-	private $last_name;
 	public $sql_failure = false;
 	public $mail_failure = false;
 	public $email_taken = false;
 	public $activation_token = 0;
 	public $success = NULL;
 	
-	function __construct($first_name,$last_name,$pass,$email)
+	function __construct($pass,$email)
 	{
 		
 		//Sanitize
 		$this->clean_email = sanitize($email);
 		$this->clean_password = trim($pass);
-		$this->first_name = trim($first_name);
-		$this->last_name = trim($last_name);
 		
 		if(emailExists($this->clean_email))
 		{
@@ -95,13 +91,10 @@ class User
 				$this->success = lang("ACCOUNT_REGISTRATION_COMPLETE_TYPE1");
 			}	
 			
-			
 			if(!$this->mail_failure)
 			{
 				//Insert the user into the database providing no errors have been found.
-				$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."users (
-					first_name,
-					last_name,
+				$stmt = $mysqli->prepare("INSERT INTO users (
 					password,
 					email,
 					activation_token,
@@ -116,8 +109,6 @@ class User
 					?,
 					?,
 					?,
-					?,
-					?,
 					'".time()."',
 					'0',
 					?,
@@ -126,13 +117,13 @@ class User
 					'0'
 					)");
 				
-				$stmt->bind_param("sssssi", $this->first_name, $this->last_name, $secure_pass, $this->clean_email, $this->activation_token, $this->user_active);
+				$stmt->bind_param("sssi", $secure_pass, $this->clean_email, $this->activation_token, $this->user_active);
 				$stmt->execute();
 				$inserted_id = $mysqli->insert_id;
 				$stmt->close();
 				
 				//Insert default permission into matches table
-				$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."user_permission_matches  (
+				$stmt = $mysqli->prepare("INSERT INTO user_permission_matches  (
 					user_id,
 					permission_id
 					)

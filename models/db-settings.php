@@ -3,24 +3,13 @@
 UserCake Version: 2.0.2
 http://usercake.com
 */
+
 //Database Information
-$host = $_SERVER['HTTP_HOST'];
-if ($host == 'cisprod.clarion.edu' || $host == 'cisprod.clarion.edu/~s_mrondo/') {
-	$db_host = "localhost"; //Host address (most likely localhost)
-	$db_name = "cis411_gisconference"; //Name of Database
-	$db_user = "s_mrondo"; //Name of database user
-	$db_pass = "s_mrondo"; //Password for database user*/
-	$db_table_prefix = "user_";
-} else if ($host == 'www.gisconference.local' || $host == 'gisconference.local') {
-	//LOCAL Database Information
-	$db_host = "localhost"; //Host address (most likely localhost)
-	$db_name = "cis411_gisconference"; //Name of Database
-	$db_user = "root"; //Name of database user
-	$db_pass = "Gr@ys0n"; //Password for database user*/
-	$db_table_prefix = "user_";
-
-}
-
+$db_host = "localhost"; //Host address (most likely localhost)
+$db_name = "gisconference"; //Name of Database
+$db_user = "root"; //Name of database user
+$db_pass = "Gr@ys0n"; //Password for database user
+$db_table_prefix = "";
 
 GLOBAL $errors;
 GLOBAL $successes;
@@ -38,9 +27,9 @@ if(mysqli_connect_errno()) {
 }
 
 //Direct to install directory, if it exists
-if(is_dir("../install/"))
+if(is_dir("install/"))
 {
-	header("Location: ../install/");
+	header("Location: install/");
 	die();
 
 }

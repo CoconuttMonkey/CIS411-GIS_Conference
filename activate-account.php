@@ -39,19 +39,14 @@ if(count($errors) == 0) {
 require_once("models/header.php");
 
 echo "
-<body>
+<body>";
+include("top-nav.php");
+echo "
 <div id='wrapper'>
 <div id='top'><div id='logo'></div></div>
 <div id='content'>
 <h1>UserCake</h1>
 <h2>Activate Account</h2>
-
-<div id='left-nav'>";
-
-include("left-nav.php");
-
-echo "
-</div>
 <div id='main'>";
 
 echo resultBlock($errors,$successes);
@@ -59,7 +54,9 @@ echo resultBlock($errors,$successes);
 echo "
 </div>
 <div id='bottom'></div>
-</div>
+</div>";
+include("BootstrapJavaScript.php");
+echo "
 </body>
 </html>";
 

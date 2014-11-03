@@ -110,7 +110,7 @@ require_once("models/header.php");
 	<div class='container'>
 		<ol class="breadcrumb">
 		  <li><a href="admin_dashboard.php">Dashboard</a></li>
-		  <li><a href="#">Permissions</a></li>
+		  <li><a href="admin_permissions.php">Permissions</a></li>
 		  <li class="active"><a href="#"><? echo $permissionDetails['name']; ?></a></li>
 		</ol>
 		<div class='row'>
@@ -148,7 +148,7 @@ require_once("models/header.php");
 								  <? //List users with permission level
 									foreach ($userData as $v1) {
 										if(isset($permissionUsers[$v1['id']])){
-											echo "<br><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['first_name']." ".$v1['last_name']."</label>";
+											echo "<br><label style='font-weight: 400;'><input type='checkbox' name='removePermission[".$v1['id']."]' id='removePermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['email']."</label>";
 										}
 									} ?>
 								</div>
@@ -158,7 +158,7 @@ require_once("models/header.php");
 								  <? //List users without permission level
 									foreach ($userData as $v1) {
 										if(!isset($permissionUsers[$v1['id']])){
-											echo "<br><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['first_name']." ".$v1['last_name'];
+											echo "<br><label style='font-weight: 400;'><input type='checkbox' name='addPermission[".$v1['id']."]' id='addPermission[".$v1['id']."]' value='".$v1['id']."'> ".$v1['email']."</label>";
 										}
 									} ?>
 								</div>
@@ -185,7 +185,7 @@ require_once("models/header.php");
 								  <? //List pages accessible to permission level
 									foreach ($pageData as $v1) {
 										if(isset($pagePermissions[$v1['id']]) AND $v1['private'] == 1){
-											echo "<br><input type='checkbox' name='removePage[".$v1['id']."]' id='removePage[".$v1['id']."]' value='".$v1['id']."'> ".$v1['page'];
+											echo "<br><label style='font-weight: 400;'><input type='checkbox' name='removePage[".$v1['id']."]' id='removePage[".$v1['id']."]' value='".$v1['id']."'> ".$v1['page']."</label>";
 										}
 									} ?>
 								</div>
@@ -195,7 +195,7 @@ require_once("models/header.php");
 								  <? //List pages inaccessible to permission level
 									foreach ($pageData as $v1) {
 										if(!isset($pagePermissions[$v1['id']]) AND $v1['private'] == 1){
-											echo "<br><input type='checkbox' name='addPage[".$v1['id']."]' id='addPage[".$v1['id']."]' value='".$v1['id']."'> ".$v1['page'];
+											echo "<br><label style='font-weight: 400;'><input type='checkbox' name='addPage[".$v1['id']."]' id='addPage[".$v1['id']."]' value='".$v1['id']."'> ".$v1['page']."</label>";
 										}
 									} ?>
 								</div>
@@ -206,6 +206,9 @@ require_once("models/header.php");
 				</form>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	?>
 </body>
 </html>

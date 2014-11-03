@@ -42,8 +42,8 @@ if(isset($_GET["install"]))
 	$users_sql = "
 	CREATE TABLE IF NOT EXISTS `".$db_table_prefix."users` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`first_name` varchar(100) NOT NULL,
-	`last_name` varchar(100) NOT NULL,
+	`user_name` varchar(50) NOT NULL,
+	`display_name` varchar(50) NOT NULL,
 	`password` varchar(225) NOT NULL,
 	`email` varchar(150) NOT NULL,
 	`activation_token` varchar(225) NOT NULL,

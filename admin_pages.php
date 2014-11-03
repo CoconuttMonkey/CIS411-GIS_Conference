@@ -59,7 +59,7 @@ require_once("models/header.php");
 						<? //Display list of pages
 						foreach ($dbpages as $page){
 							echo "
-							<tr class='clickableCell' href='../admin/page.php?id=".$page['id']."' >
+							<tr class='clickableCell' href='../admin_page.php?id=".$page['id']."' >
 							<td>
 							".$page['id']."
 							</td>
@@ -85,7 +85,10 @@ require_once("models/header.php");
 			</div>
 		</div>
 	</div>
-	<?php include("models/footer.php"); ?>
+	<?php 
+		include("models/footer.php");
+		include("models/BootstrapJavaScript.php"); 
+	?>
 	<script>
 	jQuery(document).ready(function($) {
 		$(".clickableCell").click(function() {
