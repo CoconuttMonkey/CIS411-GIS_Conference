@@ -40,7 +40,7 @@
 								<li><a href='../conf_presentations.php'>Presentations</a></li>
 								<li><a href='../conf_exhibits.php'>Exhibits</a></li>
 								<li><a href='../conf_sponsors.php'>Sponsors</a></li>
-								<li><a href='../conf_settings.php'>Conference Settings</a></li>
+								<li><a href='../conf_conferences.php'>Conference Settings</a></li>
 		          </ul>
 		        </li>
 		        <li class="dropdown">

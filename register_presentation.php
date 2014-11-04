@@ -5,35 +5,10 @@ http://usercake.com
 */
 
 require_once("models/config.php");
-require_once("models/class.newpresentation.php");
-
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-//Prevent the user visiting the logged in page if he/she is already logged in
-if(!isUserLoggedIn()) { header("Location: ../login.php"); die(); }
+if(!isUserLoggedIn()) { header("Location: login.php"); die(); }
 
-//print_r($_POST);
 
-if (isset($_POST['newPresentation'])) {
-	$errors = array();
-	$main_presenter_id = $loggedInUser->user_id;
-	$conference_id = date('Y');
-	$main_presenter_bio = trim($_POST["main_presenter_bio"]);
-	$copresenter = $_POST["copresenter"];
-	$title = trim($_POST['presentation_title']);
-	$abstract = trim($_POST['presentation_abstract']);
-	$track_id = trim($_POST['track_id']);
-	$day_request = trim($_POST['day_request']);
-	
-	//Construct a user object
-	$presentation = new Presentation($conference_id, $title, $abstract, $track_id, $main_presenter_id, $main_presenter_bio);
-	
-	if(!$presentation->addPresentation()) {
-		if($presentation->mail_failure) $errors[] = lang("MAIL_ERROR");
-		if($presentation->sql_failure)  $errors[] = lang("SQL_ERROR");
-	} else {
-		$successes[] = lang("PRESENTATION_REGISTERED");
-	}
-}
 
 require_once("models/header.php");
 ?>
@@ -42,44 +17,46 @@ require_once("models/header.php");
 	<div class='container'>
 		<div class='row'>
 			<div class='col-lg-12'>
-				<h1><?= $pageTitle ?></h1>
+				<h1>Presentation Request</h1>
 				<? echo resultBlock($errors,$successes); ?>
 				<form name='newPresentation' id="newPresentation" action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
 				  <input type="text" class="form-control" name="newPresentation" value="1" style="display:none;" />
-					<div class="row">
-						<div class="col-lg-4">
-							<div class="panel panel-primary">
-								<div class="panel-heading"><h4>Main Presenter</h4></div>
-							  <div class="panel-body">
-				          <div class="form-group">
-				             <label class="control-label"><?= $loggedInUser->first_name." ".$loggedInUser->last_name."'s " ?>Biography</label>
-								  	<textarea class="form-control" rows="8" name="main_presenter_bio" id="main_presenter_bio" placeholder="Tell us about yourself"></textarea>
-				          </div>
-							  </div>
-							</div>
-							
-							<div class="panel panel-primary">
-								<div class="panel-heading"><h4>Co-Presenters</h4></div>
-							  <div class="panel-body">
-								  <p class="small">Co-presenters are invited via email, and will be added to your presenter list upon account activation</p>
-		              <div class="form-group">
-						      	<label class="control-label">Co Presenter 1</label>
-						        <input type="text" class="form-control" name="copresenter[]" />
-						    	</div>
-						    	
-		              <div class="form-group">
-						      	<label class="control-label">Co Presenter 2</label>
-						        <input type="text" class="form-control" name="copresenter[]" />
-						    	</div>
-						    	
-		              <div class="form-group">
-						      	<label class="control-label">Co Presenter 3</label>
-						        <input type="text" class="form-control" name="copresenter[]" />
-						    	</div>
-							  </div>
+					<div class="col-lg-4">
+						<div class="panel panel-primary">
+							<div class="panel-heading"><h4>Main Presenter</h4></div>
+			        <input type="text" class="form-control" name="main_presenter" value="<? echo $loggedInUser->user_id; ?>" style="display:none;" />
+						  <div class="panel-body">
+			          <div class="form-group">
+				          <label>Presenter Biography</label>
+							  	<textarea class="form-control" rows="8" name="presenter_bio" id="presenter_bio" placeholder="Tell us about yourself" required></textarea>
+			          </div>
 							</div>
 						</div>
 						
+						<div class="panel panel-primary">
+							<div class="panel-heading"><h4>Co-Presenters</h4></div>
+						  <div class="panel-body">
+					      <label class="control-label">Options</label>
+	              <div class="row form-group">
+					        <div class="col-lg-9">
+					            <input type="text" class="form-control" name="copresenter[]" placeholder="Invite by email" />
+					        </div>
+					        <div class="col-lg-3">
+					            <button type="button" class="btn btn-success addButton"><span class="glyphicon glyphicon-plus"></span></button>
+					        </div>
+					    	</div>
+					    	<!-- The option field template containing an option field and a Remove button -->
+						    <div class="row form-group hide" id="copresenterTemplate">
+					        <div class="col-lg-9">
+					          <input class="form-control" type="text" name="copresenter[]" placeholder="Invite by email" />
+					        </div>
+					        <div class="col-lg-3">
+					          <button type="button" class="btn btn-danger removeButton"><span class="glyphicon glyphicon-remove"></span></button>
+					        </div>
+						    </div>
+							</div>
+						</div>
+					</div><!-- /.col-lg-4 -->
 						<div class="col-lg-8">
 							<div class="panel panel-primary">
 								<div class="panel-heading"><h4>Presentation Information</h4></div>
@@ -87,84 +64,83 @@ require_once("models/header.php");
 								  <div class="col-lg-6">
 					          <div class="form-group">
 					              <label class="control-label">Title</label>
-					              <input type="text" class="form-control" name="presentation_title" />
+					              <input type="text" class="form-control" name="presentation_title" required />
 					          </div>
 					
 					          <div class="form-group">
 					              <label class="control-label">Abstract</label>
-					              <textarea class="form-control" rows="8" name="presentation_abstract" id="presentation_abstract" placeholder="A description of your presentation."></textarea>
+					              <textarea class="form-control" rows="8" name="presentation_abstract" id="presentation_abstract" placeholder="A description of your presentation." required></textarea>
 					          </div>
 								  </div>
 								  
 								  <div class="col-lg-6">
-					          <div class="form-group">
-											<label for="track_id">Track:</label>
-											<select class="form-control" name='track_id' id="track_id">
-										    <option selected="selected" value="">-</option>
-												<? //Display track options
-												$thisyear = date('Y');
-												$tracks = fetchTracks($thisyear);
-												
-												print_r($tracks);
-												
-												foreach ($tracks as $temp) {
-												  echo "<option value='".$temp['track_id']."'>".$temp['full_name']."</option>";
-												}
-												?>
-											</select>
-					          </div>
-										<div class="form-group">
-										  <label for="day_request">Request a Day</label>
-										  <select class="form-control" id="day_request" name="day_request">
-										    <option selected="selected" value="">-</option>
-										    <option>Thursday</option>
-										    <option>Friday</option>
+									  <div class="form-group">
+										  <label for="presentation_track">Track</label>
+										  <select class="form-control" id="presentation_track" name="presentation_track">
+										    <option selected="selected" value="">Select a Track</option>
+										    <option value="1">ED: GIS in Education</option>
+										    <option value="2">NA: Natural Resources Management</option>
+										    <option value="3">EM: Emergency Preparedness</option>
+										    <option value="4">AC: GIS in Action</option>
 										  </select>
+										</div>
+										
+										<div class="form-group">
+			                <label class="control-label">Request a Day</label>
+			                <div class="input-group date" id="presentation_day_request">
+			                    <input type="text" class="form-control" name="presentation_day_request" />
+			                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                </div>
 			              </div>
 								  </div>
 							  </div>
 							</div>
+						</div>
 							
+						<div class="col-lg-8">
 							<div class="panel panel-primary">
-								<div class="panel-heading"><h4><input type="checkbox" name="gallery" id="gallery" value="true" /> Register Map / Poster Gallery</h4></div>
+								<div class="panel-heading"><h4>Map / Poster Gallery</h4></div>
 							  <div class="panel-body">
+								  <div class="form-group">
+		                <div class="checkbox">
+		                  <label>
+		                    <input type="checkbox" name="gallery" id="gallery" /> <strong>Register Map / Poster Gallery</strong>
+		                  </label>
+		                </div>
+		              </div>
 		              
-								  <div id="gallery_info">
-									  <div class="col-lg-6">
-										  <div class="form-group">
-											  <label for="gallery_expertise_level">Expertise Level</label>
-											  <select class="form-control" id="gallery_expertise_level" name="gallery_expertise_level">
-											    <option selected="selected" value="">Select an expertise level</option>
-											    <option value="N">Novice</option>
-											    <option value="I">Intermediate</option>
-											    <option value="E">Expert</option>
-											  </select>
-											</div>
+								  <div id="gallery_info" style="display: none;">
+									  <div class="form-group">
+										  <label for="gallery_expertise_level">Expertise Level</label>
+										  <select class="form-control" id="gallery_expertise_level" name="gallery_expertise_level">
+										    <option selected="selected" value="">Select an expertise level</option>
+										    <option value="N">Novice</option>
+										    <option value="I">Intermediate</option>
+										    <option value="E">Expert</option>
+										  </select>
+										</div>
 		              
-										  <div class="form-group">
-				                <div class="checkbox">
-				                  <label>
-				                    <input type="checkbox" name="gallery_critique" id="gallery_critique" /> <strong>Be Critiqued?</strong>
-				                  </label>
-				                </div>
-				              </div>
-									  </div>
-			              
-									  <div class="col-lg-6">
-			                <div class="form-group">
-			                    <label class="control-label">Title</label>
-			                    <input class="form-control" type="text" name="gallery_title" />
+									  <div class="form-group">
+			                <div class="checkbox">
+			                  <label>
+			                    <input type="checkbox" name="gallery_critique" id="gallery_critique" /> <strong>Be Critiqued?</strong>
+			                  </label>
 			                </div>
-						
-						          <div class="form-group">
-						              <label class="control-label">Abstract</label>
-						              <textarea class="form-control" rows="8" name="gallery_abstract" id="gallery_abstract" placeholder="A description of your map or poster gallery."></textarea>
-						          </div>
-									  </div>
+			              </div>
+			              
+		                <div class="form-group">
+		                    <label class="control-label">Title</label>
+		                    <input class="form-control" type="text" name="gallery_title" />
+		                </div>
+					
+					          <div class="form-group">
+					              <label class="control-label">Abstract</label>
+					              <textarea class="form-control" rows="8" name="gallery_abstract" id="gallery_abstract" placeholder="A description of your map or poster gallery."></textarea>
+					          </div>
 		              </div>
 							 </div>
 						</div>
-						</div>
+					</div>
 					</div><!-- /.row -->
 					
 					<div class="row text-center">
@@ -174,9 +150,84 @@ require_once("models/header.php");
 			</div>
 		</div>
 	</div>
+  <link rel="stylesheet" href="http://eonasdan.github.io/bootstrap-datetimepicker/content/bootstrap-datetimepicker.css"/>
+  <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/moment.js"></script>
+  <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/bootstrap-datetimepicker.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			
+			$('#gallery').click(function(){
+			    $('#gallery_info').toggle();
+			});
+			
+			$('#presentation_day_request').datetimepicker({
+				pickTime: false
+			});
+			
+      $('#presentation_day_request').on('dp.change dp.show', function(e) {
+          // Validate the date when user change it
+          $('#newPresentation').data('bootstrapValidator').revalidateField('presentation_day_request');
+          // You also can call it as following:
+          // $('#defaultForm').bootstrapValidator('revalidateField', 'datetimePicker');
+      });
+
+	    // The maximum number of options
+	    var MAX_OPTIONS = 3;
+	
+	    $('#newPresentation')
+	        // Add button click handler
+	        .on('click', '.addButton', function() {
+	            var $template = $('#copresenterTemplate'),
+	                $clone    = $template
+	                                .clone()
+	                                .removeClass('hide')
+	                                .removeAttr('id')
+	                                .insertBefore($template),
+	                $option   = $clone.find('[name="copresenter[]"]');
+	
+	            // Add new field
+	            $('#newPresentation').bootstrapValidator('addField', $option);
+	        })
+	
+	        // Remove button click handler
+	        .on('click', '.removeButton', function() {
+	            var $row    = $(this).parents('.form-group'),
+	                $option = $row.find('[name="copresenter[]"]');
+	
+	            // Remove element containing the option
+	            $row.remove();
+	
+	            // Remove field
+	            $('#newPresentation').bootstrapValidator('removeField', $option);
+	        })
+	
+	        // Called after adding new field
+	        .on('added.field.bv', function(e, data) {
+	            // data.field   --> The field name
+	            // data.element --> The new field element
+	            // data.options --> The new field options
+	
+	            if (data.field === 'copresenter[]') {
+	                if ($('#newPresentation').find(':visible[name="copresenter[]"]').length >= MAX_OPTIONS) {
+	                    $('#newPresentation').find('.addButton').attr('disabled', 'disabled');
+	                }
+	            }
+      })
+
+      // Called after removing the field
+      .on('removed.field.bv', function(e, data) {
+         if (data.field === 'copresenter[]') {
+              if ($('#newPresentation').find(':visible[name="copresenter[]"]').length < MAX_OPTIONS) {
+                  $('#newPresentation').find('.addButton').removeAttr('disabled');
+              }
+          }
+      });
+    });	
+	</script>
 	<?php 
 		include("models/footer.php");
 		include("models/BootstrapJavaScript.php"); 
-	?>
+	 ?>
 </body>
 </html>

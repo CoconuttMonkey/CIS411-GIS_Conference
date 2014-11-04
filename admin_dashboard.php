@@ -18,8 +18,8 @@ require_once("models/header.php");
 		<h1>Admin Dashboard <? if(!userIsAttendee($loggedInUser->user_id)) echo '<a href="../conference/register.php" class="btn btn-success" style="float: right;">Register for the next conference!</a>'; ?></h1>
 		<div class="col-lg-12">
 			<div class="row">
-				<a href="conf_settings.php?new" class="btn btn-success">New Conference</a>
-				<a href="conf_settings.php?current" class="btn btn-warning">Current Conference</a>
+				<a href="conf_configuration.php?new" class="btn btn-success">New Conference</a>
+				<a href="conf_configuration.php?current" class="btn btn-warning">Current Conference</a>
 			</div>
 			<div class="row">
 				<h2>Users</h2>
@@ -66,28 +66,6 @@ require_once("models/header.php");
 	          </a>
 	        </div>
 	      </div>
-	      
-				<div class="col-lg-3 col-md-3 col-sm-6">
-	        <div class="panel panel-danger">
-	          <div class="panel-heading">
-	            <div class="row">
-	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading"><? echo count(fetchAllAttendees()); ?></p>
-	                <p class="announcement-text">Unpaid</p>
-	              </div>
-	            </div>
-	          </div>
-	          <a href="admin_users.php?list=attendees">
-	            <div class="panel-footer announcement-bottom">
-	              <div class="row">
-	                <div class="col-xs-12">
-	                  View Unpaid Attendees
-	                </div>
-	              </div>
-	            </div>
-	          </a>
-	        </div>
-	      </div>
 			</div>
 			<div class="row">
 				<h2>Presentations</h2>
@@ -96,7 +74,7 @@ require_once("models/header.php");
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading"><? echo count(fetchPendingPresentations()); ?></p>
+	                <p class="announcement-heading">0</p>
 	                <p class="announcement-text">Pending Presentations</p>
 	              </div>
 	            </div>
@@ -118,7 +96,7 @@ require_once("models/header.php");
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading"><? echo count(fetchScheduledPresentations()); ?></p>
+	                <p class="announcement-heading">0</p>
 	                <p class="announcement-text">Scheduled Presentations</p>
 	              </div>
 	            </div>
@@ -164,7 +142,7 @@ require_once("models/header.php");
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">6</p>
+	                <p class="announcement-heading">0</p>
 	                <p class="announcement-text">Active Exhibits</p>
 	              </div>
 	            </div>
