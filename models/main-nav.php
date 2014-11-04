@@ -37,10 +37,10 @@
 		          <ul class="dropdown-menu" role="menu">
 								<li><a href='../admin_dashboard.php'>Admin Dashboard</a></li>
 								<li><a href='../admin_users.php?list=attendees'>Attendees</a></li>
-								<li><a href='../conf_presentations.php'>Presentations</a></li>
-								<li><a href='../conf_exhibits.php'>Exhibits</a></li>
-								<li><a href='../conf_sponsors.php'>Sponsors</a></li>
-								<li><a href='../conf_conferences.php'>Conference Settings</a></li>
+								<li><a href='../list_presentations.php'>Presentations</a></li>
+								<li><a href='../list_exhibits.php'>Exhibits</a></li>
+								<li><a href='../list_sponsors.php'>Sponsors</a></li>
+								<li><a href='../list_conferences.php'>Conferences</a></li>
 		          </ul>
 		        </li>
 		        <li class="dropdown">

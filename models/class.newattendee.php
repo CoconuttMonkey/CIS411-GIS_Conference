@@ -97,6 +97,9 @@ class Attendee {
 			$stmt->bind_param("ii", $this->user_id, $conf_id);
 			$stmt->execute();
 			$stmt->close();
+			
+			//Update title to Attendee
+			updateTitle($this->user_id, "Attendee");
 		}
 	}
 }

@@ -90,14 +90,14 @@ if(!empty($_POST))
 		/*
 			Update First name
 		*/
-		if ($userdetails['first_name'] != $_POST['first_name']) {
+		if ($userdetails['f_name'] != $_POST['first_name']) {
 			if(trim($_POST['first_name']) == "") {
 				$errors[] = lang("ACCOUNT_SPECIFY_FIRST_NAME");
 			}
 			
 			//End data validation
 			if(count($errors) == 0) {
-				updateUserDetail($userId, 'first_name', $_POST['first_name']);
+				updateAttendeeDetail($userId, 'f_name', $_POST['first_name']);
 				$userdetails['first_name'] = $_POST['first_name'];
 				$successes[] = lang("ACCOUNT_FIRST_NAME_UPDATED");
 			}
@@ -106,14 +106,14 @@ if(!empty($_POST))
 		/*
 			Update Last name
 		*/
-		if ($userdetails['last_name'] != $_POST['last_name']) {
+		if ($userdetails['l_name'] != $_POST['last_name']) {
 			if(trim($_POST['last_name']) == "") {
 				$errors[] = lang("ACCOUNT_SPECIFY_LAST_NAME");
 			}
 			
 			//End data validation
 			if(count($errors) == 0) {
-				updateUserDetail($userId, 'last_name', $_POST['last_name']);
+				updateAttendeeDetail($userId, 'l_name', $_POST['last_name']);
 				$userdetails['last_name'] = $_POST['last_name'];
 				$successes[] = lang("ACCOUNT_LAST_NAME_UPDATED");
 			}
@@ -211,15 +211,15 @@ if(!empty($_POST))
 		/*
 			Update Zip
 		*/
-		if ($userdetails['zip'] != $_POST['zip']) {
-			if(trim($_POST['zip']) == "") {
+		if ($userdetails['postal_code'] != $_POST['postal_code']) {
+			if(trim($_POST['postal_code']) == "") {
 				$errors[] = lang("ACCOUNT_SPECIFY_ZIP");
 			}
 			
 			//End data validation
 			if(count($errors) == 0) {
-				updateAttendeeDetail($userId, 'zip', $_POST['zip']);
-				$userdetails['zip'] = $_POST['zip'];
+				updateAttendeeDetail($userId, 'postal_code', $_POST['postal_code']);
+				$userdetails['zip'] = $_POST['postal_code'];
 				$successes[] = lang("ACCOUNT_ZIP_UPDATED");
 			}
 		}
@@ -267,8 +267,8 @@ require_once("models/header.php");
 	<div class='container'>
 		<ol class="breadcrumb">
 		  <li><a href="../admin_dashboard.php">Admin Dashboard</a></li>
-		  <li><a href="#">Users</a></li>
-		  <li class="active"><a href="#"><? echo $userdetails['first_name']." ".$userdetails['last_name']; ?></a></li>
+		  <li><a href="../admin_users.php?list=attendees">Users</a></li>
+		  <li class="active"><a href="#"><? echo $userdetails['f_name']." ".$userdetails['l_name']; ?></a></li>
 							<h4 style="float: right; margin-top: -1px;">
 								<? //Display payment status
 								if ($userdetails['active'] == '1'){
@@ -398,7 +398,7 @@ require_once("models/header.php");
 							<? } ?>
 						<p style="text-align: center;">
 							<input type='submit' value='Save' class='btn btn-lg btn-success'/>
-							<input type='button' id='enable-fields' value='Edit' class='btn btn-lg btn-danger'/>
+							<input type='button' id='enable-fields' value='Edit' class='btn btn-lg btn-danger'  disabled="disabled"/>
 						</p>
 						</div>
 				</form>

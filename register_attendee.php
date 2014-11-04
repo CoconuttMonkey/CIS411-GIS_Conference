@@ -34,17 +34,30 @@ if (isset($_POST['newAttendee'])) {
 		//Construct a user object
 		$attendee = new Attendee($loggedInUser->user_id,$f_name,$l_name,$address_1,$address_2,$city,$state,$postal_code,$country,$phone,$company);
 		
-		print_r($attendee);
-		
 		if(!$attendee->addAttendee()) {
 			if($attendee->mail_failure) $errors[] = lang("MAIL_ERROR");
 			if($attendee->sql_failure)  $errors[] = lang("SQL_ERROR");
+			
+					$attendeeDetails = fetchAttendeeDetails($loggedInUser->user_id);
+					$loggedInUser->first_name = $attendeeDetails["f_name"];
+					$loggedInUser->last_name = $attendeeDetails["l_name"];
+					$loggedInUser->address_1 = $attendeeDetails["address_1"];
+					$loggedInUser->address_2 = $attendeeDetails["address_2"];
+					$loggedInUser->city = $attendeeDetails["city"];
+					$loggedInUser->state = $attendeeDetails["state"];
+					$loggedInUser->zip = $attendeeDetails["postal_code"];
+					$loggedInUser->country = $attendeeDetails["country"];
+					$loggedInUser->phone = $attendeeDetails["phone"];
+					$loggedInUser->company = $attendeeDetails["company"];
+			
 		} else {
 			$successes[] = lang("ATTENDEE_REGISTERED");
 		}
 	} else {
 		$errors[] = lang("ATTENDEE_EXISTS");
 	}
+
+	if (!count($errors)) $successes[] = lang("ATTENDEE_REGISTERED");
 } // COMPLETE
 
 require_once("models/header.php");
@@ -59,12 +72,12 @@ require_once("models/header.php");
 			<div class="row">
 				<div class="col-lg-6 col-lg-push-3">
 					<div class="panel panel-primary">
-						<div class="panel-heading"><h4>Attendee Registration</h4></div>
+						<div class="panel-heading"><h4>Conference Registration</h4></div>
 					  <div class="panel-body">
 	                    
 							<div class="form-group">
 								<label>First Name</label>
-							  <input type="text" class="form-control" name="f_name">
+							  <input type="text" class="form-control" name="f_name" autofocus>
 							</div>
 	                    
 							<div class="form-group">

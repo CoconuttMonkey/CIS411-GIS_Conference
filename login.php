@@ -84,13 +84,26 @@ if(!empty($_POST))
 						$loggedInUser->company = $attendeeDetails["company"];
 					}
 					
-					//Update last sign in
-					$loggedInUser->updateLastSignIn();
-					$_SESSION["userCakeUser"] = $loggedInUser;
+					if ($userdetails["last_sign_in_stamp"] === 0) {
 					
-					//Redirect to logged in page
-					header("Location: user_dashboard.php");
-					die();
+						//Update last sign in
+						$loggedInUser->updateLastSignIn();
+						$_SESSION["userCakeUser"] = $loggedInUser;
+						
+						//Redirect to logged in page
+						header("Location: register_attendee.php");
+						die();
+						
+					} else {
+					
+						//Update last sign in
+						$loggedInUser->updateLastSignIn();
+						$_SESSION["userCakeUser"] = $loggedInUser;
+						
+						//Redirect to logged in page
+						header("Location: user_dashboard.php");
+						die();
+					}
 				}
 			}
 		}

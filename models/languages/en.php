@@ -54,6 +54,22 @@ $lang = array_merge($lang,array(
 	"ACCOUNT_PERMISSION_ADDED"		=> "Added access to %m1% permission levels",
 	"ACCOUNT_PERMISSION_REMOVED"		=> "Removed access from %m1% permission levels",
 	"ACCOUNT_INVALID_USERNAME"		=> "Invalid username",
+	"ACCOUNT_COUNTRY_UPDATED"		=> "Country updated",
+	"ACCOUNT_PHONE_UPDATED"		=> "Phone number updated",
+	"ACCOUNT_SPECIFY_PHONE"		=> "Invalid phone number",
+	"ACCOUNT_ADDRESS_UPDATED"		=> "Street address updated",
+	"ACCOUNT_SPECIFY_ADDRESS"		=> "Invalid street address",
+	"ACCOUNT_CITY_UPDATED"		=> "City has been updated",
+	"ACCOUNT_SPECIFY_CITY"		=> "Invalid city",
+	"ACCOUNT_STATE_UPDATED"		=> "State has been updated",
+	"ACCOUNT_SPECIFY_STATE"		=> "Invalid state",
+	"ACCOUNT_ZIP_UPDATED"		=> "Zip code has been updated",
+	"ACCOUNT_SPECIFY_ZIP"		=> "Invalid zip code",
+	"ACCOUNT_COMPANY_UPDATED"		=> "City has been updated",
+	"ACCOUNT_SPECIFY_FIRST_NAME"		=> "First name is required",
+	"ACCOUNT_FIRST_NAME_UPDATED"		=> "First name has been updated",
+	"ACCOUNT_SPECIFY_LAST_NAME"		=> "Last name is required",
+	"ACCOUNT_LAST_NAME_UPDATED"		=> "Last name has been updated",
 	));
 	
 //Attendee

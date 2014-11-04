@@ -18,8 +18,8 @@ require_once("models/header.php");
 		<h1>Admin Dashboard <? if(!userIsAttendee($loggedInUser->user_id)) echo '<a href="../conference/register.php" class="btn btn-success" style="float: right;">Register for the next conference!</a>'; ?></h1>
 		<div class="col-lg-12">
 			<div class="row">
-				<a href="conf_configuration.php?new" class="btn btn-success">New Conference</a>
-				<a href="conf_configuration.php?current" class="btn btn-warning">Current Conference</a>
+				<a href="register_conference.php" class="btn btn-success">New Conference</a>
+				<a href="details_conference.php?id=<?=date('Y');?>" class="btn btn-warning">Current Conference</a>
 			</div>
 			<div class="row">
 				<h2>Users</h2>

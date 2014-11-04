@@ -1226,6 +1226,52 @@ function pageTitle($uri) {
 	return $pageDetails['title'];
 }
 
+//Retrieve information for all conferences
+function fetchAllConferences() {
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			conference_id,
+			title,
+			tagline,
+			start_date,
+			end_date,
+			reg_open_date,
+			reg_close_date
+	FROM conference");
+	$stmt->execute();
+	$stmt->bind_result($conference_id, $title, $tagline, $start_date, $end_date, $reg_open_date, $reg_close_date);
+	
+	while ($stmt->fetch()){
+		$row[] = array('conference_id' => $conference_id, 'title' => $title, 'tagline' => $tagline, 'start_date' => $start_date, 'end_date' => $end_date, 'reg_open_date' => $reg_open_date, 'reg_close_date' => $reg_close_date);
+	}
+	$stmt->close();
+	return ($row);
+}
+
+//Retrieve information for all conferences
+function fetchConferenceDetails($year) {
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			conference_id,
+			title,
+			tagline,
+			start_date,
+			end_date,
+			reg_open_date,
+			reg_close_date,
+			banner,
+			schedule
+	FROM conference WHERE conference_id = $year;");
+	$stmt->execute();
+	$stmt->bind_result($conference_id, $title, $tagline, $start_date, $end_date, $reg_open_date, $reg_close_date, $banner, $schedule);
+	
+	while ($stmt->fetch()){
+		$row = array('conference_id' => $conference_id, 'title' => $title, 'tagline' => $tagline, 'start_date' => $start_date, 'end_date' => $end_date, 'reg_open_date' => $reg_open_date, 'reg_close_date' => $reg_close_date, 'banner' => $banner, 'schedule' => $schedule);
+	}
+	$stmt->close();
+	return ($row);
+}
+
 //Retrieve a list of all .php files in models/languages
 function fetchTracks($conference_id)
 {
@@ -1324,7 +1370,7 @@ function fetchAttendeeDetails($user_id) {
 	$stmt->bind_result($user_id, $email, $active, $title, $signUp, $f_name, $l_name, $address_1, $address_2, $city, $state, $zip, $country, $phone, $company);
 	
 	while ($stmt->fetch()){
-		$row = array('user_id' => $user_id, 'email' => $email,'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'f_name' => $f_name, 'l_name' => $l_name, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'zip' => $zip, 'country' => $country, 'phone' => $phone, 'company' => $company);
+		$row = array('user_id' => $user_id, 'email' => $email,'active' => $active, 'title' => $title, 'sign_up_stamp' => $signUp, 'f_name' => $f_name, 'l_name' => $l_name, 'address_1' => $address_1, 'address_2' => $address_2, 'city' => $city, 'state' => $state, 'postal_code' => $zip, 'country' => $country, 'phone' => $phone, 'company' => $company);
 	}
 	$stmt->close();
 	return ($row);
