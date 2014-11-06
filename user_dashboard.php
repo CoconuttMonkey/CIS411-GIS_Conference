@@ -13,10 +13,10 @@ require_once("models/header.php");
 	<section class="container">
 		<h1>Dashboard</h1>
 			<p>
-				<a class="btn btn-lg btn-primary" href="../register_attendee.php">Attendee Registration</a>
-				<a class="btn btn-lg btn-primary" href="../register_presentation.php">Presentation Request</a>
-				<a class="btn btn-lg btn-primary" href="../register_exhibit.php">Exhibit Request</a>
-				<a class="btn btn-lg btn-primary" href="../register_sponsor.php">Sponsor Registration</a>
+				<a class="btn btn-lg btn-primary" href="register_attendee.php">Attendee Registration</a>
+				<a class="btn btn-lg btn-primary" href="register_presentation.php">Presentation Request</a>
+				<a class="btn btn-lg btn-primary" href="register_exhibit.php">Exhibit Request</a>
+				<a class="btn btn-lg btn-primary" href="register_sponsor.php">Sponsor Registration</a>
 			</p>
 	</section>
 	<?php 

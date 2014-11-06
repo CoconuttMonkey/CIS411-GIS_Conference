@@ -7,10 +7,14 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 require_once("models/header.php");
+
+
+	$year = date("Y");
+	$conferenceData = fetchConferenceDetails($year);
 ?>
 <style>
 	#banner {
-		background-image: url('uploads/admin/banner_bg.jpg');
+		background-image: url('<?= $conferenceData['banner'] ?>');
 		background-size: cover;
 		background-position: center center;
 		height: 400px; 
@@ -42,14 +46,13 @@ require_once("models/header.php");
 		bottom: 90px;
 	}
 </style>
-
 <body>
 	<? require_once("models/main-nav.php"); ?>
 	<header id="banner" class="row drop-shadow">
 		<div class="container">
 			<h3 class="subheading text-right">Oct. 16<sup>th</sup> and 17<sup>th</sup> 2014</h3>
-			<h2 class="subheading annual">9<sup>th</sup> Annual</h2>
-			<h1 class="banner-title">NW PA GIS Conference</h1>
+			<h2 class="subheading annual"><?= $conferenceData['tagline'] ?></h2>
+			<h1 class="banner-title"><?= $conferenceData['title'] ?></h1>
 		</div>
 	</header>
 	<section class="container">

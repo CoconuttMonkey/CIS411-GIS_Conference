@@ -7,11 +7,9 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
-
-$pageTitle = $_GET['id']." GIS Conference";
-$year = date("Y");
-
 $conferenceData = fetchConferenceDetails($_GET['id']);
+
+$pageTitle = $conferenceData['conference_id']." GIS Conference";
 	
 $languages = getLanguageFiles(); //Retrieve list of language files
 require_once("models/header.php");
@@ -100,7 +98,7 @@ require_once("models/header.php");
 						  </div>
 						<p style="text-align: center;">
 							<input type='submit' value='Save' class='btn btn-lg btn-success' disabled="disabled"/>
-							<input type='submit' id='enable-fields' value='Edit' class='btn btn-lg btn-danger'/>
+							<a href="edit_conference.php?id=<? echo $_GET['id']; ?>" id='enable-fields' value='Edit' class='btn btn-lg btn-danger'>Edit</a>
 						</p>
 						</div>
 				</form>

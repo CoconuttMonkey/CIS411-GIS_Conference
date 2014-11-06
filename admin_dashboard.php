@@ -74,12 +74,12 @@ require_once("models/header.php");
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">0</p>
+	                <p class="announcement-heading"><? echo count(fetchAllPresentations('pending')); ?></p>
 	                <p class="announcement-text">Pending Presentations</p>
 	              </div>
 	            </div>
 	          </div>
-	          <a href="conf_presentations.php?list=pending">
+	          <a href="list_presentations.php?filter=pending">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">
@@ -96,12 +96,12 @@ require_once("models/header.php");
 	          <div class="panel-heading">
 	            <div class="row">
 	              <div class="col-xs-12 text-right">
-	                <p class="announcement-heading">0</p>
+	                <p class="announcement-heading"><? echo count(fetchAllPresentations('scheduled')); ?></p>
 	                <p class="announcement-text">Scheduled Presentations</p>
 	              </div>
 	            </div>
 	          </div>
-	          <a href="conf_presentations.php?list=active">
+	          <a href="list_presentations.php?filter=scheduled">
 	            <div class="panel-footer announcement-bottom">
 	              <div class="row">
 	                <div class="col-xs-12">

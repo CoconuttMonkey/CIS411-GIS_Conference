@@ -8,17 +8,43 @@ require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 if(!isUserLoggedIn()) { header("Location: login.php"); die(); }
 
+if (isset($_POST['newPresentation'])) {
+		
+	$main_presenter_id = $_POST["main_presenter"];
+	$main_presenter_bio = $_POST["presenter_bio"];
+	$title = $_POST["presentation_title"];
+	$abstract = $_POST["presentation_abstract"];
+	$track = $_POST["presentation_track"];
+	$day_request = $_POST["day_request"];
+	$copresenters = $_POST["copresenters"];
+	
+	// Data Validation
+	if ($main_presenter_bio == "") $errors[] = lang('PRESENTER_NO_BIO');
+	if ($title == "") $errors[] = lang('PRESENTATION_NO_TITLE');
+	if ($abstract == "") $errors[] = lang('PRESENTATION_NO_ABSTRACT');
+	
+	if (!count($errors)) {
+		
+		if (!addPresentation($main_presenter_id, $main_presenter_bio, $title, $abstract, $track, $day_request)) {
+			$errors[] = lang("ERROR");
+		} else {
+			$successes[] = lang("PRES_REQUEST_SUCCESS");
+		}
+	}
+}
 
-
+$languages = getLanguageFiles(); //Retrieve list of language files
 require_once("models/header.php");
 ?>
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
+		<div class="row">
+				<? echo resultBlock($errors,$successes); ?>
+		</div>
 		<div class='row'>
 			<div class='col-lg-12'>
 				<h1>Presentation Request</h1>
-				<? echo resultBlock($errors,$successes); ?>
 				<form name='newPresentation' id="newPresentation" action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
 				  <input type="text" class="form-control" name="newPresentation" value="1" style="display:none;" />
 					<div class="col-lg-4">
@@ -36,24 +62,15 @@ require_once("models/header.php");
 						<div class="panel panel-primary">
 							<div class="panel-heading"><h4>Co-Presenters</h4></div>
 						  <div class="panel-body">
-					      <label class="control-label">Options</label>
-	              <div class="row form-group">
-					        <div class="col-lg-9">
-					            <input type="text" class="form-control" name="copresenter[]" placeholder="Invite by email" />
-					        </div>
-					        <div class="col-lg-3">
-					            <button type="button" class="btn btn-success addButton"><span class="glyphicon glyphicon-plus"></span></button>
-					        </div>
+	              <div class="form-group">
+					        <input type="text" class="form-control" name="copresenter[]" placeholder="Invite by email" />
 					    	</div>
-					    	<!-- The option field template containing an option field and a Remove button -->
-						    <div class="row form-group hide" id="copresenterTemplate">
-					        <div class="col-lg-9">
-					          <input class="form-control" type="text" name="copresenter[]" placeholder="Invite by email" />
-					        </div>
-					        <div class="col-lg-3">
-					          <button type="button" class="btn btn-danger removeButton"><span class="glyphicon glyphicon-remove"></span></button>
-					        </div>
-						    </div>
+	              <div class="form-group">
+					        <input type="text" class="form-control" name="copresenter[]" placeholder="Invite by email" />
+					    	</div>
+	              <div class="form-group">
+					        <input type="text" class="form-control" name="copresenter[]" placeholder="Invite by email" />
+					    	</div>
 							</div>
 						</div>
 					</div><!-- /.col-lg-4 -->
@@ -86,11 +103,12 @@ require_once("models/header.php");
 										</div>
 										
 										<div class="form-group">
-			                <label class="control-label">Request a Day</label>
-			                <div class="input-group date" id="presentation_day_request">
-			                    <input type="text" class="form-control" name="presentation_day_request" />
-			                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-			                </div>
+										  <label for="day_request">Request a Day</label>
+										  <select class="form-control" id="day_request" name="day_request">
+										    <option selected="selected" value="">No Preference</option>
+										    <option value="Thursday">Thursday</option>
+										    <option value="Friday">Friday</option>
+										  </select>
 			              </div>
 								  </div>
 							  </div>

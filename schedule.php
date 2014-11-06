@@ -24,6 +24,7 @@ Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
 			</article>
 		</div>
 	</section>
+	
 	<?php 
 		include("models/footer.php");
 		include("models/BootstrapJavaScript.php"); 

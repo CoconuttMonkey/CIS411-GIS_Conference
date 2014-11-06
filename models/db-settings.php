@@ -5,11 +5,20 @@ http://usercake.com
 */
 
 //Database Information
+
 $db_host = "localhost"; //Host address (most likely localhost)
 $db_name = "gisconference"; //Name of Database
 $db_user = "root"; //Name of database user
 $db_pass = "Gr@ys0n"; //Password for database user
 $db_table_prefix = "";
+
+/*
+$db_host = "localhost"; //Host address (most likely localhost)
+$db_name = "cis411_gisconference"; //Name of Database
+$db_user = "s_mrondo"; //Name of database user
+$db_pass = "s_mrondo"; //Password for database user
+$db_table_prefix = "";
+*/
 
 GLOBAL $errors;
 GLOBAL $successes;

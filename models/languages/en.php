@@ -80,11 +80,18 @@ $lang = array_merge($lang,array(
 	
 //Presentation
 $lang = array_merge($lang,array(
-	"PRESENTATION_REGISTERED" 		=> "You have successfully registered your presentation",
+	"PRES_REQUEST_SUCCESS" 		=> "Your request has been submitted",
 	"PRESENTATION_ERROR" 		=> "There was an error registering, please try again",
 	"PRESENTATION_NO_TITLE" 		=> "A presentation title is required",
 	"PRESENTATION_NO_ABSTRACT" 		=> "Please include an abstract description of your presentation",
 	"PRESENTER_NO_BIO" 		=> "Please include a short biography about yourself",
+	"PRESENTATION_TITLE_UPDATED" => "Presentation title has been updated",
+	"PRESENTATION_TITLE_EMPTY" => "Presentation title is required",
+	"PRESENTATION_ABSTRACT_UPDATED" => "Presentation title has been updated",
+	"PRESENTATION_ABSTRACT_EMPTY" => "Please describe your presentation in the abstract field",
+	"PRESENTATION_START_UPDATED" => "Updated the presentation start time",
+	"PRESENTATION_END_UPDATED" => "Updated the presentation end time",
+	"PRESENTATION_DAY_UPDATED" => "Updated the presentation week day",
 	));
 
 //Configuration

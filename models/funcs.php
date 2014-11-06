@@ -200,15 +200,15 @@ function deleteUsers($users) {
 }
 
 //Check if a display name exists in the DB
-function presentationExists($presentationID)
+function presentationExists($title)
 {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("SELECT *
 		FROM presentation
 		WHERE
-		presentation_id = ?
+		title = ?
 		LIMIT 1");
-	$stmt->bind_param("s", $presentationID);	
+	$stmt->bind_param("s", $title);	
 	$stmt->execute();
 	$stmt->store_result();
 	$num_returns = $stmt->num_rows;
@@ -1272,9 +1272,94 @@ function fetchConferenceDetails($year) {
 	return ($row);
 }
 
+function addPresentation($main_presenter_id, $main_presenter_bio, $title, $abstract, $track, $day_request) {
+	$year = date("Y");
+	
+	global $mysqli;
+	
+	//Insert the user into the database providing no errors have been found.
+	$stmt = $mysqli->prepare("INSERT INTO presentation (
+		conference_id,
+		title,
+		abstract,
+		track_id,
+		week_day
+		)
+		VALUES (
+		?,
+		?,
+		?,
+		?,
+		?
+		)");
+	
+	$stmt->bind_param("issis", $year, $title, $abstract, $track, $day_request);
+	$stmt->execute();
+	$inserted_id = $mysqli->insert_id;
+	$stmt->close();
+	
+	//Insert default permission into matches table
+	$stmt = $mysqli->prepare("INSERT INTO presenter  (
+		attendee_user_id,
+		presentation_id,
+		main,
+		biography
+		)
+		VALUES (
+		?,
+		?,
+		'1',
+		?
+		)");
+	$stmt->bind_param("iis", $main_presenter_id, $inserted_id, $main_presenter_bio);
+	$stmt->execute();
+	$stmt->close();
+	
+	updateTitle($main_presenter_id, 'Presenter');
+	
+	return true;
+}
+
+//Retrieve information for all presentations
+function fetchAllPresentations($filter = NULL) {
+	
+	if ($filter != NULL) {
+		if ($filter == 'pending') { 
+			$filter = " WHERE presentation.active IS NULL";
+		}
+		
+		if ($filter == 'scheduled') { 
+			$filter = " WHERE presentation.active IS NOT NULL";
+		}
+	} else { $filter = ""; }
+	
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			presentation.presentation_id, 
+			presentation.conference_id, 
+	 		presentation.title,
+			track.full_name AS track_name,
+			presentation.active,
+			presentation.week_day,
+			CONCAT (attendee.f_name, ' ', attendee.l_name) AS presenter_name
+			FROM presentation
+	INNER JOIN `presenter` ON presentation.presentation_id = presenter.presentation_id
+						 					  AND presenter.main = 1
+ 	INNER JOIN `track` 	 	 ON presentation.track_id = track.track_id
+ 	INNER JOIN `attendee`  ON presenter.attendee_user_id = attendee.user_id 
+ 	{$filter};");
+	$stmt->execute();
+	$stmt->bind_result($presentation_id, $conference_id, $title, $track, $active, $week_day, $presenter_name);
+	
+	while ($stmt->fetch()){
+		$row[] = array('presentation_id' => $presentation_id, 'conference_id' => $conference_id, 'title' => $title, 'track_name' => $track, 'active' => $active, 'week_day' => $week_day, 'presenter_name' => $presenter_name);
+	}
+	$stmt->close();
+	return ($row);
+}
+
 //Retrieve a list of all .php files in models/languages
-function fetchTracks($conference_id)
-{
+function fetchTracks($conference_id) {
 	global $mysqli; 
 	$stmt = $mysqli->prepare("SELECT 
 			track_id,
@@ -1391,53 +1476,59 @@ function updateAttendeeDetail($user_id, $field, $value) {
 function fetchPresentationDetails($presentationId) {
 	
 	global $mysqli; 
-	$stmt = $mysqli->prepare("
-		SELECT
-		presentation.presentation_id,
-		presentation.conference_id,
-		presentation.title,
-		presentation.abstract,
-		presentation.active,
-		presentation.presentation_attachment,
-    presenter.attendee_user_id AS main_presenter_id,
-		CONCAT_WS(' ', attendee.f_name, attendee.l_name) AS main_presenter_name,
-    presenter.biography,
-	  track.full_name AS track_title,
-	 	session.week_day,
-		session.start_time,
-		session.end_time,
-		room.building,
-		room.room_number
-	FROM
-		presentation
-	INNER JOIN `presenter`  ON presentation.presentation_id = presenter.presentation_id
-							AND presenter.main = 1
-	INNER JOIN `attendee`   ON presenter.attendee_user_id = attendee.user_id
-	INNER JOIN `track` 		ON presentation.track_id = track.track_id
-	INNER JOIN `session`    ON presentation.presentation_id = session.presentation_id
-	INNER JOIN `room`	    ON session.room_id = room.room_id");
+	$stmt = $mysqli->prepare("SELECT 
+			presentation.presentation_id, 
+			presentation.conference_id, 
+	 		presentation.title,
+	 		presentation.abstract,
+			presentation.track_id,
+			presentation.active,
+			presentation.presentation_attachment,
+			presentation.week_day,
+			presentation.start_time,
+			presentation.end_time,
+			presentation.room_id,
+			presenter.attendee_user_id,
+			presenter.biography,
+			CONCAT (attendee.f_name, ' ', attendee.l_name) AS main_presenter_name
+			FROM presentation
+	INNER JOIN `presenter` ON presentation.presentation_id = presenter.presentation_id
+						 	AND presenter.main = 1
+ 	INNER JOIN `track` 	 ON presentation.track_id = track.track_id
+ 	INNER JOIN `attendee`  ON presenter.attendee_user_id = attendee.user_id
+ 	WHERE presentation.presentation_id = {$presentationId}");
 	$stmt->execute();
 	$stmt->bind_result($presentation_id,
 										 $conference_id,
 										 $presentation_title,
-										 $abstract,
+										 $presentation_abstract,
+										 $track_id,
 										 $active,
 										 $presentation_attachment,
-										 $main_presenter_id,
-										 $main_presenter_name,
-										 $main_presenter_bio,
-										 $track_title,
 										 $week_day,
 										 $start_time,
 										 $end_time,
-										 $building,
-										 $room_number);
+										 $room_id,
+										 $main_presenter_id,
+										 $biography,
+										 $main_presenter_name);
 	
 	while ($stmt->fetch()){
-		$row = array('presentation_id' => $presentation_id, 'conference_id' => $conference_id, 'title' => $presentation_title,  'abstract' => $abstract, 'active' => $active, 'presentation_attachment' => $presentation_attachment,   'main_presenter_id' => $main_presenter_id, 'main_presenter_name' => $main_presenter_name, 'main_presenter_bio' => $main_presenter_bio, 'track_title' => $track_title, 'week_day' => $week_day, 'start_time' => $start_time, 'end_time' => $end_time, 'building' => $building, 'room_number' => $room_number, 'active' => $active);
+		$row = array('presentation_id' => $presentation_id, 'conference_id' => $conference_id, 'title' => $presentation_title,  'abstract' => $presentation_abstract, 'track_id' => $track_id, 'active' => $active, 'presentation_attachment' => $presentation_attachment, 'week_day' => $week_day, 'start_time' => $start_time, 'end_time' => $end_time, 'room_id' => $room_id, 'attendee_user_id' => $main_presenter_id, 'biography' => $biography, 'main_presenter_name' => $main_presenter_name);
 	}
 	$stmt->close();
 	return ($row);
+}
+
+//Update presentation details
+function updatePresentationDetail($presentationId, $field, $value) {
+	global $mysqli;
+	$stmt = $mysqli->prepare("UPDATE presentation
+		SET `{$field}` = '{$value}'
+		WHERE
+		presentation_id = {$presentationId}");
+	$result = $stmt->execute();
+	$stmt->close();
 }
 
 ?>
