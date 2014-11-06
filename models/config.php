@@ -27,6 +27,8 @@ $emailDate = date('dmy');
 $language = $settings['language']['value'];
 $template = $settings['template']['value'];
 $master_account = -1;
+$sponsor_logo_dir = "../uploads/sponsor_logo/";
+
 
 $default_hooks = array("#WEBSITENAME#","#WEBSITEURL#","#DATE#");
 $default_replace = array($websiteName,$websiteUrl,$emailDate);

@@ -75,7 +75,7 @@ if(!empty($_POST)){
 		}
 	}
 	
-	if(count($errors) == 0 && count($success) == 0) {
+	if(!count($successes) && !count($errors)) {
 		$successes[] = lang("NOTHING_TO_UPDATE");
 	}
 	

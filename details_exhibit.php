@@ -7,27 +7,12 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 if(!isUserLoggedIn()) { header("Location: ../login.php"); die(); }
+if(!isset($_GET['id'])) { header("Location: ../list_exhibits.php"); die(); }
 
-if (isset($_POST['newExhibit'])) {
+$exhibitId = $_GET['id'];
 
-	$conference_id = date("Y");
-	$contact_person = $_POST['contact_person'];
-	$company_profile = $_POST['company_profile'];
-	$special_requests = $_POST['special_requests'];
-	
-	if ($company_profile != "") {
-		
-		if (!newExhibit($conference_id, $company_profile, $special_requests, $contact_person)) {
-			$errors[] = lang("EXHIBIT_REQUEST_FAILED");
-		} else {
-			$successes[] = lang("EXHIBIT_REQUEST_SUCCEEDED");
-		}
-		
-	} else {
-		$errors[] = lang("COMPANY_PROFILE_REQUIRED");
-	}
-}
-
+$exhibitDetails = fetchExhibitDetails($exhibitId);
+//print_r($exhibitDetails);
 require_once("models/header.php");
 ?>
 <body>
@@ -35,29 +20,21 @@ require_once("models/header.php");
 	<div class='container'>
 		<div class='row'>
 			<div class='col-lg-12'>
-				<h1>Exhibition Registration</h1>
+				<h1>Exhibition Details</h1>
 				<? echo resultBlock($errors,$successes); ?>
 				<form name='newExhibit' id="newExhibit" action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left">
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="panel panel-primary">
 						<div class="panel-heading"><h4>Contact Person</h4></div>
-		        <input type="text" class="form-control" name="newExhibit" value="1" style="display:none;" />
-		        
-		        <input type="text" class="form-control" name="contact_person" value="<? echo $loggedInUser->user_id; ?>" style="display:none;" />
 					  <div class="panel-body">
 		          <div class="form-group">
-		              <label class="control-label">First Name</label>
-		              <input type="text" class="form-control" name="first_name" value="<? echo $loggedInUser->first_name; ?>" disabled />
-		          </div>
-		          <div class="form-group">
-		              <label class="control-label">Last name</label>
-		              <input type="text" class="form-control" name="last_name" value="<? echo $loggedInUser->last_name; ?>" disabled />
-		          </div>
-		
-		          <div class="form-group">
-		              <label class="control-label">Email address</label>
-		              <input type="text" class="form-control" name="email" value="<? echo $loggedInUser->email; ?>" disabled />
+							  <div class="input-group">
+						      <input type="text" class="form-control" name="main_presenter_name" value="<?= $exhibitDetails['main_contact_name'] ?>" disabled>
+						      <span class="input-group-btn">
+						        <a href="details_user.php?id=<?=$exhibitDetails["main_contact_id"]?>"><button class="btn btn-success" type="button">View Profile <span class="glyphicon glyphicon-arrow-right"></span></button></a>
+						      </span>
+						    </div>
 		          </div>
 					  </div>
 					</div>
@@ -88,7 +65,7 @@ require_once("models/header.php");
 						<div class="panel-heading"><h4>Company Profile</h4></div>
 					  <div class="panel-body">
 		          <div class="form-group">
-						  	<textarea class="form-control" rows="8" name="company_profile" placeholder="Tell us about yourself"></textarea>
+						  	<textarea class="form-control" rows="8" name="company_profile" placeholder="Tell us about yourself" disabled><?= $exhibitDetails['company_profile'] ?></textarea>
 		          </div>
 					  </div>
 					</div>
@@ -99,7 +76,7 @@ require_once("models/header.php");
 						<div class="panel-heading"><h4>Special Requests</h4></div>
 					  <div class="panel-body">
 		          <div class="form-group">
-						  	<textarea class="form-control" rows="8" name="special_requests" placeholder="Tell us about yourself"></textarea>
+						  	<textarea class="form-control" rows="8" name="special_requests" placeholder="Tell us about yourself" disabled><?= $exhibitDetails['special_requests'] ?></textarea>
 		          </div>
 					  </div>
 					</div>
@@ -107,10 +84,10 @@ require_once("models/header.php");
 				
 			</div>
 			</div><!-- /.row -->
-					
-					<div class="row text-center">
-						<input type="submit" class="btn btn-lg btn-success" value="Submit" />
-					</div><!-- /.row -->
+			<div class="row text-center">
+				<input type="submit" class="btn btn-lg btn-success" value="Save" disabled />
+				<a href="edit_exhibit.php?id=<?=$exhibitId?>" class="btn btn-lg btn-danger">Edit</a>
+			</div><!-- /.row -->
 		</form>
 			</div>
 		</div>

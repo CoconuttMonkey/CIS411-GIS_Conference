@@ -44,13 +44,13 @@ require_once("models/header.php");
 					<div class="col-lg-4">
 						<div class="panel panel-primary">
 							<div class="panel-heading"><h4>Main Presenter</h4></div>
-						  <div class="panel-body">
+						  <div class="panel-body">   
 			          <div class="form-group">
 				          <label>Main Presenter</label>
 								  <div class="input-group">
 							      <input type="text" class="form-control" name="main_presenter_name" value="<?= $presentationDetails['main_presenter_name'] ?>" disabled>
 							      <span class="input-group-btn">
-							        <a href="details_user.php?id=<?=$presentationDetails["attendee_user_id"]?>"><button class="btn btn-default" type="button"><span class="glyphicon glyphicon-arrow-right"></span></button></a>
+							        <a href="details_user.php?id=<?=$presentationDetails["attendee_user_id"]?>"><button class="btn btn-success" type="button">View Profile <span class="glyphicon glyphicon-arrow-right"></span></button></a>
 							      </span>
 							    </div>
 			          </div>

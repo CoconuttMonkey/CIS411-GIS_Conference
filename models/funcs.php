@@ -8,8 +8,7 @@ http://usercake.com
 //------------------------------------------------------------------------------
 
 //Retrieve a list of all .php files in models/languages
-function getLanguageFiles()
-{
+function getLanguageFiles() {
 	$directory = "models/languages/";
 	$languages = glob($directory . "*.php");
 	//print each file name
@@ -17,8 +16,7 @@ function getLanguageFiles()
 }
 
 //Retrieve a list of all .css files in models/site-templates 
-function getTemplateFiles()
-{
+function getTemplateFiles() {
 	$directory = "models/site-templates/";
 	$languages = glob($directory . "*.css");
 	//print each file name
@@ -26,8 +24,7 @@ function getTemplateFiles()
 }
 
 //Retrieve a list of all .php files in root files folder
-function getPageFiles()
-{
+function getPageFiles() {
 	$directory = "";
 	$pages = glob($directory . "*.php");
 	//print each file name
@@ -38,8 +35,7 @@ function getPageFiles()
 }
 
 //Destroys a session as part of logout
-function destroySession($name)
-{
+function destroySession($name) {
 	if(isset($_SESSION[$name]))
 	{
 		$_SESSION[$name] = NULL;
@@ -48,16 +44,14 @@ function destroySession($name)
 }
 
 //Generate a unique code
-function getUniqueCode($length = "")
-{	
+function getUniqueCode($length = "") {	
 	$code = md5(uniqid(rand(), true));
 	if ($length != "") return substr($code, 0, $length);
 	else return $code;
 }
 
 //Generate an activation key
-function generateActivationToken($gen = null)
-{
+function generateActivationToken($gen = null) {
 	do
 	{
 		$gen = md5(uniqid(mt_rand(), false));
@@ -67,8 +61,7 @@ function generateActivationToken($gen = null)
 }
 
 //@ Thanks to - http://phpsec.org
-function generateHash($plainText, $salt = null)
-{
+function generateHash($plainText, $salt = null) {
 	if ($salt === null)
 	{
 		$salt = substr(md5(uniqid(rand(), true)), 0, 25);
@@ -82,8 +75,7 @@ function generateHash($plainText, $salt = null)
 }
 
 //Checks if an email is valid
-function isValidEmail($email)
-{
+function isValidEmail($email) {
 	if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		return true;
 	}
@@ -93,8 +85,7 @@ function isValidEmail($email)
 }
 
 //Inputs language strings from selected language.
-function lang($key,$markers = NULL)
-{
+function lang($key,$markers = NULL) {
 	global $lang;
 	if($markers == NULL)
 	{
@@ -123,8 +114,7 @@ function lang($key,$markers = NULL)
 }
 
 //Checks if a string is within a min and max length
-function minMaxRange($min, $max, $what)
-{
+function minMaxRange($min, $max, $what) {
 	if(strlen(trim($what)) < $min)
 		return true;
 	else if(strlen(trim($what)) > $max)
@@ -134,14 +124,13 @@ function minMaxRange($min, $max, $what)
 }
 
 //Replaces hooks with specified text
-function replaceDefaultHook($str)
-{
+function replaceDefaultHook($str) {
 	global $default_hooks,$default_replace;	
 	return (str_replace($default_hooks,$default_replace,$str));
 }
 
 //Displays error and success messages
-function resultBlock($errors,$successes){
+function resultBlock($errors,$successes) {
 	//Error block
 	if(count($errors) > 0)
 	{
@@ -171,8 +160,7 @@ function resultBlock($errors,$successes){
 }
 
 //Completely sanitizes text
-function sanitize($str)
-{
+function sanitize($str) {
 	return strtolower(strip_tags(trim(($str))));
 }
 
@@ -200,8 +188,7 @@ function deleteUsers($users) {
 }
 
 //Check if a display name exists in the DB
-function presentationExists($title)
-{
+function presentationExists($title) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("SELECT *
 		FROM presentation
@@ -225,8 +212,7 @@ function presentationExists($title)
 }
 
 //Check if an email exists in the DB
-function emailExists($email)
-{
+function emailExists($email) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("SELECT active
 		FROM ".$db_table_prefix."users
@@ -249,36 +235,8 @@ function emailExists($email)
 	}
 }
 
-//Check if a user name and email belong to the same user
-function emailUsernameLinked($email,$username)
-{
-	global $mysqli,$db_table_prefix;
-	$stmt = $mysqli->prepare("SELECT active
-		FROM ".$db_table_prefix."users
-		WHERE user_name = ?
-		AND
-		email = ?
-		LIMIT 1
-		");
-	$stmt->bind_param("ss", $username, $email);	
-	$stmt->execute();
-	$stmt->store_result();
-	$num_returns = $stmt->num_rows;
-	$stmt->close();
-	
-	if ($num_returns > 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;	
-	}
-}
-
 //Retrieve information for all users
-function fetchAllUsers()
-{
+function fetchAllUsers() {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id as user_id,
@@ -303,8 +261,7 @@ function fetchAllUsers()
 }
 
 //Retrieve complete user information by username, token or ID
-function fetchUserDetails($email=NULL,$username=NULL,$token=NULL, $id=NULL)
-{
+function fetchUserDetails($email=NULL,$username=NULL,$token=NULL, $id=NULL) {
 	if($email!=NULL) {
 		$column = "email";
 		$data = $email;
@@ -349,8 +306,7 @@ function fetchUserDetails($email=NULL,$username=NULL,$token=NULL, $id=NULL)
 }
 
 //Toggle if lost password request flag on or off
-function flagLostPasswordRequest($username,$value)
-{
+function flagLostPasswordRequest($username,$value) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
 		SET lost_password_request = ?
@@ -365,8 +321,7 @@ function flagLostPasswordRequest($username,$value)
 }
 
 //Check if a user is logged in
-function isUserLoggedIn()
-{
+function isUserLoggedIn() {
 	global $loggedInUser,$mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("SELECT 
 		id,
@@ -404,8 +359,7 @@ function isUserLoggedIn()
 }
 
 //Change a user from inactive to active
-function setUserActive($token)
-{
+function setUserActive($token) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
 		SET active = 1
@@ -418,24 +372,8 @@ function setUserActive($token)
 	return $result;
 }
 
-//Change a user's display name
-function updateDisplayName($id, $display)
-{
-	global $mysqli,$db_table_prefix;
-	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
-		SET display_name = ?
-		WHERE
-		id = ?
-		LIMIT 1");
-	$stmt->bind_param("si", $display, $id);
-	$result = $stmt->execute();
-	$stmt->close();
-	return $result;
-}
-
 //Update a user's email
-function updateEmail($id, $email)
-{
+function updateEmail($id, $email) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
 		SET 
@@ -449,8 +387,7 @@ function updateEmail($id, $email)
 }
 
 //Input new activation token, and update the time of the most recent activation request
-function updateLastActivationRequest($new_activation_token,$username,$email)
-{
+function updateLastActivationRequest($new_activation_token,$username,$email) {
 	global $mysqli,$db_table_prefix; 	
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
 		SET activation_token = ?,
@@ -465,8 +402,7 @@ function updateLastActivationRequest($new_activation_token,$username,$email)
 }
 
 //Generate a random password, and new token
-function updatePasswordFromToken($pass,$token)
-{
+function updatePasswordFromToken($pass,$token) {
 	global $mysqli,$db_table_prefix;
 	$new_activation_token = generateActivationToken();
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
@@ -481,8 +417,7 @@ function updatePasswordFromToken($pass,$token)
 }
 
 //Update a user's title
-function updateTitle($id, $title)
-{
+function updateTitle($id, $title) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."users
 		SET 
@@ -496,8 +431,7 @@ function updateTitle($id, $title)
 }
 
 //Check if a user ID exists in the DB
-function userIdExists($id)
-{
+function userIdExists($id) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("SELECT active
 		FROM ".$db_table_prefix."users
@@ -520,34 +454,8 @@ function userIdExists($id)
 	}
 }
 
-//Checks if a username exists in the DB
-function usernameExists($username)
-{
-	global $mysqli,$db_table_prefix;
-	$stmt = $mysqli->prepare("SELECT active
-		FROM ".$db_table_prefix."users
-		WHERE
-		user_name = ?
-		LIMIT 1");
-	$stmt->bind_param("s", $username);	
-	$stmt->execute();
-	$stmt->store_result();
-	$num_returns = $stmt->num_rows;
-	$stmt->close();
-	
-	if ($num_returns > 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;	
-	}
-}
-
 //Check if activation token exists in DB
-function validateActivationToken($token,$lostpass=NULL)
-{
+function validateActivationToken($token,$lostpass=NULL) {
 	global $mysqli,$db_table_prefix;
 	if($lostpass == NULL) 
 	{	
@@ -637,8 +545,7 @@ function deletePermission($permission) {
 }
 
 //Retrieve information for all permission levels
-function fetchAllPermissions()
-{
+function fetchAllPermissions() {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
@@ -654,8 +561,7 @@ function fetchAllPermissions()
 }
 
 //Retrieve information for a single permission level
-function fetchPermissionDetails($id)
-{
+function fetchPermissionDetails($id) {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
@@ -675,8 +581,7 @@ function fetchPermissionDetails($id)
 }
 
 //Check if a permission level ID exists in the DB
-function permissionIdExists($id)
-{
+function permissionIdExists($id) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("SELECT id
 		FROM ".$db_table_prefix."permissions
@@ -700,8 +605,7 @@ function permissionIdExists($id)
 }
 
 //Check if a permission level name exists in the DB
-function permissionNameExists($permission)
-{
+function permissionNameExists($permission) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("SELECT id
 		FROM ".$db_table_prefix."permissions
@@ -725,8 +629,7 @@ function permissionNameExists($permission)
 }
 
 //Change a permission level's name
-function updatePermissionName($id, $name)
-{
+function updatePermissionName($id, $name) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."permissions
 		SET name = ?
@@ -778,8 +681,7 @@ function addPermission($permission, $user) {
 }
 
 //Retrieve information for all user/permission level matches
-function fetchAllMatches()
-{
+function fetchAllMatches() {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
@@ -796,8 +698,7 @@ function fetchAllMatches()
 }
 
 //Retrieve list of permission levels a user has
-function fetchUserPermissions($user_id)
-{
+function fetchUserPermissions($user_id) {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT
 		id,
@@ -818,8 +719,7 @@ function fetchUserPermissions($user_id)
 }
 
 //Retrieve list of users who have a permission level
-function fetchPermissionUsers($permission_id)
-{
+function fetchPermissionUsers($permission_id) {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT id, user_id
 		FROM ".$db_table_prefix."user_permission_matches
@@ -871,8 +771,7 @@ function removePermission($permission, $user) {
 //------------------------------------------------------------------------------
 
 //Update configuration table
-function updateConfig($id, $value)
-{
+function updateConfig($id, $value) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."configuration
 		SET 
@@ -907,8 +806,7 @@ function createPages($pages) {
 
 //Update a Page Title
 
-function updatePageTitle($id, $title)
-{
+function updatePageTitle($id, $title) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE pages
 		SET 
@@ -939,8 +837,7 @@ function deletePages($pages) {
 }
 
 //Fetch information on all pages
-function fetchAllPages()
-{
+function fetchAllPages() {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
@@ -959,8 +856,7 @@ function fetchAllPages()
 }
 
 //Fetch information for a specific page
-function fetchPageDetails($id)
-{
+function fetchPageDetails($id) {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT 
 		id,
@@ -982,8 +878,7 @@ function fetchPageDetails($id)
 }
 
 //Check if a page ID exists
-function pageIdExists($id)
-{
+function pageIdExists($id) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("SELECT private
 		FROM ".$db_table_prefix."pages
@@ -1007,8 +902,7 @@ function pageIdExists($id)
 }
 
 //Toggle private/public setting of a page
-function updatePrivate($id, $private)
-{
+function updatePrivate($id, $private) {
 	global $mysqli,$db_table_prefix;
 	$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."pages
 		SET 
@@ -1060,8 +954,7 @@ function addPage($page, $permission) {
 }
 
 //Retrieve list of permission levels that can access a page
-function fetchPagePermissions($page_id)
-{
+function fetchPagePermissions($page_id) {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT
 		id,
@@ -1082,8 +975,7 @@ function fetchPagePermissions($page_id)
 }
 
 //Retrieve list of pages that a permission level can access
-function fetchPermissionPages($permission_id)
-{
+function fetchPermissionPages($permission_id) {
 	global $mysqli,$db_table_prefix; 
 	$stmt = $mysqli->prepare("SELECT
 		id,
@@ -1134,7 +1026,7 @@ function removePage($page, $permission) {
 }
 
 //Check if a user has access to a page
-function securePage($uri){
+function securePage($uri) {
 	
 	//Separate document name from uri
 	$tokens = explode('/', $uri);
@@ -1531,4 +1423,216 @@ function updatePresentationDetail($presentationId, $field, $value) {
 	$stmt->close();
 }
 
+function newSponsor($conference_id,$main_contact,$company_name,$company_address,$logo,$website_url,$sponsor_lvl) {
+	global $mysqli;
+	
+	//Insert the user into the database providing no errors have been found.
+	$stmt = $mysqli->prepare("INSERT INTO sponsor (
+		main_contact,
+		company_name,
+		company_address,
+		logo,
+		url,
+		sponsor_lvl
+		)
+		VALUES (
+		?,
+		?,
+		?,
+		?,
+		?,
+		?
+		)");
+	
+	$stmt->bind_param("issssi", $main_contact, $company_name, $company_address, $logo, $website_url, $sponsor_lvl);
+	$stmt->execute();
+	$inserted_id = $mysqli->insert_id;
+	$stmt->close();
+	
+	//Insert default permission into matches table
+	$stmt = $mysqli->prepare("INSERT INTO sponsor_conference_lookup  (
+		sponsor_id,
+		conference_id
+		)
+		VALUES (
+		?,
+		?
+		)");
+	$stmt->bind_param("ii", $inserted_id, $conference_id);
+	$stmt->execute();
+	$stmt->close();
+	
+	updateTitle($main_contact, 'Sponsor');
+	
+	return true;
+}
+
+function fetchAllSponsors($filter = NULL) {
+	
+	if ($filter != NULL) {
+		if ($filter == 'pending') { 
+			$filter = " WHERE sponsor.paid IS NULL";
+		}
+		
+		if ($filter == 'active') { 
+			$filter = " WHERE sponsor.paid IS NOT NULL";
+		}
+	} else { $filter = ""; }
+	
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			sponsor.sponsor_id, 
+			sponsor.company_name, 
+	 		sponsor.paid,
+	 		sponsor.sponsor_lvl,
+			CONCAT (attendee.f_name, ' ', attendee.l_name) AS main_contact
+			FROM sponsor
+ 	INNER JOIN `attendee`  ON sponsor.main_contact = attendee.user_id
+ 	$filter;");
+	$stmt->execute();
+	$stmt->bind_result($sponsor_id, $company_name, $paid, $sponsor_lvl, $main_contact);
+	
+	while ($stmt->fetch()){
+		$row[] = array('sponsor_id' => $sponsor_id, 'company_name' => $company_name, 'paid' => $paid, 'sponsor_lvl' => $sponsor_lvl, 'main_contact' => $main_contact);
+	}
+	$stmt->close();
+	return ($row);
+}
+
+function fetchSponsorDetails($sponsorId) {
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			sponsor.sponsor_id, 
+			sponsor.company_name, 
+			sponsor.company_address, 
+			sponsor.logo, 
+			sponsor.url, 
+	 		sponsor.paid,
+	 		sponsor.sponsor_lvl,
+	 		attendee.user_id,
+			CONCAT (attendee.f_name, ' ', attendee.l_name) AS main_contact_name
+			FROM sponsor
+ 	INNER JOIN `attendee`  ON sponsor.main_contact = attendee.user_id
+ 	WHERE sponsor.sponsor_id = $sponsorId;");
+	$stmt->execute();
+	$stmt->bind_result($sponsor_id, $company_name, $company_address, $logo, $url, $paid, $sponsor_lvl, $main_contact_id, $main_contact_name);
+	
+	while ($stmt->fetch()) {
+		$row = array('sponsor_id' => $sponsor_id, 'company_name' => $company_name, 'company_address' => $company_address, 'logo' => $logo, 'url' => $url, 'paid' => $paid, 'sponsor_lvl' => $sponsor_lvl, 'user_id' => $main_contact_id, 'main_contact_name' => $main_contact_name);
+	}
+	$stmt->close();
+	return ($row);
+}
+
+function updateSponsorDetail($sponsorId, $field, $value) {
+	global $mysqli,$db_table_prefix;
+	$stmt = $mysqli->prepare("UPDATE sponsor
+		SET `{$field}` = '{$value}'
+		WHERE
+		sponsor_id = {$sponsorId}");
+	$result = $stmt->execute();
+	$stmt->close();
+}
+
+function newExhibit($conference_id, $company_profile, $special_requests, $contact_person) {
+	global $mysqli;
+	
+	//Insert the user into the database providing no errors have been found.
+	$stmt = $mysqli->prepare("INSERT INTO exhibit (
+		conference_id,
+		company_profile,
+		special_requests
+		)
+		VALUES (
+		?,
+		?,
+		?
+		)");
+	
+	$stmt->bind_param("iss", $conference_id, $company_profile, $special_requests);
+	$stmt->execute();
+	$inserted_id = $mysqli->insert_id;
+	$stmt->close();
+	
+	//Insert default permission into matches table
+	$stmt = $mysqli->prepare("INSERT INTO exhibitor  (
+		attendee_user_id,
+		exhibit_id,
+		isMain
+		)
+		VALUES (
+		?,
+		?,
+		'1'
+		)");
+	$stmt->bind_param("ii", $contact_person, $inserted_id);
+	$stmt->execute();
+	$stmt->close();
+	
+	updateTitle($contact_person, 'Exhibitor');
+	
+	return true;
+}
+
+function fetchAllExhibits($filter = NULL) {
+	
+	if ($filter != NULL) {
+		if ($filter == 'pending') { 
+			$filter = " WHERE exhibit.paid IS NULL";
+		}
+		
+		if ($filter == 'active') { 
+			$filter = " WHERE exhibit.paid IS NOT NULL";
+		}
+	} else { $filter = ""; }
+	
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			exhibit.exhibit_id, 
+			exhibit.conference_id, 
+			exhibit.company_profile, 
+	 		exhibit.special_requests,
+	 		exhibit.paid,
+	 		exhibit.table_loc,
+			CONCAT (attendee.f_name, ' ', attendee.l_name) AS main_contact,
+			attendee.company
+			FROM exhibit
+ 	INNER JOIN `exhibitor`  ON exhibit.exhibit_id = exhibitor.exhibit_id
+ 	INNER JOIN `attendee`  ON exhibitor.attendee_user_id = attendee.user_id
+ 	$filter;");
+	$stmt->execute();
+	$stmt->bind_result($exhibit_id, $conference_id, $company_profile, $special_requests, $paid, $table_loc, $main_contact, $company);
+	
+	while ($stmt->fetch()){
+		$row[] = array('exhibit_id' => $exhibit_id, 'conference_id' => $conference_id, 'company_profile' => $company_profile, 'special_requests' => $special_requests, 'paid' => $paid, 'table_loc' => $table_loc, 'main_contact' => $main_contact, 'company' => $company);
+	}
+	$stmt->close();
+	return ($row);
+}
+
+function fetchExhibitDetails($exhibitId) {
+	global $mysqli; 
+	$stmt = $mysqli->prepare("SELECT 
+			exhibit.exhibit_id, 
+			exhibit.conference_id, 
+			exhibit.company_profile, 
+	 		exhibit.special_requests,
+	 		exhibit.paid,
+	 		exhibit.table_loc,
+	 		exhibitor.attendee_user_id AS main_contact_id,
+			CONCAT (attendee.f_name, ' ', attendee.l_name) AS main_contact_name,
+			attendee.company
+			FROM exhibit
+ 	INNER JOIN `exhibitor`  ON exhibit.exhibit_id = exhibitor.exhibit_id
+ 	INNER JOIN `attendee`  ON exhibitor.attendee_user_id = attendee.user_id WHERE exhibit.exhibit_id = {$exhibitId}");
+	$stmt->execute();
+	$stmt->bind_result($exhibit_id, $conference_id, $company_profile, $special_requests, $paid, $table_loc, $main_contact_id, $main_contact_name, $company);
+	
+	while ($stmt->fetch()){
+		$row = array('exhibit_id' => $exhibit_id, 'conference_id' => $conference_id, 'company_profile' => $company_profile, 'special_requests' => $special_requests, 'paid' => $paid, 'table_loc' => $table_loc, 'main_contact_id' => $main_contact_id, 'main_contact_name' => $main_contact_name, 'company' => $company);
+	}
+	$stmt->close();
+	return ($row);
+
+}
 ?>

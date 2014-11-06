@@ -7,26 +7,55 @@ http://usercake.com
 require_once("models/config.php");
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 if(!isUserLoggedIn()) { header("Location: ../login.php"); die(); }
-require_once("models/class.newsponsor.php");
+if(!isset($_GET['id'])) { header("Location: ../list_sponsors.php"); die(); }
 
-//Forms posted
-if(!empty($_POST))
-{
+$sponsorId = $_GET['id'];
 
-	$errors = array();
-	$main_contact = $loggedInUser->user_id;
-	$company_name = trim($_POST["company_name"]);
-	$company_address = trim($_POST["company_address"]);
-	$website_url = trim($_POST["website_url"]);
-	$sponsor_attendees = trim($_POST["sponsor_attendees"]);
-	$sponsor_lvl = $_POST["sponsor_lvl"];
-	$conference_id = date("Y");
+$sponsorDetails = fetchSponsorDetails($sponsorId);
+//print_r($sponsorDetails);
+
+if (isset($_POST['editSponsor'])) {
 	
-	if ($company_name == "") {
-		$errors[] = "COMPANY_NAME_REQUIRED";
+	$company_name = $_POST['company_name'];
+	$company_address = $_POST['company_address'];
+	$company_url = $_POST['website_url'];
+	$sponsor_lvl = $_POST['sponsor_lvl'];
+	$copresenter = $_POST['copresenter'];
+	
+	//print_r($_POST);
+	
+	if ($company_name != $sponsorDetails['company_name']) {
+		if ($company_name != "") {
+			updateSponsorDetail($sponsorId, 'company_name', $company_name);
+			$successes[] = lang("COMPANY_NAME_UPDATED");
+		} else {
+			$errors[] = lang("COMPANY_NAME_REQUIRED");
+		}
 	}
-	if ($company_address == "") {
-		$errors[] = "COMPANY_ADDRESS_REQUIRED";
+	
+	if ($company_address != $sponsorDetails['company_address']) {
+		if ($company_address != "") {
+			updateSponsorDetail($sponsorId, 'company_address', $company_address);
+			$successes[] = lang("COMPANY_ADDRESS_UPDATED");
+		} else {
+			$errors[] = lang("COMPANY_ADDRESS_REQUIRED");
+		}
+	}
+	
+	if ($company_url != $sponsorDetails['url']) {
+		if ($company_url != "") {
+			updateSponsorDetail($sponsorId, 'url', $company_url);
+			$successes[] = lang("COMPANY_URL_UPDATED");
+		} else {
+			$errors[] = lang("COMPANY_URL_EMPTY");
+		}
+	}
+	
+	if ($sponsor_lvl != $sponsorDetails['sponsor_lvl']) {
+		if ($sponsor_lvl != "") {
+			updateSponsorDetail($sponsorId, 'sponsor_lvl', $sponsor_lvl);
+			$successes[] = lang("COMPANY_SPONSOR_LVL_UPDATED");
+		}
 	}
 	
 	$logo_size = $_FILES["logo"]["size"];
@@ -56,16 +85,11 @@ if(!empty($_POST))
 			//$errors[] = lang("LOGO_UPLOAD_ERROR");
 		}
 	}
-		
-	//End data validation
-	if(count($errors) == 0) {	
-		
-		newSponsor($conference_id,$main_contact,$company_name,$company_address,$logo,$website_url,$sponsor_lvl);
-		$successes[] = lang("SPONSOR_REGISTERED");
-	} else {
-		$error[] = "ERROR";
-	}
+
+	if (!count($successes) && !count($errors)) $successes[] = lang("NOTHING_TO_UPDATE");
+	else $sponsorDetails = fetchSponsorDetails($sponsorId);
 }
+
 
 $languages = getLanguageFiles(); //Retrieve list of language files
 require_once("models/header.php");
@@ -73,22 +97,38 @@ require_once("models/header.php");
 <body>
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
+		<ol class="breadcrumb">
+		  <li><a href="../admin_dashboard.php">Admin Dashboard</a></li>
+		  <li><a href="../list_sponsors.php">Sponsors</a></li>
+		  <li class="active"><a href="#"><?=$sponsorDetails['company_name']?></a></li>
+							<h4 style="float: right; margin-top: -1px;">
+								<? //Display payment status
+								if ($presentationDetails['paid']){
+									echo " <span class='label label-success'>Paid</span>";	
+								}
+								else{
+									echo " <span class='label label-danger'>Unpaid</span>";
+								} ?>
+							</h4>
+		</ol>
 		<div class='row'>
 			<div class='col-lg-12'>
 				<h1>Sponsor Registration</h1>
 				<? echo resultBlock($errors,$successes); ?>
-		<form name='newSponsor' id="newSponsor" action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left"  enctype="multipart/form-data">
+		<form name='editSponsor' id="editSponsor" action='<? $_SERVER['PHP_SELF'] ?>' method='post' class="forms text-left"  enctype="multipart/form-data">
+		<input type="text" class="form-control" name="editSponsor" value="1" style="display:none;" />
 				<div class="col-lg-6">
 					<div class="panel panel-primary">
 						<div class="panel-heading"><h4>Company Profile</h4></div>
 					  <div class="panel-body">
               <div class="form-group"><label class="control-label">Company Name</label>
-				        <input type="text" class="form-control" name="company_name" required />
+				        <input type="text" class="form-control" name="company_name" value="<?=$sponsorDetails['company_name']?>" />
               </div>
               
 		          <div class="form-group"><label class="control-label">Company Address</label>
-						  	<textarea class="form-control" rows="4" id="company_address" name="company_address"></textarea>
+						  	<textarea class="form-control" rows="4" id="company_address" name="company_address" ><?=$sponsorDetails['company_address']?></textarea>
 		          </div>
+		          
 		          <div class="form-group">
 			          <label class="control-label">Company Logo</label>
 			          <div class="form-group">
@@ -96,22 +136,32 @@ require_once("models/header.php");
 			            <span class="help-block text-right">Choose a pdf file with a size less than 1M.</span>
 			          </div>
 			        </div>
+                  
               <div class="form-group"><label class="control-label">Website URL</label>
-				        <input type="text" class="form-control" name="website_url" placeholder="http://" />
+				        <input type="text" class="form-control" name="website_url" value="<?=$sponsorDetails['url']?>" />
               </div>
 					  </div>
 					</div>
 					
 					<div class="panel panel-primary">
 						<div class="panel-heading"><h4>Attendees</h4></div>
-		        <input type="text" class="form-control" name="contact_person_id" value="<? echo $loggedInUser->user_id; ?>" style="display:none;" />
-					  <div class="panel-body">				      
-              <div class="form-group"><label class="control-label">Email Addresses</label>
-				        <input type="text" class="form-control" name="sponsor_attendees[]" placeholder="Invite by email" />
+					  <div class="panel-body">				   
+			          <div class="form-group">
+				          <label>Main Presenter</label>
+								  <div class="input-group">
+							      <input type="text" class="form-control" name="main_presenter_name" value="<?= $sponsorDetails['main_contact_name'] ?>" disabled>
+							      <span class="input-group-btn">
+							        <a href="details_user.php?id=<?=$sponsorDetails["user_id"]?>"><button class="btn btn-success" type="button">View Profile <span class="glyphicon glyphicon-arrow-right"></span></button></a>
+							      </span>
+							    </div>
+			          </div>
+				      
+              <div class="form-group"><label class="control-label">Email Addresses</label><br>
+				        <input type="text" class="form-control" name="sponsor_attendees[]" placeholder="Invite by email">
 				        <br>
-				        <input type="text" class="form-control" name="sponsor_attendees[]" placeholder="Invite by email" />
+				        <input type="text" class="form-control" name="sponsor_attendees[]" placeholder="Invite by email">
 				        <br>
-				        <input type="text" class="form-control" name="sponsor_attendees[]" placeholder="Invite by email" />
+				        <input type="text" class="form-control" name="sponsor_attendees[]" placeholder="Invite by email">
 				    	</div>
 					  </div>
 					</div>
@@ -124,10 +174,9 @@ require_once("models/header.php");
 		        <input type="text" class="form-control" name="contact_person_id" value="<? echo $loggedInUser->user_id; ?>" style="display:none;" />
 					  <div class="panel-body">				      
               <div class="form-group"><label class="control-label">Choose a level</label>
-	              
 	              <div class="radio">
 								  <label>
-								  	<input type="radio" name="sponsor_lvl" value="1">Level 1 $300
+								  	<input type="radio" name="sponsor_lvl" value="1" <? if ($sponsorDetails['sponsor_lvl'] == 1) { echo "checked"; } ?> >Level 1 $300
 									  <p>
 										  <ul>
 											  <li>Exhibit table for both of the conference days (Full Day 1 & Half Day 2)</li>
@@ -142,7 +191,7 @@ require_once("models/header.php");
 								
 	              <div class="radio">
 								  <label>
-								  	<input type="radio" name="sponsor_lvl" value="2">Level 2 $500
+								  	<input type="radio" name="sponsor_lvl" value="2" <? if ($sponsorDetails['sponsor_lvl'] == 2) { echo "checked"; } ?> >Level 2 $500
 									  <p>
 										  <ul>
 											  <li>All Level 1 Benefits Plus:</li>
@@ -156,7 +205,7 @@ require_once("models/header.php");
 								
 								<div class="radio">
 								  <label>
-								  	<input type="radio" name="sponsor_lvl" value="3">Level 3 $750
+								  	<input type="radio" name="sponsor_lvl" value="3" <? if ($sponsorDetails['sponsor_lvl'] == 3) { echo "checked"; } ?> >Level 3 $750
 									  <p>
 										  <ul>
 											  <li>All Level 1 & Level 2 Benefits Plus:</li>
@@ -172,9 +221,10 @@ require_once("models/header.php");
 					</div>
 				</div>
 			</div><!-- /.row -->
-			<p style="text-align: center;">
-				<input type='submit' value='Register' class='btn btn-lg btn-success'/>
-			</p>
+					<div class="row text-center">
+						<input type="submit" class="btn btn-lg btn-success" value="Save" />
+						<a href="edit_sponsor.php?id=<?=$sponsorId?>" class="btn btn-lg btn-danger" disabled>Edit</a>
+					</div><!-- /.row -->
 		</form>
 			</div>
 		</div>

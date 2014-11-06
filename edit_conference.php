@@ -16,8 +16,6 @@ $conferenceData = fetchConferenceDetails($conference_id);
 //Forms posted
 	if (isset($_POST['editConference'])) {
 		
-		require_once("../models/class.newconference.php");
-		
 		$errors = array();
 		$title = $_POST['title'];
 		$tagline = $_POST['tagline'];
@@ -27,7 +25,7 @@ $conferenceData = fetchConferenceDetails($conference_id);
 		$reg_close = date('Y-m-d', strtotime($_POST['reg_close']));
 		$home_content = $_POST['home_content'];
 		
-		print_r($_POST);
+		//print_r($_POST);
 		
 		$banner_size = $_FILES["banner"]["size"];
 		$schedule_size = $_FILES["schedule"]["size"];

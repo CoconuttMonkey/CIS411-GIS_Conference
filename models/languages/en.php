@@ -93,6 +93,29 @@ $lang = array_merge($lang,array(
 	"PRESENTATION_END_UPDATED" => "Updated the presentation end time",
 	"PRESENTATION_DAY_UPDATED" => "Updated the presentation week day",
 	));
+	
+//Exhibit
+$lang = array_merge($lang,array(
+	"EXHIBIT_REQUEST_FAILED" 		=> "Your request failed, please try again",
+	"EXHIBIT_REQUEST_SUCCEEDED" 		=> "You successfully requested an exhibit",
+	"COMPANY_PROFILE_REQUIRED" => "A company profile is required",
+	));
+	
+//Sponsor
+$lang = array_merge($lang,array(
+	"COMPANY_NAME_REQUIRED" 		=> "Please enter a company name",
+	"COMPANY_NAME_UPDATED" 		=> "Company name has been updated",
+	"COMPANY_ADDRESS_REQUIRED" 		=> "Please enter an address",
+	"COMPANY_ADDRESS_UPDATED" 		=> "Company address has been updated",
+	"LOGO_FILE_EXISTS" 		=> "Logo exists, please select another.",
+	"LOGO_ABOVE_FILE_SIZE" 		=> "File size exceeds maximum",
+	"LOGO_TYPE_ERROR" 		=> "Logo must be a jpg",
+	"LOGO_UPLOAD_ERROR" 		=> "There was an error uploading your logo",
+	"SPONSOR_REGISTERED" 		=> "You have successfully registered as a sponsor",
+	"COMPANY_URL_UPDATED" => "Company url has been updated",
+	"COMPANY_URL_EMPTY" => "No url entered",
+	"COMPANY_SPONSOR_LVL_UPDATED" => "Updated sponsor level",
+	));
 
 //Configuration
 $lang = array_merge($lang,array(
