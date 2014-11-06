@@ -20,8 +20,8 @@ require_once("models/header.php");
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<ol class="breadcrumb">
-		  <li><a href="../admin_dashboard.php">Admin Dashboard</a></li>
-		  <li><a href="../list_sponsors.php">Sponsors</a></li>
+		  <li><a href="admin_dashboard.php">Admin Dashboard</a></li>
+		  <li><a href="list_sponsors.php">Sponsors</a></li>
 		  <li class="active"><a href="#"><?=$sponsorDetails['company_name']?></a></li>
 							<h4 style="float: right; margin-top: -1px;">
 								<? //Display payment status
@@ -53,7 +53,7 @@ require_once("models/header.php");
 		          <div class="form-group">
 			          <label class="control-label">Company Logo</label>
 			          <div class="form-group">
-                  <img src="<? echo $conferenceData['logo']; ?>" alt="logo" width="100%">
+                  <img src="<? echo $$sponsorDetails['logo']; ?>" alt="logo" width="100%">
 			          </div>
 			        </div>
                   

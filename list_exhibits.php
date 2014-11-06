@@ -46,7 +46,7 @@ require_once("models/header.php");
 							<? //Cycle through users
 						foreach ($exhibitorData as $v1) {
 						?>
-						<tr class="clickableCell" href="../details_exhibit.php?id=<? echo $v1['exhibit_id']; ?>">
+						<tr class="clickableCell" href="details_exhibit.php?id=<? echo $v1['exhibit_id']; ?>">
 							<td><? echo $v1['exhibit_id']; ?></td>
 							<td><?php echo $v1['company']; ?></td>
 							<td><?php echo $v1['main_contact']; ?></td>

@@ -20,8 +20,8 @@ require_once("models/header.php");
 	<?php include("models/main-nav.php"); ?>
 	<div class='container'>
 		<ol class="breadcrumb">
-		  <li><a href="../admin_dashboard.php">Admin Dashboard</a></li>
-		  <li><a href="../list_presentations.php">Presentations</a></li>
+		  <li><a href="admin_dashboard.php">Admin Dashboard</a></li>
+		  <li><a href="list_presentations.php">Presentations</a></li>
 		  <li class="active"><a href="#"><?=$presentationDetails['title']?></a></li>
 							<h4 style="float: right; margin-top: -1px;">
 								<? //Display payment status
