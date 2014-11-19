@@ -1,6 +1,14 @@
 <?php if (!defined('BASEPATH')) die();
 class Contact extends Main_Controller {
 
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->database();
+		$this->load->library(array('ion_auth','form_validation'));
+		$this->load->helper(array('url','language'));
+	}
+	
 	public function index() {
 		
 	  // Load page views
