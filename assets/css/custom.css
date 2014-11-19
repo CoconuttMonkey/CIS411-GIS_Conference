@@ -4,7 +4,8 @@
 
 body {
   padding-top: 15px;
-  background-size: contain;
+  background: url(../img/grunge_wall.png) !important;
+  background-repeat: repeat;
 }
 
 .clear {

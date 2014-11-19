@@ -1,12 +1,6 @@
 	<footer class="container">
-		<div class="col-lg-6 col-md-6 col-sm-6">
-	    <a class="btn btn-primary btn-large" href="https://github.com/CoconuttMonkey"> <i class="fa fa-github fa-lg"></i></a>
-	    <a class="btn btn-primary btn-large" href="https://github.com/CoconuttMonkey"> <i class="fa fa-facebook fa-lg"></i></a>
-	    <a class="btn btn-primary btn-large" href="https://github.com/CoconuttMonkey"> <i class="fa fa-twitter fa-lg"></i></a>
-	    <a class="btn btn-primary btn-large" href="https://github.com/CoconuttMonkey"> <i class="fa fa-google-plus fa-lg"></i></a>
-		</div>
-		<div class="col-lg-6 col-md-6 col-sm-6 text-right">
-			&copy; 2014 Matthew Ondo
+		<div class="col-lg-12 text-right">
+			&copy; 2014 Clarion University of PA
 		</div>
 	</footer>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

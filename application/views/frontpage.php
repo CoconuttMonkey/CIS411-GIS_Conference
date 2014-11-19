@@ -1,3 +1,10 @@
+<style>
+	.jumbotron {
+		background: url(<?=$banner?>);
+		background-size: contain;
+		color: #fff !important;
+	}
+</style>
 <div class="container" style="margin-top: 50px;">
 	<div class="jumbotron">
 			<p class="text-right"><?=$date?></p>
