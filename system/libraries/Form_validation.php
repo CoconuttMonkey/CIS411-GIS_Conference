@@ -1075,6 +1075,27 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Valid Emails
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	
+	public function user_email_exist($str)
+	{       
+
+  list($table, $column) = explode('.', $value, 2);    
+  $query = $this->CI->db->query("SELECT COUNT(*) AS count FROM users WHERE email = $str'");
+  $row = $query->row();
+
+  return ($row->count > 0) ? FALSE : TRUE;
+
+}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Validate IP Address
 	 *
 	 * @access	public

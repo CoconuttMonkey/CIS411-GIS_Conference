@@ -2,19 +2,21 @@
 	<section class="row">
 		<div class="col-md-9">
 			<div class="row">
-				<h1 Dashboard</h1>
+				<h1>Dashboard</h1>
 				<p>Here you can access all conference functions</p>
 				<div id="infoMessage"><?php echo $message;?></div>
 			</div>
 			
 			<div class="row">
-				<a href="<?= site_url('conference/register_attendee') ?>" class="btn btn-lg btn-fresh">Conference Registration</a>
+				
 			</div>
 		</div>
 		
 		<aside class="col-md-3">
+			<h2>Links</h2>
 			<p>
-			
+				<a href="<?= site_url('conference/register_attendee') ?>" class="btn btn-block btn-fresh">Conference Registration</a>
+				<a href="<?= site_url('sponsor/create_sponsor') ?>" class="btn btn-block btn-fresh">Become a Sponsor</a>
 			</p>
 		</aside>
 			

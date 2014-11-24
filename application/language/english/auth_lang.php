@@ -161,3 +161,11 @@ $lang['create_track_roomnumber_label'] 			= 'Room Number';
 $lang['create_track_roombuilding_label'] 		= 'Building Name';
 $lang['create_conference_submit_btn']				= 'Create Conference';
 $lang['add_track_room_submit_btn']					= 'Update Conference';
+
+// Create Sponsor
+$lang['create_main_contact_label']			= 'Main Contact Email';
+$lang['create_company_name_label']			= 'Company Name';
+$lang['create_company_address_label']		= 'Company Address';
+$lang['create_logo_label']							= 'Company Logo';
+$lang['create_url_label']								= 'Website URL';
+$lang['create_sponsor_submit_btn']			= 'Submit';
