@@ -61,7 +61,7 @@ class Sponsor extends CI_Controller {
 			
 			$this->session->set_flashdata('message', "<div class='alert alert-success'>You have successfully registered as a sponsor!</div>");
 			
-			redirect("upload/logo/".$this->db->insert_id(), 'refresh');
+			redirect("upload/sponsor_logo/".$this->db->insert_id(), 'refresh');
 			
 		}
 		else

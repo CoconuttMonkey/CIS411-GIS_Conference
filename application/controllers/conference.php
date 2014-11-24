@@ -206,7 +206,7 @@ class Conference extends CI_Controller {
 			
 			$this->session->set_flashdata('message', "<div class='alert alert-success'>You have successfully created a new conference!</div>");
 			
-			redirect("conference/add_tracks/".$conference_data['conf_id'], 'refresh');
+			redirect("conference/add_track_room/".$conference_data['conf_id'], 'refresh');
 			
 		}
 		else

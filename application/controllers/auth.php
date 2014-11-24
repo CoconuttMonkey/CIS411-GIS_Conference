@@ -288,9 +288,14 @@ class Auth extends CI_Controller {
 		}
 		else
 		{
+			// Load Dependencies
+			$this->load->model('sponsor_model');
+			
 			// Load Data
-			$data["user_count"] = count($this->data['users'] = $this->ion_auth->users()->result());
-			$data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+			$data["user_count"] 					= count($this->data['users'] 						= $this->ion_auth->users()->result());
+			$data["unpaid_sponsor_count"]	= count($this->data['unpaid_sponsors'] 	= $this->sponsor_model->get_all('unpaid'));
+			$data["paid_sponsor_count"]		= count($this->data['paid_sponsors'] 		= $this->sponsor_model->get_all('paid'));
+			$data['message'] 							= (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 			
 			// Load View
 	    $this->load->view('include/header');

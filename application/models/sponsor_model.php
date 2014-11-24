@@ -15,9 +15,21 @@ class Sponsor_model extends CI_Model {
         }
     }
     
-    public function get_all() {
-      $query = $this->db->get('sponsor');
-			
-			return $query->result();
+    public function get_all($filter = NULL) {
+	    if ($filter == NULL) 
+	    {
+	      $query = $this->db->get('sponsor');
+				return $query->result();
+			} 
+			elseif ($filter == "unpaid") 
+			{
+          $query = $this->db->get_where('sponsor', array('paid' => 'no'));
+          return $query->result();
+			} 
+			elseif ($filter == "paid") 
+			{
+          $query = $this->db->get_where('sponsor', array('paid' => 'yes'));
+          return $query->result();
+			}
     }
 }
