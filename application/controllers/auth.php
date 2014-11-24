@@ -200,8 +200,10 @@ class Auth extends CI_Controller {
 		if ($this->form_validation->run() == false)
 		{
 			//setup the input
-			$this->data['email'] = array('name' => 'email',
-				'id' => 'email',
+			$this->data['email'] = array(
+				'name' 	=> 'email',
+				'id' 		=> 'email',
+				'class' => 'form-control',
 			);
 
 			if ( $this->config->item('identity', 'ion_auth') == 'username' ){
@@ -214,7 +216,11 @@ class Auth extends CI_Controller {
 
 			//set any errors and display the form
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+			
+      $this->load->view('include/header');
+      $this->load->view('templates/menubar');
 			$this->_render_page('auth/forgot_password', $this->data);
+      $this->load->view('include/footer');
 		}
 		else
 		{
@@ -269,8 +275,16 @@ class Auth extends CI_Controller {
 		}
 		elseif (!$this->ion_auth->is_admin()) //remove this elseif if you want to enable this for non-admins
 		{
-			//redirect them to the home page because they must be an administrator to view this
-			return show_error('You must be an administrator to view this page.');
+			// Load Data
+			$data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+			$data['conf_id'] = '2014';
+			
+			// Load View
+	    $this->load->view('include/header');
+	    $this->load->view('templates/menubar');
+	    $this->load->view('auth/dashboard-default',$data);
+	    $this->load->view('include/footer');
+			
 		}
 		else
 		{
@@ -313,7 +327,7 @@ class Auth extends CI_Controller {
 
       $this->load->view('include/header');
       $this->load->view('templates/menubar');
-			$this->_render_page('auth/index', $this->data);
+			$this->_render_page('auth/list_users', $this->data);
       $this->load->view('include/footer');
 		}
 	}

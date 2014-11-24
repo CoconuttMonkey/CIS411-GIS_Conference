@@ -13,11 +13,21 @@ body {
 	float: none;
 	display: block;
 }
-	
-@import url(http://fonts.googleapis.com/css?family=Oswald);
 
 body {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.font-oswald-7 {
+	font-family: Oswald;
+	font-size: 700;
+	text-transform: uppercase;
+}
+
+.font-lora-7 {
+	font-family: "Lora";
+	font-style: italic;
+	font-weight: 700;
 }
 
 .btn {

@@ -31,8 +31,8 @@ class CI_Form_validation {
 	protected $_config_rules		= array();
 	protected $_error_array			= array();
 	protected $_error_messages		= array();
-	protected $_error_prefix		= '<p>';
-	protected $_error_suffix		= '</p>';
+	protected $_error_prefix		= '<span class="alert alert-danger">';
+	protected $_error_suffix		= '</span>';
 	protected $error_string			= '';
 	protected $_safe_form_data		= FALSE;
 
@@ -186,7 +186,7 @@ class CI_Form_validation {
 	 * @param	string
 	 * @return	void
 	 */
-	public function set_error_delimiters($prefix = '<p>', $suffix = '</p>')
+	public function set_error_delimiters($prefix = '<span class="alert alert-danger">', $suffix = '</span>')
 	{
 		$this->_error_prefix = $prefix;
 		$this->_error_suffix = $suffix;
@@ -205,7 +205,7 @@ class CI_Form_validation {
 	 * @param	string	the field name
 	 * @return	void
 	 */
-	public function error($field = '', $prefix = '', $suffix = '')
+	public function error($field = '', $prefix = '<span class="alert alert-danger">', $suffix = '</span>')
 	{
 		if ( ! isset($this->_field_data[$field]['error']) OR $this->_field_data[$field]['error'] == '')
 		{
@@ -237,7 +237,7 @@ class CI_Form_validation {
 	 * @param	string
 	 * @return	str
 	 */
-	public function error_string($prefix = '', $suffix = '')
+	public function error_string($prefix = '<span class="alert alert-danger">', $suffix = '</span>')
 	{
 		// No errrors, validation passes!
 		if (count($this->_error_array) === 0)

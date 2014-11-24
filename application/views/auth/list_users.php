@@ -1,5 +1,5 @@
 <div class="container" style="margin-top: 50px;">
-	<h1><?php echo lang('index_heading');?></h1>
+	<h2><?php echo lang('index_heading');?></h2>
 	<p><?php echo lang('index_subheading');?></p>
 	
 	<div id="infoMessage"><?php echo $message;?></div>

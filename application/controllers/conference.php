@@ -5,7 +5,6 @@ class Conference extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		parent::__construct();
 		$this->load->database();
 		$this->load->library(array('ion_auth','form_validation'));
 		$this->load->helper(array('url','language'));
@@ -33,6 +32,37 @@ class Conference extends CI_Controller {
 		{
 			//redirect them to the conference list page
 			redirect('conference/list', 'refresh');
+		}
+	}
+	
+	//list conferences
+	function listing($filter = NULL)
+	{
+		// Authenticate User
+		if (!$this->ion_auth->logged_in()) {
+			//redirect them to the login page
+			redirect('auth/login', 'refresh');
+		}
+		elseif (!$this->ion_auth->is_admin()) {
+			//redirect them to the home page because they must be an administrator to view this
+			return show_error('You must be an administrator to view this page.');
+		}
+		else {
+			// Load Dependencies
+			$this->load->model('conference_model');
+			$this->load->library('table');
+			
+			//set the flash data error message if there is one
+			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+			// Load Data
+			$this->data['list'] = $this->conference_model->get_all();
+
+			// Load View
+      $this->load->view('include/header');
+      $this->load->view('templates/menubar');
+			$this->load->view('list_conference', $this->data);
+      $this->load->view('include/footer');
 		}
 	}
 	
@@ -152,7 +182,89 @@ class Conference extends CI_Controller {
     $this->load->view('templates/menubar');
 		$this->load->view('auth/create_conference', $this->data);
     $this->load->view('include/footer');
+	}
+	
+	//register a new attendee
+	function register_attendee()
+	{
+		// Load Dependencies
+		$tables = $this->config->item('tables','ion_auth');
+		$attendee_data = array();
+
+		// Validate form input
+		// $this->form_validation->set_rules('frontpage_content', 'Front Page Content', 'required');	
+		
+		if ($this->form_validation->run() == true)
+		{
+			$conference_data = array(
+				'conf_id' 						=> $this->input->post('conf_id'),
+			);
 		}
+		
+		if ($this->form_validation->run() == true && $this->db->insert('attendee', $attendee_data))
+		{
+			
+			$this->session->set_flashdata('message', "<div class='alert alert-success'>You have successfully created a new conference!</div>");
+			
+			redirect("conference/add_tracks/".$conference_data['conf_id'], 'refresh');
+			
+		}
+		else
+		{
+			//set the flash data error message if there is one
+			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+			
+			// Load Data
+			$this->data['address_1'] = array(
+				'name'  => 'address_1',
+				'id'    => 'address_1',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('address_1'),
+				'class' => 'form-control',
+			);
+			$this->data['address_2'] = array(
+				'name'  => 'address_2',
+				'id'    => 'address_2',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('address_2'),
+				'class' => 'form-control',
+			);
+			$this->data['city'] = array(
+				'name'  => 'city',
+				'id'    => 'city',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('city'),
+				'class' => 'form-control',
+			);
+			$this->data['state'] = array(
+				'name'  => 'state',
+				'id'    => 'state',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('state'),
+				'class' => 'form-control',
+			);
+			$this->data['zip'] = array(
+				'name'  => 'zip',
+				'id'    => 'zip',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('zip'),
+				'class' => 'form-control',
+			);
+			$this->data['admission_type'] = array(
+				'name'  => 'admission_type',
+				'id'    => 'admission_type',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('admission_type'),
+				'class' => 'form-control',
+			);
+		}
+		
+    $this->load->view('include/header');
+    $this->load->view('templates/menubar');
+		$this->load->view('create_attendee', $this->data);
+    $this->load->view('include/footer');
+
+	}
 	
 	//create new tracks
 	function add_track_room($conf_id)

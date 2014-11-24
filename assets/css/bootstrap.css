@@ -513,7 +513,7 @@ h6 .small,
 .h6 .small {
   font-weight: normal;
   line-height: 1;
-  color: #999999;
+  color: #eaeaea;
 }
 
 h1,
@@ -556,6 +556,9 @@ h1,
 h2,
 .h2 {
   font-size: 30px;
+	font-family: Oswald;
+	font-size: 700;
+	text-transform: uppercase;
 }
 
 h3,
@@ -571,6 +574,10 @@ h4,
 h5,
 .h5 {
   font-size: 14px;
+  font-family: "Lora", serif;
+	font-style: italic;
+	font-weight: 400;
+	letter-spacing: 0.5px;
 }
 
 h6,
@@ -4805,12 +4812,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #222222;
+  background-color: #003366;
   border-color: #080808;
 }
 
 .navbar-inverse .navbar-brand {
-  color: #999999;
+  color: #ffffff;
 }
 
 .navbar-inverse .navbar-brand:hover,
@@ -4820,24 +4827,25 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-text {
-  color: #999999;
+  color: #ffffff;
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #999999;
+  color: #ffffff;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
   color: #ffffff;
   background-color: transparent;
+  text-decoration: underline;
 }
 
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
   color: #ffffff;
-  background-color: #080808;
+  background-color: #97824A;
 }
 
 .navbar-inverse .navbar-nav > .disabled > a,

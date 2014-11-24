@@ -1,7 +1,7 @@
 <div class="container" style="margin-top: 50px;">
 	<section class="row">
 		<div class="col-md-4 col-md-push-4">
-			<h1><?php echo lang('login_heading');?></h1>
+			<h2><?php echo lang('login_heading');?></h2>
 			<p><?php echo lang('login_subheading');?></p>
 			
 			<div id="infoMessage"><?php echo $message;?></div>
@@ -18,7 +18,7 @@
 			    <?php echo form_input($password);?>
 			  </div>
 			
-			  <div class="form-group">
+			  <div class="form-group h5 text-center">
 			    <?php echo lang('login_remember_label', 'remember');?>
 			    <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"');?>
 			  </div>

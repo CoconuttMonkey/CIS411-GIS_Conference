@@ -1,7 +1,7 @@
 <div class="container" style="margin-top: 50px;">
 	<section class="row">
 		<div class="col-md-4 col-md-push-4">
-			<h1><?php echo lang('create_user_heading');?></h1>
+			<h2><?php echo lang('create_user_heading');?></h2>
 			<p><?php echo lang('create_user_subheading');?></p>
 			
 			<div id="infoMessage"><?php echo $message;?></div>

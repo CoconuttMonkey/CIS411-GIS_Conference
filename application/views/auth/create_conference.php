@@ -1,9 +1,11 @@
 <div class="container" style="margin-top: 50px;">
 	<section class="row">
-		<div class="col-md-12">
+		<div class="col-md-6 col-md-push-3">
 			<h1>Create Conference</h1>
 			<div id="infoMessage"><?php echo $message;?></div>
 		</div>
+	</section>
+	<section class="row">
 		<?php echo form_open("conference/setup_new_conference");?>
 			<div class="col-md-6 col-md-push-3">
 	      <div class="form-group">
