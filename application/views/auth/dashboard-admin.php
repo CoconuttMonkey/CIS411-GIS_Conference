@@ -47,7 +47,7 @@
 	            </div>
 	          </div>
 	        </div>
-	        <a href="<?= site_url('sponsor/list/unpaid') ?>">
+	        <a href="<?= site_url('sponsor/listing/unpaid') ?>">
 	          <div class="panel-footer announcement-bottom">
 	            <div class="row">
 	              <div class="col-xs-12">
@@ -69,7 +69,7 @@
 	            </div>
 	          </div>
 	        </div>
-	        <a href="<?= site_url('sponsor/list/unpaid') ?>">
+	        <a href="<?= site_url('sponsor/listing/paid') ?>">
 	          <div class="panel-footer announcement-bottom">
 	            <div class="row">
 	              <div class="col-xs-12">

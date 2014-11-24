@@ -27,7 +27,7 @@ class Sponsor extends CI_Controller {
 		else
 		{
 			//redirect them to the conference list page
-			redirect('sponsor/list', 'refresh');
+			redirect('sponsor/listing', 'refresh');
 		}
 	}
 	
@@ -119,4 +119,52 @@ class Sponsor extends CI_Controller {
 		$this->load->view('sponsor/create_sponsor', $this->data);
     $this->load->view('include/footer');
 	}	
+	
+	function listing($filter = NULL)
+	{
+		// Authenticate User
+		if (!$this->ion_auth->logged_in()) {
+			//redirect them to the login page
+			redirect('auth/login', 'refresh');
+		}
+		elseif (!$this->ion_auth->is_admin()) {
+			//redirect them to the home page because they must be an administrator to view this
+			return show_error('You must be an administrator to view this page.');
+		}
+		else {
+			// Load Dependencies
+			$this->load->model('sponsor_model');
+			$this->load->library('table');
+			
+			//set the flash data error message if there is one
+			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+			// Load Data
+			switch ($filter) {
+		    case "paid":
+	        $this->data['heading'] = "Paid Sponsors";
+	        $this->data['subheading'] = "This is the list of all active sponsors.";
+	        $this->data['sponsors'] = $this->sponsor_model->get_all("paid");
+	        break;
+		    case "unpaid":
+	        $this->data['heading'] = "Unpaid Sponsors";
+	        $this->data['subheading'] = "This is the list of all inactive sponsors.";
+	        $this->data['sponsors'] = $this->sponsor_model->get_all("unpaid");
+	        break;
+		    default:
+		    	$this->data['heading'] = "Sponsor List";
+	        $this->data['subheading'] = "This is the list of all sponsors.";
+		    	$this->data['sponsors'] = $this->sponsor_model->get_all();
+					
+			}
+			
+			
+
+			// Load View
+      $this->load->view('include/header');
+      $this->load->view('templates/menubar');
+			$this->load->view('sponsor/list', $this->data);
+      $this->load->view('include/footer');
+		}
+	}
 }
