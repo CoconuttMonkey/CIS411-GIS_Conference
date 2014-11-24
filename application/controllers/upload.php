@@ -25,7 +25,7 @@ class Upload extends CI_Controller {
 
 	function sponsor_logo($id)
 	{
-		$config['upload_path'] = './uploads/';
+		$config['upload_path'] = '/uploads/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '100';
 		$config['max_width']  = '1024';
