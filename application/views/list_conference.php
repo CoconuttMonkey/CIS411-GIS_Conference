@@ -1,4 +1,5 @@
 <div class="container" style="margin-top: 50px;">
+	<?=$this->breadcrumbs->show()?>
 	<section class="row">
 		<div class="col-lg-12">
 			<h2>Conference Listing</h2>

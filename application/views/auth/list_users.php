@@ -1,4 +1,6 @@
 <div class="container" style="margin-top: 50px;">
+	
+	<?=$this->breadcrumbs->show()?>
 	<h2><?php echo lang('index_heading');?></h2>
 	<p><?php echo lang('index_subheading');?></p>
 	

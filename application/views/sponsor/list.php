@@ -1,4 +1,5 @@
 <div class="container" style="margin-top: 50px;">
+	<?=$this->breadcrumbs->show()?>
 	<h2><?=$heading?></h2>
 	<p><?=$subheading?></p>
 	
@@ -13,6 +14,7 @@
 			<th>URL</th>
 			<th>Logo</th>
 			<th>Paid Status</th>
+			<th></th>
 		</tr>
 		<?php foreach ($sponsors as $sponsor):?>
 			<tr>
@@ -23,6 +25,7 @@
 				<td><?=$sponsor->url?></td>
 				<td><img src="<?=base_url($sponsor->logo)?>" alt="<?=$sponsor->company_name?>" height="40px">
 				<td><? if ($sponsor->paid == 'no') echo "<span class='label label-danger'>No</span>"; else echo "<span class='label label-success'>Yes</span>";?></td>
+				<td><a href="<?=site_url('sponsor/edit/'.$sponsor->sponsor_id)?>"><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
 			</tr>
 		<?php endforeach;?>
 	</table>

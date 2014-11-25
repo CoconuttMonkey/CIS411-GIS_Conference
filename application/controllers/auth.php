@@ -329,6 +329,14 @@ class Auth extends CI_Controller {
 			{
 				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
 			}
+			
+			// Prepare Breadcrumbs
+			// load Breadcrumbs
+			$this->load->library('breadcrumbs');
+			
+			// add breadcrumbs
+			$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
+			$this->breadcrumbs->push('Users', 'auth/users' );
 
       $this->load->view('include/header');
       $this->load->view('templates/menubar');

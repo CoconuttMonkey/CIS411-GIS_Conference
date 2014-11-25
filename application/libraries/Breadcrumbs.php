@@ -42,7 +42,6 @@ class Breadcrumbs {
 	}
 	
 	// --------------------------------------------------------------------
-
 	/**
 	 * Append crumb to stack
 	 *
@@ -64,7 +63,6 @@ class Breadcrumbs {
 	}
 	
 	// --------------------------------------------------------------------
-
 	/**
 	 * Prepend crumb to stack
 	 *
@@ -83,7 +81,6 @@ class Breadcrumbs {
 	}
 	
 	// --------------------------------------------------------------------
-
 	/**
 	 * Generate breadcrumb
 	 *
@@ -102,7 +99,7 @@ class Breadcrumbs {
 				if (end(array_keys($this->breadcrumbs)) == $key) {
 					$output .= $this->crumb_last_open . '' . $crumb['page'] . '' . $this->crumb_close;
 				} else {
-					$output .= $this->crumb_open.'<a href="' . $crumb['href'] . '">' . $crumb['page'] . '</a> '.$this->crumb_divider.$this->crumb_close;
+					$output .= '<a href="' . $crumb['href'] . '">' . $crumb['page'] . '</a> '.$this->crumb_divider.$this->crumb_close;
 				}
 			}
 			
@@ -113,9 +110,7 @@ class Breadcrumbs {
 		// no crumbs
 		return '';
 	}
-
 }
 // END Breadcrumbs Class
-
 /* End of file Breadcrumbs.php */
 /* Location: ./application/libraries/Breadcrumbs.php */
