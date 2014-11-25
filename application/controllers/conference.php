@@ -8,7 +8,7 @@ class Conference extends CI_Controller {
 		$this->load->database();
 		$this->load->library(array('ion_auth','form_validation'));
 		$this->load->helper(array('url','language'));
-			$this->load->library('breadcrumbs');
+		$this->load->library('breadcrumbs');
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
@@ -197,12 +197,26 @@ class Conference extends CI_Controller {
 		$attendee_data = array();
 
 		// Validate form input
-		// $this->form_validation->set_rules('frontpage_content', 'Front Page Content', 'required');	
+		$this->form_validation->set_rules('user_id', 'User', 'required|is_unique[attendee.user_id]');	
+		$this->form_validation->set_rules('address_1', 'Address Line 1', 'required');	
+		$this->form_validation->set_rules('address_2', 'Address Line 2', 'required');	
+		$this->form_validation->set_rules('city', 'City', 'required');	
+		$this->form_validation->set_rules('state', 'State', 'required');	
+		$this->form_validation->set_rules('zip', 'Zip Code', 'required');	
+		$this->form_validation->set_rules('country', 'Country', 'required');
+		$this->form_validation->set_rules('admission_type', 'Admission Type', 'required');
 		
 		if ($this->form_validation->run() == true)
 		{
-			$conference_data = array(
-				'conf_id' 						=> $this->input->post('conf_id'),
+			$attendee_data = array(
+				'user_id' 				=> $this->input->post('user_id'),
+				'address_1' 			=> $this->input->post('address_1'),
+				'address_2' 			=> $this->input->post('address_2'),
+				'city' 						=> $this->input->post('city'),
+				'state' 					=> $this->input->post('state'),
+				'zip' 						=> $this->input->post('zip'),
+				'country' 				=> $this->input->post('country'),
+				'admission_type' 	=> $this->input->post('admission_type'),
 			);
 		}
 		
@@ -211,7 +225,17 @@ class Conference extends CI_Controller {
 			
 			$this->session->set_flashdata('message', "<div class='alert alert-success'>You have successfully created a new conference!</div>");
 			
-			redirect("conference/add_track_room/".$conference_data['conf_id'], 'refresh');
+			switch ($attendee_data["admission_type"]) {
+				case 4:
+					redirect("presentation/register", 'refresh');
+					break;
+				case 5:
+					redirect("exhibit/register", 'refresh');
+					break;
+				default:
+					redirect("auth/dashboard", 'refresh');
+			}
+			
 			
 		}
 		else
@@ -220,6 +244,7 @@ class Conference extends CI_Controller {
 			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 			
 			// Load Data
+			$this->data['user_id'] = $this->ion_auth->user()->row()->id;
 			$this->data['address_1'] = array(
 				'name'  => 'address_1',
 				'id'    => 'address_1',
@@ -253,6 +278,13 @@ class Conference extends CI_Controller {
 				'id'    => 'zip',
 				'type'  => 'text',
 				'value' => $this->form_validation->set_value('zip'),
+				'class' => 'form-control',
+			);
+			$this->data['country'] = array(
+				'name'  => 'country',
+				'id'    => 'country',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('country'),
 				'class' => 'form-control',
 			);
 			$this->data['admission_type'] = array(

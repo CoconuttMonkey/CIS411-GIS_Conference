@@ -322,7 +322,7 @@ class Auth extends CI_Controller {
 		{
 			//set the flash data error message if there is one
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
+			
 			//list the users
 			$this->data['users'] = $this->ion_auth->users()->result();
 			foreach ($this->data['users'] as $k => $user)
@@ -872,7 +872,71 @@ class Auth extends CI_Controller {
 
 		$this->_render_page('auth/edit_group', $this->data);
 	}
+	
+	//site settings
+	function settings()
+	{
+		
+		//authenticate user
+		if (!$this->ion_auth->logged_in())
+		{
+			//redirect them to the login page
+			redirect('auth/login', 'refresh');
+		}
+		elseif (!$this->ion_auth->is_admin()) //remove this elseif if you want to enable this for non-admins
+		{
+			//redirect them to the home page because they must be an administrator to view this
+			return show_error('You must be an administrator to view this page.');
+		}
+		else
+		{
+			//load dependencies
+			$this->load->model("settings_model");
+			$this->load->model("conference_model");
+			$settings = $this->settings_model->get_all();
+			
+			// Validate form input	
+			$this->form_validation->set_rules('active_conference', 'Active Conference', 'required');			
+			$this->form_validation->set_rules('contact_email', 'Company Name', 'required|valid_email');			
+			$this->form_validation->set_rules('billing_email', 'Company Address', 'required|valid_email');	
+			
+			
+			if (isset($_POST) && !empty($_POST))
+			{
+				if ($this->form_validation->run() == true)
+				{
+						$data = array(
+							'active_conference' => $this->input->post('active_conference'),
+							'contact_email'    	=> $this->input->post('contact_email'),
+							'billing_email'    	=> $this->input->post('billing_email'),
+						);
+				}
+			
+				if ($this->form_validation->run() == true && $this->db->update('settings', $data, "id = 0"))
+				{
+					
+					$this->session->set_flashdata('message', "<div class='alert alert-success'>Sponsor Updated</div>");
+					
+					//redirect them to the conference list page
+					redirect('auth/settings', 'refresh');
+				}
+			}
+			
+			
+			
+			//set the flash data error message if there is one
+			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
+			//load data
+			$this->data['settings'] = $settings;
+			
+			//load view
+      $this->load->view('include/header');
+      $this->load->view('templates/menubar');
+			$this->load->view('auth/site_settings', $this->data);
+      $this->load->view('include/footer');
+		}
+	}
 
 	function _get_csrf_nonce()
 	{

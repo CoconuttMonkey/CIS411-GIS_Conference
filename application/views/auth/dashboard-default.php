@@ -15,7 +15,7 @@
 		<aside class="col-md-3">
 			<h2>Links</h2>
 			<p>
-				<a href="<?= site_url('conference/register_attendee') ?>" class="btn btn-block btn-fresh">Conference Registration</a>
+				<a href="<?= site_url('attendee/register') ?>" class="btn btn-block btn-fresh">Conference Registration</a>
 				<a href="<?= site_url('sponsor/create_sponsor') ?>" class="btn btn-block btn-fresh">Become a Sponsor</a>
 			</p>
 		</aside>

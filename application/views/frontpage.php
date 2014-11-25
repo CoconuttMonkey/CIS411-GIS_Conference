@@ -1,6 +1,6 @@
 <style>
 	.jumbotron {
-		background: url(<?=$banner?>);
+		background: url(<?=site_url($banner)?>);
 		background-size: contain;
 		color: #fff !important;
 	}

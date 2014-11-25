@@ -20,4 +20,22 @@ class Conference_model extends CI_Model {
 			
 			return $query->result();
     }
+    
+    public function get_ids() {
+
+			$query = $this->db->get('conference');
+			
+			return $query->result();
+    }
+    
+    public function get_active_conference() {
+	    $this->db->select('active_conference');
+
+			$query = $this->db->get('settings');
+			$temp = $query->row_array();
+			$active_conf = $temp['active_conference'];
+			
+      $query = $this->db->get_where('conference', array('conf_id' => $active_conf));
+      return $query->row_array();
+    }
 }
