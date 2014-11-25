@@ -12,6 +12,7 @@
    <link href="<?php echo base_url('assets/css/bootstrap.css') ?>" rel="stylesheet">
    <link href="<?php echo base_url('assets/css/font-awesome.css') ?>" rel="stylesheet">
    <link href="<?php echo base_url('assets/css/custom.css') ?>" rel="stylesheet">
+   <link href="<?php echo base_url('assets/css/bootstrap-switch.min.css') ?>" rel="stylesheet">
    <link href="http://fonts.googleapis.com/css?family=Oswald:700|Open+Sans:400,700|Lora:400italic,700italic" rel="stylesheet" type="text/css">
 </head>
 <body>
