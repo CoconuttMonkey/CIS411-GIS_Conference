@@ -894,7 +894,7 @@ class Auth extends CI_Controller {
 			//load dependencies
 			$this->load->model("settings_model");
 			$this->load->model("conference_model");
-			$settings = $this->settings_model->get_all();
+			$settings = $this->settings_model->get_settings();
 			
 			// Validate form input	
 			$this->form_validation->set_rules('active_conference', 'Active Conference', 'required');			
@@ -929,7 +929,9 @@ class Auth extends CI_Controller {
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
 			//load data
-			$this->data['settings'] = $settings;
+			$this->data['settings'] = $settings['settings'];
+			$this->data['conf_list'] = $settings['conf_list'];
+			$this->data['active_conference'] = $this->conference_model->get_active_conference();
 			
 			//load view
       $this->load->view('include/header');
