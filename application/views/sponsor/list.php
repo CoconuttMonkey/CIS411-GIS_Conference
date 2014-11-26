@@ -1,9 +1,18 @@
 <div class="container" style="margin-top: 50px;">
 	<?=$this->breadcrumbs->show()?>
-	<h2><?=$heading?></h2>
-	<p><?=$subheading?></p>
-	
 	<div id="infoMessage"><?php echo $message;?></div>
+	<div class="col-sm-6">
+		<h2><?=$heading?></h2>
+		<p><?=$subheading?></p>
+	</div>
+	
+	<div class="col-sm-6" style="padding-top: 20px;">
+    <ul class="nav navbar navbar-right nav-pills">
+	    <li <? if(is_active('sponsor/listing/all')): ?>class="active"<? endif; ?>><a href="<?= site_url('sponsor/listing/all') ?>">All</a></li>
+      <li <? if(is_active('sponsor/listing/paid')): ?>class="active"<? endif; ?>><a href="<?= site_url('sponsor/listing/paid') ?>">Paid</a></li>
+      <li <? if(is_active('sponsor/listing/unpaid')): ?>class="active"<? endif; ?>><a href="<?= site_url('sponsor/listing/unpaid') ?>">Unpaid</a></li>
+    </ul>
+	</div>
 	
 	<table class="table">
 		<tr>
@@ -29,6 +38,4 @@
 			</tr>
 		<?php endforeach;?>
 	</table>
-	
-	<p><?php echo anchor('auth/create_user', lang('index_create_user_link'))?> | <?php echo anchor('auth/create_group', lang('index_create_group_link'))?></p>
 </div>

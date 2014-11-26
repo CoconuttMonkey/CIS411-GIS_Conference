@@ -7,10 +7,10 @@ class Frontpage extends Main_Controller {
 		$this->load->database();
 		$this->load->library(array('ion_auth','form_validation'));
 		$this->load->helper(array('url','language'));
-		$this->load->model('conference_model');
+		$this->load->model(array('conference_model', 'settings_model'));
 		
 		// Prepare Data
-		$settings 	= $this->conference_model->get_active_conference();
+		$settings 	= $this->settings_model->get_settings();
 		$start_date = date_create($settings['start_date']);
 		$end_date 	= date_create($settings['end_date']);
 		

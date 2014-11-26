@@ -8,6 +8,11 @@ body {
   background-repeat: repeat;
 }
 
+.announcement-heading {
+	font-size: 3em;
+	font-weight: thin;
+}
+
 .clear {
 	clear: both;
 	float: none;

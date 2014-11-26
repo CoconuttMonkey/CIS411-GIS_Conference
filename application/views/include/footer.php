@@ -25,6 +25,7 @@
 	</style>
 	<script>
 		$("#paid").bootstrapSwitch();
+		$("#active").bootstrapSwitch();
 	</script>
 </body>
 </html>

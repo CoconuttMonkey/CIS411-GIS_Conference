@@ -44,11 +44,11 @@
               <li <? if(is_active('auth/settings')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/settings') ?>">Site Settings</a></li>
               <li <? if(is_active('auth/users')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/users') ?>">All Users</a></li>
               <li class="divider"></li>
-              <li <? if(is_active('conference/listing')): ?>class="active"<? endif; ?>><a href="<?= site_url('conference/listing') ?>">Conferences</a></li>
-              <li <? if(is_active('auth/attendees')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/users/attendees') ?>">Attendees</a></li>
-              <li <? if(is_active('presentation/list')): ?>class="active"<? endif; ?>><a href="<?= site_url('presentation/listing') ?>">Presentations</a></li>
-              <li <? if(is_active('exhibit/list')): ?>class="active"<? endif; ?>><a href="<?= site_url('exhibit/listing') ?>">Exhibits</a></li>
-              <li <? if(is_active('sponsor/list')): ?>class="active"<? endif; ?>><a href="<?= site_url('sponsor/listing') ?>">Sponsors</a></li>
+              <li <? if(is_active('conference/listing')): ?>class="active"<? endif; ?>><a href="<?= site_url('conference/listing/all') ?>">Conferences</a></li>
+              <li <? if(is_active('attendee/listing')): ?>class="active"<? endif; ?>><a href="<?= site_url('attendee/listing') ?>">Attendees</a></li>
+              <li <? if(is_active('presentation/listing')): ?>class="active"<? endif; ?>><a href="<?= site_url('presentation/listing/all') ?>">Presentations</a></li>
+              <li <? if(is_active('exhibit/listing')): ?>class="active"<? endif; ?>><a href="<?= site_url('exhibit/listing/all') ?>">Exhibits</a></li>
+              <li <? if(is_active('sponsor/listing')): ?>class="active"<? endif; ?>><a href="<?= site_url('sponsor/listing/all') ?>">Sponsors</a></li>
             </ul>
           </li>
 				<? }

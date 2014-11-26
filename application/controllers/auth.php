@@ -30,20 +30,8 @@ class Auth extends CI_Controller {
 		}
 		else
 		{
-			//set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
-			//list the users
-			$this->data['users'] = $this->ion_auth->users()->result();
-			foreach ($this->data['users'] as $k => $user)
-			{
-				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
-			}
-
-      $this->load->view('include/header');
-      $this->load->view('templates/menubar');
-			$this->_render_page('auth/index', $this->data);
-      $this->load->view('include/footer');
+			// Redirect to dashboard
+			redirect('auth/dashboard', 'refresh');
 		}
 	}
 
@@ -275,9 +263,12 @@ class Auth extends CI_Controller {
 		}
 		elseif (!$this->ion_auth->is_admin()) //remove this elseif if you want to enable this for non-admins
 		{
+			// Load Dependencies
+			$this->load->model('conference_model');
+			
 			// Load Data
 			$data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-			$data['conf_id'] = '2014';
+			$data['conf_id'] = $this->conference_model->get_active_conference();
 			
 			// Load View
 	    $this->load->view('include/header');
@@ -289,13 +280,23 @@ class Auth extends CI_Controller {
 		else
 		{
 			// Load Dependencies
+			$this->load->model('presentation_model');
 			$this->load->model('sponsor_model');
+			$this->load->model('attendee_model');
+			$this->load->model('conference_model');
+			$this->load->model('exhibit_model');
+			$current_conf = $this->conference_model->get_active_conference();
 			
 			// Load Data
 			$data["user_count"] 					= count($this->data['users'] 						= $this->ion_auth->users()->result());
+			$data["attendee_count"] 			= $this->attendee_model->attendee_count();
 			$data["unpaid_sponsor_count"]	= count($this->data['unpaid_sponsors'] 	= $this->sponsor_model->get_all('unpaid'));
 			$data["paid_sponsor_count"]		= count($this->data['paid_sponsors'] 		= $this->sponsor_model->get_all('paid'));
-			$data['message'] 							= (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+			$data['message'] 											= (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+			$data["pending_presentation_count"] 	= $this->presentation_model->presentation_count($current_conf, 'pending');
+			$data["scheduled_presentation_count"] = $this->presentation_model->presentation_count($current_conf, 'scheduled');
+			$data["paid_exhibit_count"] 	= $this->exhibit_model->exhibit_count($current_conf, 'paid');
+			$data["unpaid_exhibit_count"] = $this->exhibit_model->exhibit_count($current_conf, 'unpaid');
 			
 			// Load View
 	    $this->load->view('include/header');
@@ -535,7 +536,7 @@ class Auth extends CI_Controller {
 		{
 			//check to see if we are creating the user
 			//redirect them back to the admin page
-			$this->session->set_flashdata('message', $this->ion_auth->messages());
+			$this->session->set_flashdata('message', "<div class='alert alert-success'>You successfully created a new user.</strong></p></div>");
 			redirect("auth", 'refresh');
 		}
 		else

@@ -36,6 +36,8 @@ class Conference_model extends CI_Model {
 			$active_conf = $temp['active_conference'];
 			
       $query = $this->db->get_where('conference', array('conf_id' => $active_conf));
-      return $query->row_array();
+      $current = $query->row_array();
+      
+      return $current['conf_id'];
     }
 }
