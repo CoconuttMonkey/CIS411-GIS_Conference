@@ -9,7 +9,7 @@
 			
 		  <div class="form-group">
 		    <label>Active Conference ID</label>
-	        <?php echo form_dropdown('active_conference', $conf_list, $active_conference, 'class="form-control" id="week_day"');?>
+	      <input name="active_conference" type="text" maxlength="4" placeholder="YYYY" class="form-control" value="<?=$settings['active_conference']?>" required>
 		  </div>
 			
 		  <div class="form-group">
