@@ -8,18 +8,15 @@ class Settings_model extends CI_Model {
     
     public function get_settings() {
 	    
-	    // Get all the settings
+	    $this->db->select('active_conference');
+
 			$query = $this->db->get('settings');
-			$result['settings'] = $query->row_array();
+			$temp = $query->row_array();
+			$active_conf = $temp['active_conference'];
 			
-			$this->db->select('conf_id');
-      $query = $this->db->get('conference');
-      $conf_list = $query->result();
+      $query = $this->db->get_where('conference', array('conf_id' => $active_conf));
+      $result = $query->row_array();
       
-      foreach ($conf_list as $conf):
-      	$result['conf_list'] = $conf->conf_id;
-      endforeach;
-      
-          return $result;
+      return $result;
     }
 }
