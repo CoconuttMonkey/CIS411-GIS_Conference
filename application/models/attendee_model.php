@@ -6,8 +6,8 @@ class Attendee_model extends CI_Model {
         $this->load->database();
     }
     
-    public function attendee_count() {
-      $query = $this->db->get('attendee');
+    public function attendee_count($current_conf) {
+      $query = $this->db->get_where('attendee_conference_lookup', array('conference_id' => $current_conf));
 			
 			return $query->num_rows();
     }

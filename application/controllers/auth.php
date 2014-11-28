@@ -289,9 +289,9 @@ class Auth extends CI_Controller {
 			
 			// Load Data
 			$data["user_count"] 					= count($this->data['users'] 						= $this->ion_auth->users()->result());
-			$data["attendee_count"] 			= $this->attendee_model->attendee_count();
-			$data["unpaid_sponsor_count"]	= count($this->data['unpaid_sponsors'] 	= $this->sponsor_model->get_all('unpaid'));
-			$data["paid_sponsor_count"]		= count($this->data['paid_sponsors'] 		= $this->sponsor_model->get_all('paid'));
+			$data["attendee_count"] 			= $this->attendee_model->attendee_count($current_conf);
+			$data["unpaid_sponsor_count"]	= $this->sponsor_model->sponsor_count($current_conf, "unpaid");
+			$data["paid_sponsor_count"]		= $this->sponsor_model->sponsor_count($current_conf, "paid");
 			$data['message'] 											= (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 			$data["pending_presentation_count"] 	= $this->presentation_model->presentation_count($current_conf, 'pending');
 			$data["scheduled_presentation_count"] = $this->presentation_model->presentation_count($current_conf, 'scheduled');
