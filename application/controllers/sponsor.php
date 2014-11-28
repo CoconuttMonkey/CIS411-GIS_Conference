@@ -8,7 +8,7 @@ class Sponsor extends CI_Controller {
 		$this->load->database();
 		$this->load->library(array('ion_auth','form_validation','breadcrumbs'));
 		$this->load->helper(array('url','language'));
-		$this->load->model('sponsor_model');
+		$this->load->model(array('sponsor_model','conference_model'));
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
@@ -49,6 +49,7 @@ class Sponsor extends CI_Controller {
 		{
 			
 			$sponsor_data = array(
+				'conference_id'				=> $this->conference_model->get_active_conference();
 				'main_contact'  			=> $this->input->post('main_contact'),
 				'company_name'    		=> $this->input->post('company_name'),
 				'company_address'    	=> $this->input->post('company_address'),
@@ -136,7 +137,6 @@ class Sponsor extends CI_Controller {
 		}
 		else {
 			// Load Dependencies
-			$this->load->model('sponsor_model');
 			$this->load->library('table');
 			$this->load->library('breadcrumbs');
 			
@@ -148,7 +148,7 @@ class Sponsor extends CI_Controller {
 		    case "paid":
 	        $this->data['heading'] = "Paid Sponsors";
 	        $this->data['subheading'] = "This is the list of all active sponsors.";
-	        $this->data['sponsors'] = $this->sponsor_model->get_all("paid");
+	        $this->data['sponsors'] = $this->sponsor_model->get_all($conf_id, "paid");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
 					$this->breadcrumbs->push('Sponsors', 'sponsor/listing' );
@@ -157,7 +157,7 @@ class Sponsor extends CI_Controller {
 		    case "unpaid":
 	        $this->data['heading'] = "Unpaid Sponsors";
 	        $this->data['subheading'] = "This is the list of all inactive sponsors.";
-	        $this->data['sponsors'] = $this->sponsor_model->get_all("unpaid");
+	        $this->data['sponsors'] = $this->sponsor_model->get_all($conf_id, "unpaid");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
 					$this->breadcrumbs->push('Sponsors', 'sponsor/listing' );
@@ -166,7 +166,7 @@ class Sponsor extends CI_Controller {
 		    default:
 		    	$this->data['heading'] = "Sponsor List";
 	        $this->data['subheading'] = "This is the list of all sponsors.";
-		    	$this->data['sponsors'] = $this->sponsor_model->get_all();
+		    	$this->data['sponsors'] = $this->sponsor_model->get_all($conf_id);
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
 					$this->breadcrumbs->push('All Sponsors', 'sponsor/listing' );

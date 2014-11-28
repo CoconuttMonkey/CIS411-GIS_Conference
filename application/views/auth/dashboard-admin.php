@@ -42,7 +42,7 @@
 	            </div>
 	          </div>
 	        </div>
-	        <a href="<?= site_url('attendee/listing') ?>">
+	        <a href="<?= site_url('attendee/listing/'.$current_conf) ?>">
 	          <div class="panel-footer announcement-bottom">
 	            <div class="row">
 	              <div class="col-sm-12">

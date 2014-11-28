@@ -159,7 +159,7 @@ class Attendee extends CI_Controller {
 	}
 	
 	//list attendees
-	function listing($filter = NULL)
+	function listing($conf_id, $filter = NULL)
 	{
 		// Authenticate User
 		if (!$this->ion_auth->logged_in()) {
@@ -173,18 +173,20 @@ class Attendee extends CI_Controller {
 		else {
 			// Load Dependencies
 			$this->load->model('attendee_model');
+			$this->load->model('conference_model');
 			$this->load->library('table');
 			$this->load->library('breadcrumbs');
 			
 			//set the flash data error message if there is one
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
+			
 			// Load Data
+			$this->data["current_conf"] = $conf_id;
 			switch ($filter) {
 		    case "paid":
 	        $this->data['heading'] = "Paid Attendees";
 	        $this->data['subheading'] = "This is the list of all paid attendees.";
-	        $this->data['attendees'] = $this->attendee_model->get_all("paid");
+	        $this->data['attendees'] = $this->attendee_model->get_all($conf_id, "paid");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
 					$this->breadcrumbs->push('Sponsors', 'attendee/listing' );
@@ -193,7 +195,7 @@ class Attendee extends CI_Controller {
 		    case "unpaid":
 	        $this->data['heading'] = "Unpaid Attendees";
 	        $this->data['subheading'] = "This is the list of all unpaid attendees.";
-	        $this->data['attendees'] = $this->attendee_model->get_all("unpaid");
+	        $this->data['attendees'] = $this->attendee_model->get_all($conf_id, "unpaid");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
 					$this->breadcrumbs->push('Sponsors', 'attendee/listing' );
@@ -202,7 +204,7 @@ class Attendee extends CI_Controller {
 		    default:
 		    	$this->data['heading'] = "Attendee List";
 	        $this->data['subheading'] = "This is the list of all attendees.";
-		    	$this->data['attendees'] = $this->attendee_model->get_all();
+		    	$this->data['attendees'] = $this->attendee_model->get_all($conf_id);
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
 					$this->breadcrumbs->push('All Attendees', 'attendee/listing' );
