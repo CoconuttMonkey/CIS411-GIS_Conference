@@ -6,21 +6,19 @@ class Attendee_model extends CI_Model {
         $this->load->database();
     }
     
-    public function attendee_count($conf_id) {
-      $query = $this->db->get_where('attendee_conference_lookup', array('conference_id' => $conf_id));
+    public function attendee_count() {
+      $query = $this->db->get('attendee');
 			
 			return $query->num_rows();
     }
     
-    public function get_all($conf_id, $filter = NULL) {
+    public function get_all($filter = NULL) {
 				
 	    if ($filter == NULL) 
 	    {
 		    $this->db->select('*');
 				$this->db->from('attendee');
 				$this->db->join('users', 'users.id = attendee.user_id');
-				$this->db->join('attendee_conference_lookup', 'attendee_conference_lookup.user_id = users.id' );
-				$this->db->where('attendee_conference_lookup.conference_id = '.$conf_id);
 	      $query = $this->db->get();
 				return $query->result();
 			} 
