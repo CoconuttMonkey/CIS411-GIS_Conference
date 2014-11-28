@@ -9,7 +9,7 @@
 			
 		  <div class="form-group">
 		    <label>Active Conference ID</label>
-	      <input name="active_conference" type="text" maxlength="4" placeholder="YYYY" class="form-control" value="<?=$settings['active_conference']?>" required>
+	      <?php echo form_dropdown('active_conference', $conf_list, $active_conf, 'class="form-control" id="active_conference"');?>
 		  </div>
 			
 		  <div class="form-group">

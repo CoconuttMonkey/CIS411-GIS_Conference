@@ -1,7 +1,7 @@
 <div class="container" style="margin-top: 50px;">
 	<section class="row">
 		<div class="col-md-6 col-md-push-3">
-			<h1>Create Conference</h1>
+			<h2>Create Conference</h2>
 			<div id="infoMessage"><?php echo $message;?></div>
 		</div>
 	</section>

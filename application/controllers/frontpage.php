@@ -10,7 +10,8 @@ class Frontpage extends Main_Controller {
 		$this->load->model(array('conference_model', 'settings_model'));
 		
 		// Prepare Data
-		$settings 	= $this->settings_model->get_settings();
+		$current	  = $this->conference_model->get_active_conference();
+		$settings 	= $this->conference_model->get_conference($current);
 		$start_date = date_create($settings['start_date']);
 		$end_date 	= date_create($settings['end_date']);
 		

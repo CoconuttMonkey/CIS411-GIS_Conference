@@ -6,7 +6,7 @@ class Auth extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->database();
-		$this->load->library(array('ion_auth','form_validation'));
+		$this->load->library(array('ion_auth','form_validation', 'MY_Form_validation'));
 		$this->load->helper(array('url','language'));
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
@@ -894,7 +894,8 @@ class Auth extends CI_Controller {
 			//load dependencies
 			$this->load->model("settings_model");
 			$this->load->model("conference_model");
-			$settings = $this->settings_model->get_all();
+			$settings = $this->settings_model->get_settings();
+			$conf_list = $this->conference_model->get_ids();
 			
 			// Validate form input	
 			$this->form_validation->set_rules('active_conference', 'Active Conference', 'required');			
@@ -916,7 +917,7 @@ class Auth extends CI_Controller {
 				if ($this->form_validation->run() == true && $this->db->update('settings', $data, "id = 0"))
 				{
 					
-					$this->session->set_flashdata('message', "<div class='alert alert-success'>Sponsor Updated</div>");
+					$this->session->set_flashdata('message', "<div class='alert alert-success'>Settings Updated</div>");
 					
 					//redirect them to the conference list page
 					redirect('auth/settings', 'refresh');
@@ -929,7 +930,9 @@ class Auth extends CI_Controller {
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
 			//load data
-			$this->data['settings'] = $settings;
+			$this->data['settings'] 		= $settings;
+			$this->data['conf_list']		= $conf_list;
+			$this->data['active_conf'] 	= $this->conference_model->get_active_conference();
 			
 			//load view
       $this->load->view('include/header');

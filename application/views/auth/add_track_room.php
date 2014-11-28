@@ -17,37 +17,19 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-xs-3">
-          <?php echo form_input($track1_acronym);?>
+					<input type="text" name="track_acronym[0]" class="form-control" required>
 				</div>
 				<div class="col-xs-9">
-          <?php echo form_input($track1_name);?>
+					<input type="text" name="track_name[0]" class="form-control" required>
 				</div>
 			</div>
 			
 			<div class="form-group row">
 				<div class="col-xs-3">
-          <?php echo form_input($track2_acronym);?>
+					<input type="text" name="track_acronym[1]" class="form-control" required>
 				</div>
 				<div class="col-xs-9">
-          <?php echo form_input($track2_name);?>
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<div class="col-xs-3">
-          <?php echo form_input($track3_acronym);?>
-				</div>
-				<div class="col-xs-9">
-          <?php echo form_input($track3_name);?>
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<div class="col-xs-3">
-          <?php echo form_input($track4_acronym);?>
-				</div>
-				<div class="col-xs-9">
-          <?php echo form_input($track4_name);?>
+					<input type="text" name="track_name[1]" class="form-control" required>
 				</div>
 			</div>
 		</div>
@@ -64,37 +46,19 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-xs-3">
-          <?php echo form_input($room1_number);?>
+					<input type="text" name="room_number[0]" class="form-control" required>
 				</div>
 				<div class="col-xs-9">
-          <?php echo form_input($room1_building);?>
+					<input type="text" name="room_building[0]" class="form-control" required>
 				</div>
 			</div>
 			
 			<div class="form-group row">
 				<div class="col-xs-3">
-          <?php echo form_input($room2_number);?>
+					<input type="text" name="room_number[1]" class="form-control" required>
 				</div>
 				<div class="col-xs-9">
-          <?php echo form_input($room2_building);?>
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<div class="col-xs-3">
-          <?php echo form_input($room3_number);?>
-				</div>
-				<div class="col-xs-9">
-          <?php echo form_input($room3_building);?>
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<div class="col-xs-3">
-          <?php echo form_input($room4_number);?>
-				</div>
-				<div class="col-xs-9">
-          <?php echo form_input($room4_building);?>
+					<input type="text" name="room_building[1]" class="form-control" required>
 				</div>
 			</div>
 	  </div> 

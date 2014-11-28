@@ -9,6 +9,7 @@ class Conference extends CI_Controller {
 		$this->load->library(array('ion_auth','form_validation'));
 		$this->load->helper(array('url','language'));
 		$this->load->library('breadcrumbs');
+		$this->load->model(array('conference_model'));
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
@@ -32,7 +33,7 @@ class Conference extends CI_Controller {
 		else
 		{
 			//redirect them to the conference list page
-			redirect('conference/list', 'refresh');
+			redirect('conference/listing', 'refresh');
 		}
 	}
 	
@@ -40,17 +41,19 @@ class Conference extends CI_Controller {
 	function listing($filter = NULL)
 	{
 		// Authenticate User
-		if (!$this->ion_auth->logged_in()) {
+		if (!$this->ion_auth->logged_in()) 
+		{
 			//redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		elseif (!$this->ion_auth->is_admin()) {
+		elseif (!$this->ion_auth->is_admin()) 
+		{
 			//redirect them to the home page because they must be an administrator to view this
 			return show_error('You must be an administrator to view this page.');
 		}
-		else {
+		else 
+		{
 			// Load Dependencies
-			$this->load->model('conference_model');
 			$this->load->library('table');
 			
 			//set the flash data error message if there is one
@@ -66,7 +69,7 @@ class Conference extends CI_Controller {
 			// Load View
       $this->load->view('include/header');
       $this->load->view('templates/menubar');
-			$this->load->view('list_conference', $this->data);
+			$this->load->view('conference/list_conference', $this->data);
       $this->load->view('include/footer');
 		}
 	}
@@ -107,9 +110,9 @@ class Conference extends CI_Controller {
 		if ($this->form_validation->run() == true && $this->db->insert('conference', $conference_data))
 		{
 			
-			$this->session->set_flashdata('message', "<div class='alert alert-success'>You have successfully created a new conference!</div>");
+			$this->session->set_flashdata('message', "<div class='alert alert-success'>You have successfully created a new conference!<br><strong>Now to create tracks and room numbers.</strong></div>");
 			
-			redirect("conference/add_tracks/".$conference_data['conf_id'], 'refresh');
+			redirect("conference/add_track_room/".$conference_data['conf_id'], 'refresh');
 			
 		}
 		else
@@ -122,7 +125,7 @@ class Conference extends CI_Controller {
 				'name'  => 'conf_id',
 				'id'    => 'conf_id',
 				'type'  => 'text',
-				'value' => $this->form_validation->set_value('conf_id'),
+				'value' => $this->form_validation->set_value('conf_id', ($this->conference_model->get_active_conference())+1),
 				'class' => 'form-control',
 			);
 			$this->data['conf_title'] = array(
@@ -149,28 +152,28 @@ class Conference extends CI_Controller {
 			$this->data['start_date'] = array(
 				'name'  => 'start_date',
 				'id'    => 'start_date',
-				'type'  => 'text',
+				'type'  => 'date',
 				'value' => $this->form_validation->set_value('start_date'),
 				'class' => 'form-control',
 			);
 			$this->data['end_date'] = array(
 				'name'  => 'end_date',
 				'id'    => 'end_date',
-				'type'  => 'text',
+				'type'  => 'date',
 				'value' => $this->form_validation->set_value('end_date'),
 				'class' => 'form-control',
 			);
 			$this->data['reg_open_date'] = array(
 				'name'  => 'reg_open_date',
 				'id'    => 'reg_open_date',
-				'type'  => 'text',
+				'type'  => 'date',
 				'value' => $this->form_validation->set_value('reg_open_date'),
 				'class' => 'form-control',
 			);
 			$this->data['reg_close_date'] = array(
 				'name'  => 'reg_close_date',
 				'id'    => 'reg_close_date',
-				'type'  => 'text',
+				'type'  => 'date',
 				'value' => $this->form_validation->set_value('reg_close_date'),
 				'class' => 'form-control',
 			);
@@ -185,122 +188,8 @@ class Conference extends CI_Controller {
 		
     $this->load->view('include/header');
     $this->load->view('templates/menubar');
-		$this->load->view('auth/create_conference', $this->data);
+		$this->load->view('conference/create_conference', $this->data);
     $this->load->view('include/footer');
-	}
-	
-	//register a new attendee
-	function register_attendee()
-	{
-		// Load Dependencies
-		$tables = $this->config->item('tables','ion_auth');
-		$attendee_data = array();
-
-		// Validate form input
-		$this->form_validation->set_rules('user_id', 'User', 'required|is_unique[attendee.user_id]');	
-		$this->form_validation->set_rules('address_1', 'Address Line 1', 'required');	
-		$this->form_validation->set_rules('address_2', 'Address Line 2', 'required');	
-		$this->form_validation->set_rules('city', 'City', 'required');	
-		$this->form_validation->set_rules('state', 'State', 'required');	
-		$this->form_validation->set_rules('zip', 'Zip Code', 'required');	
-		$this->form_validation->set_rules('country', 'Country', 'required');
-		$this->form_validation->set_rules('admission_type', 'Admission Type', 'required');
-		
-		if ($this->form_validation->run() == true)
-		{
-			$attendee_data = array(
-				'user_id' 				=> $this->input->post('user_id'),
-				'address_1' 			=> $this->input->post('address_1'),
-				'address_2' 			=> $this->input->post('address_2'),
-				'city' 						=> $this->input->post('city'),
-				'state' 					=> $this->input->post('state'),
-				'zip' 						=> $this->input->post('zip'),
-				'country' 				=> $this->input->post('country'),
-				'admission_type' 	=> $this->input->post('admission_type'),
-			);
-		}
-		
-		if ($this->form_validation->run() == true && $this->db->insert('attendee', $attendee_data))
-		{
-			
-			$this->session->set_flashdata('message', "<div class='alert alert-success'>You have successfully created a new conference!</div>");
-			
-			switch ($attendee_data["admission_type"]) {
-				case 4:
-					redirect("presentation/register", 'refresh');
-					break;
-				case 5:
-					redirect("exhibit/register", 'refresh');
-					break;
-				default:
-					redirect("auth/dashboard", 'refresh');
-			}
-			
-			
-		}
-		else
-		{
-			//set the flash data error message if there is one
-			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
-			
-			// Load Data
-			$this->data['user_id'] = $this->ion_auth->user()->row()->id;
-			$this->data['address_1'] = array(
-				'name'  => 'address_1',
-				'id'    => 'address_1',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('address_1'),
-				'class' => 'form-control',
-			);
-			$this->data['address_2'] = array(
-				'name'  => 'address_2',
-				'id'    => 'address_2',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('address_2'),
-				'class' => 'form-control',
-			);
-			$this->data['city'] = array(
-				'name'  => 'city',
-				'id'    => 'city',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('city'),
-				'class' => 'form-control',
-			);
-			$this->data['state'] = array(
-				'name'  => 'state',
-				'id'    => 'state',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('state'),
-				'class' => 'form-control',
-			);
-			$this->data['zip'] = array(
-				'name'  => 'zip',
-				'id'    => 'zip',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('zip'),
-				'class' => 'form-control',
-			);
-			$this->data['country'] = array(
-				'name'  => 'country',
-				'id'    => 'country',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('country'),
-				'class' => 'form-control',
-			);
-			$this->data['admission_type'] = array(
-				'name'  => 'admission_type',
-				'id'    => 'admission_type',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('admission_type'),
-				'class' => 'form-control',
-			);
-		}
-		
-    $this->load->view('include/header');
-    $this->load->view('templates/menubar');
-		$this->load->view('create_attendee', $this->data);
-    $this->load->view('include/footer');
-
 	}
 	
 	//create new tracks
@@ -311,44 +200,43 @@ class Conference extends CI_Controller {
 		$conference_data = array();
 
 		// Validate form input
-		$this->form_validation->set_rules('track1_acronym', 'Track Acronym', 'required');			
-		$this->form_validation->set_rules('track1_name', 'Track Name', 'required');	
-		$this->form_validation->set_rules('track2_acronym', 'Track Acronym', 'required');			
-		$this->form_validation->set_rules('track2_name', 'Track Name', 'required');	
-		$this->form_validation->set_rules('track3_acronym', 'Track Acronym', 'required');			
-		$this->form_validation->set_rules('track3_name', 'Track Name', 'required');	
-		$this->form_validation->set_rules('track4_acronym', 'Track Acronym', 'required');			
-		$this->form_validation->set_rules('track4_name', 'Track Name', 'required');	
+		$this->form_validation->set_rules('track_acronym[0]', 'Track Acronym', 'required|max_length[5]');			
+		$this->form_validation->set_rules('track_name[0]', 'Track Name', 'required');	
+		$this->form_validation->set_rules('track_acronym[1]', 'Track Acronym', 'max_length[5]');			
+		$this->form_validation->set_rules('track_name[1]', 'Track Name', '');	
 		
-		$this->form_validation->set_rules('room1_number', 'Room Number', 'required');			
-		$this->form_validation->set_rules('room1_name', 'Building', 'required');	
-		$this->form_validation->set_rules('room2_number', 'Room Number', 'required');			
-		$this->form_validation->set_rules('room2_name', 'Building', 'required');	
-		$this->form_validation->set_rules('room3_number', 'Room Number', 'required');			
-		$this->form_validation->set_rules('room3_name', 'Building', 'required');	
-		$this->form_validation->set_rules('room4_number', 'Room Number', 'required');			
-		$this->form_validation->set_rules('room4_name', 'Building', 'required');	
-		
+		$this->form_validation->set_rules('room_number[0]', 'Room Number', 'required|max_length[5]');			
+		$this->form_validation->set_rules('room_building[0]', 'Building', 'required');	
+		$this->form_validation->set_rules('room_number[1]', 'Room Number', 'max_length[5]');			
+		$this->form_validation->set_rules('room_building[1]', 'Building', '');
+
 		if ($this->form_validation->run() == true)
 		{
-			$track_data = array(
-				'conference_id' 	=> $conf_id,
-				'acronym'  				=> $this->input->post('acronym'),
-				'full_name'    		=> $this->input->post('full_name'),
-			);
-			$room_data = array(
-				'conference_id' 	=> $conf_id,
-				'room_number'  		=> $this->input->post('room_number'),
-				'building'   			=> $this->input->post('room_building'),
-			);
-		}
-		
-		if ($this->form_validation->run() == true && $this->db->insert('track', $track_data) && $this->db->insert('room', $room_data))
-		{
+			$track_acronyms 	= $this->input->post('track_acronym');
+			$track_names 			= $this->input->post('track_name');
+			$track_count 			= (count($track_names)-1);
 			
-			$this->session->set_flashdata('message', "<div class='alert alert-success'>You have successfully created a new conference!</div>");
+			for ($x=0; $x<=$track_count; $x++) {
+				$track_data['conference_id'] = $conf_id;
+				$track_data['acronym'] 			 = $track_acronyms[$x];
+				$track_data['full_name']		 = $track_names[$x];
+				$this->db->insert('track', $track_data);
+			}
 			
-			redirect("auth/dashboard", 'refresh');
+			$room_numbers 		= $this->input->post('room_number');
+			$room_buildings 	= $this->input->post('room_building');
+			$room_count 			= (count($room_numbers)-1);
+			
+			for ($x=0; $x<=$room_count; $x++) {
+				$room_data['conference_id'] = $conf_id;
+				$room_data['room_number'] 	= $room_numbers[$x];
+				$room_data['building'] 			= $room_buildings[$x];
+				$this->db->insert('room', $room_data);
+			}
+			
+			$this->session->set_flashdata('message', "<div class='alert alert-success'>You have successfully created a new conference!<br><strong>Now to upload your banner picture.</strong></div>");
+			
+			redirect("upload/banner/".$conf_id, 'refresh');
 			
 		}
 		else
@@ -358,120 +246,6 @@ class Conference extends CI_Controller {
 			
 			// Load Data
 			$this->data['conf_id'] = $conf_id;
-			$this->data['track1_acronym'] = array(
-				'name'  => 'track1_acronym',
-				'id'    => 'track1_acronym',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('track1_acronym'),
-				'class' => 'form-control',
-			);
-			$this->data['track1_name'] = array(
-				'name'  => 'track1_name',
-				'id'    => 'track1_name',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('track1_name'),
-				'class' => 'form-control',
-			);
-			$this->data['track2_acronym'] = array(
-				'name'  => 'track2_acronym',
-				'id'    => 'track2_acronym',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('track2_acronym'),
-				'class' => 'form-control',
-			);
-			$this->data['track2_name'] = array(
-				'name'  => 'track2_name',
-				'id'    => 'track2_name',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('track2_name'),
-				'class' => 'form-control',
-			);
-			$this->data['track3_acronym'] = array(
-				'name'  => 'track3_acronym',
-				'id'    => 'track3_acronym',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('track3_acronym'),
-				'class' => 'form-control',
-			);
-			$this->data['track3_name'] = array(
-				'name'  => 'track3_name',
-				'id'    => 'track3_name',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('track3_name'),
-				'class' => 'form-control',
-			);
-			$this->data['track4_acronym'] = array(
-				'name'  => 'track4_acronym',
-				'id'    => 'track4_acronym',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('track4_acronym'),
-				'class' => 'form-control',
-			);
-			$this->data['track4_name'] = array(
-				'name'  => 'track4_name',
-				'id'    => 'track4_name',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('track4_name'),
-				'class' => 'form-control',
-			);
-			
-			
-			$this->data['room1_number'] = array(
-				'name'  => 'room1_number',
-				'id'    => 'room1_number',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('room1_number'),
-				'class' => 'form-control',
-			);
-			$this->data['room1_building'] = array(
-				'name'  => 'room1_building',
-				'id'    => 'room1_building',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('room1_building'),
-				'class' => 'form-control',
-			);
-			$this->data['room2_number'] = array(
-				'name'  => 'room2_number',
-				'id'    => 'room2_number',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('room2_number'),
-				'class' => 'form-control',
-			);
-			$this->data['room2_building'] = array(
-				'name'  => 'room2_building',
-				'id'    => 'room2_building',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('room2_building'),
-				'class' => 'form-control',
-			);
-			$this->data['room3_number'] = array(
-				'name'  => 'room3_number',
-				'id'    => 'room3_number',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('room3_number'),
-				'class' => 'form-control',
-			);
-			$this->data['room3_building'] = array(
-				'name'  => 'room3_building',
-				'id'    => 'room3_building',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('room3_building'),
-				'class' => 'form-control',
-			);
-			$this->data['room4_number'] = array(
-				'name'  => 'room4_number',
-				'id'    => 'room4_number',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('room4_number'),
-				'class' => 'form-control',
-			);
-			$this->data['room4_building'] = array(
-				'name'  => 'room4_building',
-				'id'    => 'room4_building',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('room4_building'),
-				'class' => 'form-control',
-			);
 		}
 		
     $this->load->view('include/header');

@@ -7,14 +7,8 @@ class Settings_model extends CI_Model {
     }
     
     public function get_settings() {
-	    
-	    $this->db->select('active_conference');
 
 			$query = $this->db->get('settings');
-			$temp = $query->row_array();
-			$active_conf = $temp['active_conference'];
-			
-      $query = $this->db->get_where('conference', array('conf_id' => $active_conf));
       $result = $query->row_array();
       
       return $result;

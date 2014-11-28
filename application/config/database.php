@@ -45,24 +45,41 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'development';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = 'Gr@ys0n';
-$db['default']['database'] = 'cis411_gisconference';
-$db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+$db['development']['hostname'] = 'localhost';
+$db['development']['username'] = 'root';
+$db['development']['password'] = 'Gr@ys0n';
+$db['development']['database'] = 'cis411_gisconference';
+$db['development']['dbdriver'] = 'mysql';
+$db['development']['dbprefix'] = '';
+$db['development']['pconnect'] = TRUE;
+$db['development']['db_debug'] = TRUE;
+$db['development']['cache_on'] = FALSE;
+$db['development']['cachedir'] = '';
+$db['development']['char_set'] = 'utf8';
+$db['development']['dbcollat'] = 'utf8_general_ci';
+$db['development']['swap_pre'] = '';
+$db['development']['autoinit'] = TRUE;
+$db['development']['stricton'] = FALSE;
+
+
+$db['cis_prod']['hostname'] = 'localhost';
+$db['cis_prod']['username'] = 's_mrondo';
+$db['cis_prod']['password'] = 's_mrondo';
+$db['cis_prod']['database'] = 'cis411_gisconference';
+$db['cis_prod']['dbdriver'] = 'mysql';
+$db['cis_prod']['dbprefix'] = '';
+$db['cis_prod']['pconnect'] = TRUE;
+$db['cis_prod']['db_debug'] = TRUE;
+$db['cis_prod']['cache_on'] = FALSE;
+$db['cis_prod']['cachedir'] = '';
+$db['cis_prod']['char_set'] = 'utf8';
+$db['cis_prod']['dbcollat'] = 'utf8_general_ci';
+$db['cis_prod']['swap_pre'] = '';
+$db['cis_prod']['autoinit'] = TRUE;
+$db['cis_prod']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
