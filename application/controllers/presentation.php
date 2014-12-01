@@ -289,6 +289,14 @@ class Presentation extends CI_Controller {
     );
 		$this->data['week_day'] = $presentation_data['week_day'];
 		
+		
+		$this->data['track_options'] = $this->presentation_model->get_tracks( $presentation_data['conference_id'] );
+		$this->data['track_id']			 = $presentation_data['track_id'];
+		
+		
+		$this->data['room_options'] = $this->presentation_model->get_rooms( $presentation_data['conference_id'] );
+		$this->data['room_id']			= $presentation_data['room_id'];
+		
 		// Load Data
 		$this->data['user_id'] 			 	 = $this->ion_auth->user()->row()->id;
 		$this->data['presentation_id'] = $presentation_data['presentation_id'];
@@ -305,13 +313,6 @@ class Presentation extends CI_Controller {
 			'type'  => 'textarea',
 			'placeholder'=>'Please describe your presentation',
 			'value' => $this->form_validation->set_value('abstract', $presentation_data['abstract']),
-			'class' => 'form-control',
-		);
-		$this->data['track_id'] = array(
-			'name'  => 'track_id',
-			'id'    => 'track_id',
-			'type'  => 'text',
-			'value' => $this->form_validation->set_value('track_id', $presentation_data['track_id']),
 			'class' => 'form-control',
 		);
 		$this->data['biography'] = array(
@@ -341,13 +342,6 @@ class Presentation extends CI_Controller {
 			'id'    => 'end_time',
 			'type'  => 'text',
 			'value' => $this->form_validation->set_value('end_time', $presentation_data['end_time']),
-			'class' => 'form-control',
-		);
-		$this->data['room_id'] = array(
-			'name'  => 'room_id',
-			'id'    => 'room_id',
-			'type'  => 'text',
-			'value' => $this->form_validation->set_value('room_id', $presentation_data['room_id']),
 			'class' => 'form-control',
 		);
 		

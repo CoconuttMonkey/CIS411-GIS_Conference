@@ -57,8 +57,38 @@ class Presentation_model extends CI_Model {
 			
 			$this->db->join('presenter', 'presenter.presentation_id = presentation.presentation_id');
 			$this->db->join('users', 'users.id = presenter.user_id');
+			$this->db->join('room', 'room.room_id = presentation.room_id');
+			$this->db->join('track', 'track.track_id = presentation.track_id');
       $query = $this->db->get();
 			
 			return $query->result();
+    }
+    
+    public function get_tracks($current_conf) {
+	    $this->db->select('track_id, acronym, full_name');
+	    $this->db->from('track');
+	    $this->db->where(array('conference_id' => $current_conf));
+	    $query = $this->db->get();
+	    $list  = $query->result();
+	    
+	    foreach ($list as $track) {
+		    $result[ $track->track_id ] = $track->full_name;
+	    }
+	    
+	    return $result;
+    }
+    
+    public function get_rooms($current_conf) {
+	    $this->db->select('room_id, room_number, building');
+	    $this->db->from('room');
+	    $this->db->where(array('conference_id' => $current_conf));
+	    $query = $this->db->get();
+	    $list  = $query->result();
+	    
+	    foreach ($list as $room) {
+		    $result[ $room->room_id ] = $room->room_number." ".$room->building;
+	    }
+	    
+	    return $result;
     }
 }

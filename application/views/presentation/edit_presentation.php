@@ -22,7 +22,7 @@
 	      
 	      <div class="form-group">
 	        <label>Track</label>
-	        <?php echo form_input($track_id);?>
+	        <?php echo form_dropdown('track_id', $track_options, $track_id, 'class="form-control" id="track_id"');?>
 	      </div>
 	      
 	      <div class="form-group">
@@ -38,7 +38,7 @@
 	      </div>
 	      
 	      <? if ($this->ion_auth->is_admin()): ?>
-		      <label>Admin Options</label><br>
+		    <label>Admin Options</label><br>
 	      <div class="form-group row">
 		     	<div class="col-xs-6">
 		        <label>Start Time</label>
@@ -49,10 +49,10 @@
 		        <?php echo form_input($end_time);?>
 		     	</div>
 	      </div>
-	      
+	      <? print_r($room_options); ?>
 	      <div class="form-group">
 	        <label>Room</label>
-	        <?php echo form_input($room_id);?>
+	        <?php echo form_dropdown('room_id', $room_options, $room_id, 'class="form-control" id="room_id"');?>
 	      </div>
 	      
 	      <div class="form-group">

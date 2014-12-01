@@ -30,8 +30,8 @@
         <td><?=$presentation->presentation_id?></td>
         <td><?=$presentation->first_name." ".$presentation->last_name?></td>
         <td><?=$presentation->title?></td>
-				<td><?=$presentation->track_id?></td>
-				<td><?=$presentation->room_id?></td>
+				<td><?=$presentation->full_name?></td>
+				<td><?=$presentation->room_number." ".$presentation->building?></td>
         <td><?=$presentation->start_time." ".$presentation->end_time?></td>
 				<td><a href="<?=site_url('presentation/edit/'.$presentation->presentation_id)?>"><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
 			</tr>

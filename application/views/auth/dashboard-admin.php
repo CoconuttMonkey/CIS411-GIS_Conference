@@ -210,10 +210,24 @@
 			<a href="<?= site_url('sponsor/create_sponsor') ?>" class="btn btn-sunny btn-block">Create Sponsor</a>
 			<a href="<?= site_url('presentation/register') ?>" class="btn btn-block btn-sunny">Create Presentation</a>
 			<a href="<?= site_url('exhibit/register') ?>" class="btn btn-block btn-sunny">Create Exhibit</a>
+		</p>
+		<p>	
 			<h5 class="text-right">User Links</h5>
 			<a href="<?= site_url('auth/create_user') ?>" class="btn btn-sunny btn-block">Create User</a>
 			<a href="<?= site_url('attendee/register') ?>" class="btn btn-sunny btn-block">Attendee Registration</a>
+		</p>
+		<p>	
 			<h5 class="text-right">Downloads</h5>
+			<a href="<?= site_url('download/attendees/'.$current_conf) ?>" class="btn btn-fresh btn-block"><?=$current_conf?> Attendees</a>
+			
+			<a href="<?= site_url('download/presentations/'.$current_conf.'/scheduled') ?>" class="btn btn-fresh btn-block"><?=$current_conf?> Scheduled Presentations</a>
+			<a href="<?= site_url('download/presentations/'.$current_conf.'/pending') ?>" class="btn btn-fresh btn-block"><?=$current_conf?> Pending Presentations</a>
+			
+			<a href="<?= site_url('download/exhibits/'.$current_conf.'/paid') ?>" class="btn btn-fresh btn-block"><?=$current_conf?> Scheduled Exhibits</a>
+			<a href="<?= site_url('download/exhibits/'.$current_conf.'/unpaid') ?>" class="btn btn-fresh btn-block"><?=$current_conf?> Pending Exhibits</a>
+			
+			<a href="<?= site_url('download/sponsors/'.$current_conf.'/paid') ?>" class="btn btn-fresh btn-block"><?=$current_conf?> Paid Sponsors</a>
+			<a href="<?= site_url('download/sponsors/'.$current_conf.'/unpaid') ?>" class="btn btn-fresh btn-block"><?=$current_conf?> Unpaid Sponsors</a>
 			<br>
 		</p>
 	</aside>
