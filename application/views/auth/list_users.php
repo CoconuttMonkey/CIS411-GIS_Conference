@@ -6,7 +6,6 @@
 	
 	<div id="infoMessage"><?php echo $message;?></div>
 	
-	<button type="button" class="reset btn btn-fresh" style="float: right; font-weight: normal; font-family: 'Open Sans';" data-column="0" data-filter=""><i class="glyphicon glyphicon-refresh"></i> Reset filters</button>
 	<table id="sort" class="tablesorter tablesorter-bootstrap" style="width:100%">
 		<thead>
 			<tr>
@@ -34,6 +33,7 @@
 							<option value="40">40</option>
 						</select>
 					</div>
+					<button type="button" class="reset btn btn-fresh" style="float: right; font-weight: normal; font-family: 'Open Sans';" data-column="0" data-filter=""><i class="glyphicon glyphicon-refresh"></i> Reset filters</button>
 				</th>
 			</tr>
 		</tfoot>

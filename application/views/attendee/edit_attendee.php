@@ -43,6 +43,14 @@
 			      </div>
 			
 			
+					    <? if ($this->ion_auth->is_admin()): ?>
+					    <label>Admin Options</label><br>
+					    
+					    <div class="form-group">
+					      <input id="paid" name='paid' type="checkbox" value='yes' <? if($paid['value'] == 'yes') echo "checked"; ?> data-on-color="success" data-on-text="Paid" data-off-color="danger" data-off-text="Unpaid" >
+					    </div>
+					    <? endif; ?>
+			
 			      <p><input type="submit" class="btn btn-block btn-fresh">
 					</p>
 			

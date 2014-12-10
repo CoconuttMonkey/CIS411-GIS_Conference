@@ -272,7 +272,7 @@ class Conference extends CI_Controller {
 		$this->form_validation->set_rules('reg_open_date', 'Registration Open Date', 'required');			
 		$this->form_validation->set_rules('reg_close_date', 'Registration Close Date', 'required');			
 		$this->form_validation->set_rules('frontpage_content', 'Front Page Content', 'required');	
-		$this->form_validation->set_rules('agenda_url', 'Agenda URL', 'required');	
+		$this->form_validation->set_rules('agenda_url', 'Agenda URL', '');	
 		
 		if (isset($_POST) && !empty($_POST))
 		{

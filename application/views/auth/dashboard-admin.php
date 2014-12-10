@@ -11,7 +11,7 @@
 			    
 			    Create <span class="caret white-caret"></span>
 			  </button>
-			  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+			  <ul class="dropdown-menu text-left" role="menu" aria-labelledby="dropdownMenu1">
 			
 					<li role="presentation"><a href="<?= site_url('auth/create_user') ?>">User</a></li>
 					<? if (!$secretary) : ?>
@@ -29,7 +29,7 @@
 			    
 			     Download <span class="caret white-caret"></span>
 			  </button>
-			  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+			  <ul class="dropdown-menu text-left" role="menu" aria-labelledby="dropdownMenu1">
 					<li role="presentation"><a href="<?= site_url('download/attendees/'.$current_conf) ?>">Attendees</a></li>
 					<li role="presentation"><a href="<?= site_url('download/presentations/'.$current_conf.'/scheduled') ?>">Scheduled Presentations</a></li>
 					<li role="presentation"><a href="<?= site_url('download/presentations/'.$current_conf.'/pending') ?>">Pending Presentations</a></li>
@@ -46,7 +46,7 @@
 			    
 			    Send mail to <span class="caret white-caret"></span>
 			  </button>
-			  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+			  <ul class="dropdown-menu text-left" role="menu" aria-labelledby="dropdownMenu3">
 					<li role="presentation"><a href="<?= site_url('email/attendees/') ?>">All Attendees</a></li>
 					<li role="presentation"><a href="<?= site_url('email/attendees/paid') ?>">Paid Attendees</a></li>
 					<li role="presentation"><a href="<?= site_url('email/attendees/unpaid') ?>">Unpaid Attendees</a></li>

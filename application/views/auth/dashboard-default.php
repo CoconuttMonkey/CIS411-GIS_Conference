@@ -1,68 +1,61 @@
 <div class="container" style="margin-top: 50px;">
 	<section class="row">
-		<div class="col-md-9">
-			<div class="row">
-				<div class="col-xs-12">
-					<h2>Dashboard</h2>
-					<p>Here you can access all conference functions</p>
-					<div id="infoMessage"><?php echo $message;?></div>
-				</div>
-			</div>
+		<div class="col-xs-12">
+			<h2>Dashboard</h2>
+			<p>Here you can access all conference functions</p>
+			<div id="infoMessage"><?php echo $message;?></div>
+		</div>
+		<div class="col-xs-9">
+			<div class="col-xs-6">
+	      <div class="panel panel-warning">
+	        <div class="panel-heading">
+	          <div class="row">
+	            <div class="col-sm-12 text-right">
+	              <p class="announcement-heading">Presentations</p>
+	              <p class="announcement-text">
+									<p class="text-left">Check out our scheduled presentations for this years conference!</p>
+	              </p>
+	            </div>
+	          </div>
+	        </div>
+	        <a href="<?= site_url('presentation/listing/scheduled') ?>">
+	          <div class="panel-footer announcement-bottom">
+	            <div class="row">
+	              <div class="col-sm-12">
+	                <span class="glyphicon glyphicon-pencil"></span> View Presentations
+	              </div>
+	            </div>
+	          </div>
+	        </a>
+	      </div>
+	    </div>
+	    
+			<div class="col-xs-6">
+	      <div class="panel panel-warning">
+	        <div class="panel-heading">
+	          <div class="row">
+	            <div class="col-sm-12 text-right">
+	              <p class="announcement-heading">Exhibits</p>
+	              <p class="announcement-text">
+									<p class="text-left">Check out our scheduled exhibits for this years conference!</p>
+	              </p>
+	            </div>
+	          </div>
+	        </div>
+	        <a href="<?= site_url('exhibit/listing/paid') ?>">
+	          <div class="panel-footer announcement-bottom">
+	            <div class="row">
+	              <div class="col-sm-12">
+	                <span class="glyphicon glyphicon-pencil"></span> View Exhibits
+	              </div>
+	            </div>
+	          </div>
+	        </a>
+	      </div>
+	    </div>
 			
-			<div class="row">
-					<div class="col-xs-6">
-			      <div class="panel panel-warning">
-			        <div class="panel-heading">
-			          <div class="row">
-			            <div class="col-sm-12 text-right">
-			              <p class="announcement-heading">Presentations</p>
-			              <p class="announcement-text">
-											<p class="text-left">Check out our scheduled presentations for this years conference!</p>
-			              </p>
-			            </div>
-			          </div>
-			        </div>
-			        <a href="<?= site_url('presentation/listing/scheduled') ?>">
-			          <div class="panel-footer announcement-bottom">
-			            <div class="row">
-			              <div class="col-sm-12">
-			                <span class="glyphicon glyphicon-pencil"></span> View Presentations
-			              </div>
-			            </div>
-			          </div>
-			        </a>
-			      </div>
-			    </div>
-			    
-					<div class="col-xs-6">
-			      <div class="panel panel-warning">
-			        <div class="panel-heading">
-			          <div class="row">
-			            <div class="col-sm-12 text-right">
-			              <p class="announcement-heading">Exhibits</p>
-			              <p class="announcement-text">
-											<p class="text-left">Check out our scheduled exhibits for this years conference!</p>
-			              </p>
-			            </div>
-			          </div>
-			        </div>
-			        <a href="<?= site_url('exhibit/listing/paid') ?>">
-			          <div class="panel-footer announcement-bottom">
-			            <div class="row">
-			              <div class="col-sm-12">
-			                <span class="glyphicon glyphicon-pencil"></span> View Exhibits
-			              </div>
-			            </div>
-			          </div>
-			        </a>
-			      </div>
-			    </div>
-			</div>
-			
-			<div class="row">
-				
-				<? if ($is_main_presenter == TRUE) : ?>
-					<div class="col-xs-6">
+			<? if ($is_main_presenter == TRUE) : ?>
+				<div class="col-xs-6">
 			      <div class="panel panel-info">
 			        <div class="panel-heading">
 			          <div class="row">
@@ -112,10 +105,10 @@
 			        </a>
 			      </div>
 			    </div>
-				<? endif; ?>
-				
-				<? if ($is_main_exhibitor == TRUE) : ?>
-					<div class="col-xs-6">
+			<? endif; ?>
+			
+			<? if ($is_main_exhibitor == TRUE) : ?>
+				<div class="col-xs-6">
 			      <div class="panel panel-info">
 			        <div class="panel-heading">
 			          <div class="row">
@@ -148,10 +141,10 @@
 			        </a>
 			      </div>
 			    </div>
-				<? endif; ?>
-				
-				<? if ($is_sponsor == TRUE) : ?>
-					<div class="col-xs-6">
+			<? endif; ?>
+			
+			<? if ($is_sponsor == TRUE) : ?>
+				<div class="col-xs-6">
 			      <div class="panel panel-info">
 			        <div class="panel-heading">
 			          <div class="row">
@@ -183,24 +176,51 @@
 			        </a>
 			      </div>
 			    </div>
-				<? endif; ?>
-			</div>
+			<? endif; ?>
 		</div>
 		
 		<aside class="col-md-3">
-			<h5 class="text-right">Links</h5>
-			<p>
-				<? if (!$is_attendee) : ?>
-				<a href="<?= site_url('attendee/register') ?>" class="btn btn-block btn-fresh">Conference Registration</a>
-				<? endif; ?>
-				<? if ($is_attendee) : ?>
-				<a href="<?= site_url('sponsor/create_sponsor') ?>" class="btn btn-block btn-fresh">Become a Sponsor</a>
-				<a href="<?= site_url('presentation/register') ?>" class="btn btn-block btn-fresh">Register a Presentation</a>
-				<a href="<?= site_url('exhibit/register') ?>" class="btn btn-block btn-fresh">Register an Exhibit</a>
-				<a href="<?= site_url('attendee/edit/'.$user_id)?>" class="btn btn-block btn-sky">Edit Contact Info</a>
-				<a href="<?= site_url('attendee/withdraw/'.$user_id)?>" class="btn btn-block btn-hot">Withdraw from Conference</a>
-				<? endif; ?>
-			</p>
+			<? if ($is_attendee) : ?>
+				<div class="panel panel-info">
+	        <div class="panel-heading">
+	          <div class="row">
+	            <div class="col-sm-12 text-right">
+	              <p class="announcement-heading">Attendee</p>
+	              <p class="announcement-text">
+		              <? if ($attendee['paid'] != 'yes') : ?>
+									<div class="alert alert-danger">Balance: <strong>$<?=$attendee['price']?></strong>
+										<p class="text-left">
+											<strong>Please send payments to:</strong><br>ATTN: Dr. Yasser Ayad<br>840 Wood Street<br>Clarion, PA 16214
+										</p>
+										<p class="text-left">
+											<strong>Checks payable to:</strong><br>NW PA GIS Conference
+										</p>
+									</div>
+									<? endif; ?>
+	              </p>
+	            </div>
+	          </div>
+	        </div>
+	        <a href="<?= site_url('attendee/edit/'.$attendee['user_id']) ?>">
+	          <div class="panel-footer announcement-bottom">
+	            <div class="row">
+	              <div class="col-sm-12">
+	                <span class="glyphicon glyphicon-pencil"></span> Edit Attendee Details
+	              </div>
+	            </div>
+	          </div>
+	        </a>
+	      </div>
+			<a href="<?= site_url('sponsor/create_sponsor') ?>" class="btn btn-block btn-fresh">Become a Sponsor</a>
+			<a href="<?= site_url('presentation/register') ?>" class="btn btn-block btn-fresh">Register a Presentation</a>
+			<a href="<?= site_url('exhibit/register') ?>" class="btn btn-block btn-fresh">Register an Exhibit</a>
+			<a href="<?= site_url('attendee/edit/'.$user_id)?>" class="btn btn-block btn-sky">Edit Contact Info</a>
+			<a href="<?= site_url('attendee/withdraw/'.$user_id)?>" class="btn btn-block btn-hot">Withdraw from Conference</a>
+			<? endif; ?>
+			
+			<? if (!$is_attendee) : ?>
+			<a href="<?= site_url('attendee/register') ?>" class="btn btn-block btn-fresh">Conference Registration</a>
+			<? endif; ?>
 		</aside>
 			
 	</section>

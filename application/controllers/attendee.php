@@ -78,7 +78,7 @@ class Attendee extends CI_Controller {
 			
 			
 			$this->email->from('gisconference@clarion.edu', 'NW PA GIS Conference');
-			$this->email->to($mail_list);
+			$this->email->to($this->ion_auth->user()->row()->email);
 			$this->email->subject( 'NW PA GIS Conference Attendee Registration' );
 			$this->email->message( '<h3>Thank you for registering for this years conference!</h3>
 															<p><strong>Please send payments to:</strong><br>ATTN: Dr. Yasser Ayad<br>840 Wood Street<br>Clarion, PA 16214</p>' );	
@@ -230,6 +230,7 @@ class Attendee extends CI_Controller {
 			$this->load->model('attendee_model');
 			$this->load->library('table');
 			$this->load->library('breadcrumbs');
+			$current_conf = $this->conference_model->get_active_conference();
 			
 			//set the flash data error message if there is one
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
@@ -240,25 +241,23 @@ class Attendee extends CI_Controller {
 		    case "paid":
 	        $this->data['heading'] = "Paid Attendees";
 	        $this->data['subheading'] = "This is the list of all paid attendees.";
-	        $this->data['attendees'] = $this->attendee_model->get_all("paid");
+	        $this->data['attendees'] = $this->attendee_model->get_all($current_conf, "paid");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
-					$this->breadcrumbs->push('Sponsors', 'attendee/listing' );
-					$this->breadcrumbs->push('Paid', 'attendee/listing/paid' );
+					$this->breadcrumbs->push('Attendees', 'attendee/listing/paid' );
 	        break;
 		    case "unpaid":
 	        $this->data['heading'] = "Unpaid Attendees";
 	        $this->data['subheading'] = "This is the list of all unpaid attendees.";
-	        $this->data['attendees'] = $this->attendee_model->get_all("unpaid");
+	        $this->data['attendees'] = $this->attendee_model->get_all($current_conf, "unpaid");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
-					$this->breadcrumbs->push('Sponsors', 'attendee/listing' );
-					$this->breadcrumbs->push('Unpaid', 'attendee/listing/unpaid' );
+					$this->breadcrumbs->push('Attendees', 'attendee/listing/unpaid' );
 	        break;
 		    default:
 		    	$this->data['heading'] = "Attendee List";
 	        $this->data['subheading'] = "This is the list of all attendees.";
-		    	$this->data['attendees'] = $this->attendee_model->get_all();
+		    	$this->data['attendees'] = $this->attendee_model->get_all($current_conf);
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
 					$this->breadcrumbs->push('All Attendees', 'attendee/listing' );
@@ -302,7 +301,9 @@ class Attendee extends CI_Controller {
 					'zip' 						=> $this->input->post('zip'),
 					'country' 				=> $this->input->post('country'),
 					'admission_type' 	=> $this->input->post('admission_type'),
+					'paid' 						=> $this->input->post('paid'),
 				);
+				if ($attendee_data['paid'] != 'yes') { $attendee_data['paid'] = "no"; }
 			}
 			
 			if ($this->form_validation->run() == true && $this->db->update('attendee', $attendee_data, "user_id = $id"))
@@ -419,6 +420,13 @@ class Attendee extends CI_Controller {
 			'value' => $this->form_validation->set_value('country', $attendee_data['country']),
 			'class' => 'form-control',
 		);
+		$this->data['paid'] = array(
+			'name'  => 'paid',
+			'id'    => 'paid',
+			'type'  => 'checkbox',
+			'value' => $this->form_validation->set_value('paid', $attendee_data['paid']),
+			'class' => 'form-control',
+		);	
 		
     $this->load->view('include/header');
     $this->load->view('templates/menubar');

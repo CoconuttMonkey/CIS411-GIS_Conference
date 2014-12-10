@@ -405,5 +405,5 @@ INSERT INTO `groups` VALUES (7, 'attendee', 'Attendees of the event');
 -- Dumping data for table `settings`
 -- 
 
-INSERT INTO `settings` VALUES (1, 2014, 'gisconferencebilling@clarion.edu', 'gisconference@clarion.edu');
+INSERT INTO `settings` VALUES (0, 2014, 'gisconferencebilling@clarion.edu', 'gisconference@clarion.edu');
 

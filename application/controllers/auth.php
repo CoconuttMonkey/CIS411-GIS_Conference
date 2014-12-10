@@ -291,6 +291,7 @@ class Auth extends CI_Controller {
 			
 			if ($this->attendee_model->attendee_exists($current_user)) {
 				$data['is_attendee']				= TRUE;
+				$data['attendee'] 				= $this->attendee_model->get_attendee($current_user);
 			}
 			
 			if ($this->sponsor_model->is_sponsor($current_user)) {

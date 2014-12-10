@@ -49,8 +49,10 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li <? if(is_active('auth/dashboard')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/dashboard') ?>">Dashboard</a></li>
+              <? if ($this->ion_auth->in_group('admin') && !$this->ion_auth->in_group('secretary')) : ?>
               <li <? if(is_active('auth/settings')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/settings') ?>">Site Settings</a></li>
               <li <? if(is_active('auth/users')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/users') ?>">All Users</a></li>
+              <? endif; ?>
               <li class="divider"></li>
               <li <? if(is_active('conference/listing')): ?>class="active"<? endif; ?>><a href="<?= site_url('conference/listing/all') ?>">Conferences</a></li>
               <li <? if(is_active('attendee/listing')): ?>class="active"<? endif; ?>><a href="<?= site_url('attendee/listing') ?>">Attendees</a></li>
