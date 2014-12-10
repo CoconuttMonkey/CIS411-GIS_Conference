@@ -8,7 +8,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<?= site_url() ?>">NW PA GIS Conference</a>
+        
+		    <span class="navbar-brand" rel="home" title="NW PA GIS Conference">
+		        <img style="max-width:100px; margin-top: -17px; position: absolute"
+		             src="<?= site_url('assets/img/gis_logo.png') ?>">
+		    </span>
+        
+		    <a class="navbar-brand" rel="home" href="<?= site_url() ?>" style="margin-left: 70px;" title="NW PA GIS Conference">
+		        NW PA GIS Conference
+		    </a>
+        
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
@@ -27,13 +36,12 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li <? if(is_active('auth/dashboard')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/dashboard') ?>">Dashboard</a></li>
-              <li <? if(is_active('auth/edit_user')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/edit_user/'.$user->id) ?>">Settings</a></li>
+              <li <? if(is_active('auth/edit_user')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/edit_user/'.$user->id) ?>">Account Settings</a></li>
               <li class="divider"></li>
               <li><a href="<?= site_url('auth/logout') ?>">Logout</a></li>
             </ul>
           </li>
 				<? } 
-					
 					if ($this->ion_auth->is_admin()) {
 					// Display admin links
 				?>

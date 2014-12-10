@@ -37,14 +37,18 @@ class Conference_model extends CI_Model {
     
     public function get_active_conference() {
 	    $this->db->select('active_conference');
-
-			$query = $this->db->get('settings');
+	    $this->db->from('settings');
+			$query = $this->db->get();
 			$temp = $query->row_array();
-			$active_conf = $temp['active_conference'];
 			
-      $query = $this->db->get_where('conference', array('conf_id' => $active_conf));
-      $current = $query->row_array();
+			$active_conf = $temp['active_conference'];
       
-      return $current['conf_id'];
+	    return $active_conf;
+    }
+    
+    public function withdraw($id) {
+		    $tables = array('conference');
+				$this->db->where('conf_id', $id);
+				$this->db->delete($tables);
     }
 }

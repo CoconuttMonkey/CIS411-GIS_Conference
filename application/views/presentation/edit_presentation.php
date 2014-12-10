@@ -1,7 +1,7 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
 	<section class="row">
 		<div class="col-sm-12">
-			<h2>Register Presentation</h2>
+			<h2>Edit Presentation</h2>
 			<p>Send a request to present.</p>
 			
 			<div id="infoMessage"><?php echo $message;?></div>
@@ -49,16 +49,23 @@
 		        <?php echo form_input($end_time);?>
 		     	</div>
 	      </div>
-	      <? print_r($room_options); ?>
+	      
 	      <div class="form-group">
 	        <label>Room</label>
 	        <?php echo form_dropdown('room_id', $room_options, $room_id, 'class="form-control" id="room_id"');?>
 	      </div>
 	      
 	      <div class="form-group">
-		      <input id="active" name='active' type="checkbox" value='yes' <? if($active['value'] == 'yes') echo "checked"; ?> data-on-color="success" data-on-text="Active" data-off-color="danger" data-off-text="Pending" >
+		      <input id="active" name='scheduled' type="checkbox" value='yes' <? if($scheduled['value'] == 'yes') echo "checked"; ?> data-on-color="success" data-on-text="Active" data-off-color="danger" data-off-text="Pending" >
 	      </div>
 	      <? endif; ?>
+	      
+	      <div class="form-group">
+	      <? if ($attachment) : ?>
+	        <a href="<?= site_url('download/presentation_attachment/'.$presentation_id) ?>" class="btn btn-sky">Download Attachment</a>
+	      <? endif; ?>
+	        <a id="delete" href="<?= site_url('presentation/withdraw/'.$presentation_id) ?>" class="btn btn-hot">Withdraw Presentation</a>
+	      </div>
 	      
 	      <p><input type="submit" class="btn btn-block btn-fresh" value="Update"></p>
 			</div>

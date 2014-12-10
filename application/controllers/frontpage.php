@@ -15,6 +15,7 @@ class Frontpage extends Main_Controller {
 		$start_date = date_create($settings['start_date']);
 		$end_date 	= date_create($settings['end_date']);
 		
+		
 		// Load Data
 		$data = array();	
 		$data["title"]		= $settings['title'];
@@ -23,6 +24,7 @@ class Frontpage extends Main_Controller {
 		$data["date"]			= date_format($start_date, 'F jS')." - ".date_format($end_date, 'F jS Y');
 		$data["banner"]		= $settings['banner'];
 		$data["content"] 	= $settings['frontpage_content'];
+		
 		
 		
 		// Load Views

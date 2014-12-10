@@ -1,4 +1,4 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
 	<section class="row">
 		<div class="col-md-6">
 			<h1>Become a Sponsor</h1>
@@ -8,11 +8,6 @@
 	<section class="row">
 		<?php echo form_open_multipart("sponsor/create_sponsor");?>
 			<div class="col-md-6">
-	      
-	      <div class="form-group">
-          <?php echo lang('create_main_contact_label', 'main_contact');?> <br />
-          <?php echo form_input($main_contact);?>
-	      </div>
 	
 	      <div class="form-group">
           <?php echo lang('create_company_name_label', 'company_name');?> <br />

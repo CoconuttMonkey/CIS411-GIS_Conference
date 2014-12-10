@@ -1,4 +1,4 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
 	<?=$this->breadcrumbs->show()?>
 	<section class="row">
 		<div class="col-md-6">
@@ -12,7 +12,7 @@
 	      
 	      <div class="form-group">
           <?php echo lang('create_main_contact_label', 'main_contact');?> <br />
-          <?php echo form_input($main_contact);?>
+          <?= ucwords($username) ?>
 	      </div>
 	
 	      <div class="form-group">
@@ -87,7 +87,10 @@
 		    	</div>
 				</div>
 	      
-				<div class='col-md-4 col-md-push-4'><input type="submit" class="btn btn-lg btn-fresh" value="Update"></div>
+				<div class='form-group'>
+					<input type="submit" class="btn btn-lg btn-fresh" value="Update">
+					<a id="delete" href="<?=site_url('sponsor/withdraw/'.$id)?>" class="btn btn-lg btn-hot">Withdraw Sponsorship</a>
+				</div>
 			</div>
 			<?php echo form_close();?>
 	</section>

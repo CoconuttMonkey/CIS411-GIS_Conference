@@ -26,7 +26,7 @@ class Upload extends CI_Controller {
 	function sponsor_logo($id)
 	{
 		// Set up configuration
-		$config['upload_path'] = './uploads/sponsor_logos/';
+		$config['upload_path'] = './uploads/sponsor_logo/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '100';
 		$config['max_width']  = '1024';
@@ -118,6 +118,54 @@ class Upload extends CI_Controller {
 				
 			} else {
 				$this->session->set_flashdata('message', "<div class='alert alert-success'>Your banner was successfully uploaded.</div>");
+				redirect("auth/dashboard", 'refresh');
+			}
+		}
+	}
+
+	function presentation_attachment($id)
+	{
+		// Set up configuration
+		$config['upload_path'] = './uploads/presentations/';
+		$config['allowed_types'] = 'pdf|ppt|pptx';
+		$config['max_size']	= '100000';
+		
+		// Load Dependencies
+		$this->load->library('upload', $config);
+		
+		// Load Data
+		$data['id']   			= $id;
+		$data['form_name'] 	= 'upload/presentation_attachment/'.$id;
+		$data['header']			= 'Presentation Attachment Upload';
+
+		if (!$this->upload->do_upload('upload_data'))
+		{
+			$data['message'] = $this->upload->display_errors();
+
+	    $this->load->view('include/header');
+	    $this->load->view('templates/menubar');
+			$this->load->view('upload_form', $data);
+			$this->load->view('include/footer');
+		}
+		else
+		{
+			// Load Data
+			$data['upload_data'] =  $this->upload->data();
+			
+			// Get full logo location
+			$presentation_attachment = $config['upload_path'] . $data['upload_data']['file_name'];
+			
+			// Prepare query to update sponsor logo location
+			$query = array('presentation_attachment' => $presentation_attachment);
+			$this->db->where('presentation_id', $id);
+			
+			// Update Logo Location in database
+			if (!$this->db->update('presentation', $query)) {
+				$this->session->set_flashdata('message', "<div class='alert alert-error'>There was an error uploading your attachment.</div>");
+				redirect("auth/dashboard", 'refresh');
+				
+			} else {
+				$this->session->set_flashdata('message', "<div class='alert alert-success'>Your attachment was successfully uploaded.</div>");
 				redirect("auth/dashboard", 'refresh');
 			}
 		}

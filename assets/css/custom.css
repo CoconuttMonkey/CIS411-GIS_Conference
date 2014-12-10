@@ -8,6 +8,16 @@ body {
   background-repeat: repeat;
 }
 
+.white-caret
+{
+border-top-color: #fff !important;
+border-bottom-color: #fff !important;
+}
+
+th:hover {
+	cursor: pointer;
+}
+
 .announcement-heading {
 	font-size: 3em;
 	font-weight: thin;
@@ -21,6 +31,11 @@ body {
 
 body {
   font-family: 'Open Sans', sans-serif;
+}
+
+footer {
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 
 .font-oswald-7 {

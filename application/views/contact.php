@@ -1,4 +1,4 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
   <? if (isset($sent) && $sent == true): ?>
 	<div class="alert alert-success" role="alert">
 	  <span class="glyphicon glyphicon-check" aria-hidden="true"></span>

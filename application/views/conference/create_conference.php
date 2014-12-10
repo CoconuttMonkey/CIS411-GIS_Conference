@@ -1,4 +1,4 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
 	<section class="row">
 		<div class="col-md-6 col-md-push-3">
 			<h2>Create Conference</h2>

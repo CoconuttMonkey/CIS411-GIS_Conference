@@ -65,6 +65,23 @@ $db['development']['autoinit'] = TRUE;
 $db['development']['stricton'] = FALSE;
 
 
+$db['ondoDB']['hostname'] = 'mattondodesignscom1.ipagemysql.com';
+$db['ondoDB']['username'] = 's_mrondo';
+$db['ondoDB']['password'] = 's_mrondo';
+$db['ondoDB']['database'] = 'cis411_gisconference';
+$db['ondoDB']['dbdriver'] = 'mysql';
+$db['ondoDB']['dbprefix'] = '';
+$db['ondoDB']['pconnect'] = TRUE;
+$db['ondoDB']['db_debug'] = TRUE;
+$db['ondoDB']['cache_on'] = FALSE;
+$db['ondoDB']['cachedir'] = '';
+$db['ondoDB']['char_set'] = 'utf8';
+$db['ondoDB']['dbcollat'] = 'utf8_general_ci';
+$db['ondoDB']['swap_pre'] = '';
+$db['ondoDB']['autoinit'] = TRUE;
+$db['ondoDB']['stricton'] = FALSE;
+
+
 $db['cis_prod']['hostname'] = 'localhost';
 $db['cis_prod']['username'] = 's_mrondo';
 $db['cis_prod']['password'] = 's_mrondo';

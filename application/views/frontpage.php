@@ -5,7 +5,7 @@
 		color: #fff !important;
 	}
 </style>
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
 	<div class="jumbotron">
 			<p class="text-right"><?=$date?></p>
 			<h1><span class="small"><?=$prefix?></span><br><?=$title?></h1>

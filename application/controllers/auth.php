@@ -128,28 +128,37 @@ class Auth extends CI_Controller {
 				'name' => 'old',
 				'id'   => 'old',
 				'type' => 'password',
+				'class'=> 'form-control',
+			
 			);
 			$this->data['new_password'] = array(
 				'name' => 'new',
 				'id'   => 'new',
 				'type' => 'password',
 				'pattern' => '^.{'.$this->data['min_password_length'].'}.*$',
+				'class'=> 'form-control',
 			);
 			$this->data['new_password_confirm'] = array(
 				'name' => 'new_confirm',
 				'id'   => 'new_confirm',
 				'type' => 'password',
 				'pattern' => '^.{'.$this->data['min_password_length'].'}.*$',
+				'class'=> 'form-control',
 			);
 			$this->data['user_id'] = array(
 				'name'  => 'user_id',
 				'id'    => 'user_id',
 				'type'  => 'hidden',
 				'value' => $user->id,
+				'class'=> 'form-control',
 			);
 
 			//render
+			
+      $this->load->view('include/header');
+      $this->load->view('templates/menubar');
 			$this->_render_page('auth/change_password', $this->data);
+      $this->load->view('include/footer');
 		}
 		else
 		{
@@ -255,6 +264,8 @@ class Auth extends CI_Controller {
 	//admin pages
 	function dashboard()
 	{
+			// Load Dependencies
+			$this->load->model('conference_model');
 		
 		if (!$this->ion_auth->logged_in())
 		{
@@ -263,12 +274,65 @@ class Auth extends CI_Controller {
 		}
 		elseif (!$this->ion_auth->is_admin()) //remove this elseif if you want to enable this for non-admins
 		{
-			// Load Dependencies
-			$this->load->model('conference_model');
+			$this->load->model('attendee_model');
+			$this->load->model('sponsor_model');
+			$this->load->model('exhibit_model');
+			$this->load->model('presentation_model');
+			
+			// Set defaults
+			$data['is_main_exhibitor'] 	= FALSE;
+			$data['is_main_presenter'] 	= FALSE;
+			$data['is_sponsor']				 	= FALSE;
+			$data['is_attendee']				= FALSE;
+			$data['user_id']						= $this->ion_auth->user()->row()->id;
+			
+			$current_user 			= $this->ion_auth->user()->row()->id;
+			//$current_user_email = $this->ion_auth->user()->row()->email;
+			
+			if ($this->attendee_model->attendee_exists($current_user)) {
+				$data['is_attendee']				= TRUE;
+			}
+			
+			if ($this->sponsor_model->is_sponsor($current_user)) {
+				$data['is_sponsor'] 	= TRUE;
+				$data['sponsor']	 		= $this->sponsor_model->get_sponsor_by_user($current_user);
+				
+				if ($data['sponsor']['paid'] == 'no') {
+					$s_level = $data['sponsor']['sponsor_level'];
+					
+					switch ($s_level) {
+						case '1':
+							$data['balance'] = '$300.00';
+							break;
+						case '2':
+							$data['balance'] = '$500.00';
+							break;
+						case '3':
+							$data['balance'] = '$750.00';
+							break;
+					}
+				}
+			}
+
+			if ($this->exhibit_model->is_main_exhibitor($current_user)) {
+				$data['is_main_exhibitor'] 	= TRUE;
+				$data['exhibit']	 					= $this->exhibit_model->get_exhibit_by_user($current_user);
+			}
+			
+			if ($this->presentation_model->is_main_presenter($current_user)) {
+				$data['is_main_presenter'] 	= TRUE;
+				if ($this->presentation_model->get_presentation_by_user($current_user, TRUE)) {
+					$data['presentation']	 			= $this->presentation_model->get_presentation_by_user($current_user, TRUE);
+				} else {
+					$data['presentation']	 			= $this->presentation_model->get_presentation_by_user($current_user, FALSE);
+				}
+				
+			}
 			
 			// Load Data
 			$data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-			$data['conf_id'] = $this->conference_model->get_active_conference();
+			
+			
 			
 			// Load View
 	    $this->load->view('include/header');
@@ -279,6 +343,7 @@ class Auth extends CI_Controller {
 		}
 		else
 		{
+			
 			// Load Dependencies
 			$this->load->model('presentation_model');
 			$this->load->model('sponsor_model');
@@ -286,6 +351,11 @@ class Auth extends CI_Controller {
 			$this->load->model('conference_model');
 			$this->load->model('exhibit_model');
 			$current_conf = $this->conference_model->get_active_conference();
+			
+			$data['secretary'] = FALSE;
+			if ( $this->ion_auth->in_group('secretary')) {
+				$data['secretary'] = TRUE;
+			}
 			
 			// Load Data
 			$data["current_conf"] 								= $current_conf;
@@ -377,24 +447,31 @@ class Auth extends CI_Controller {
 					'id'   => 'new',
 				'type' => 'password',
 					'pattern' => '^.{'.$this->data['min_password_length'].'}.*$',
+					'class' => 'form-control'
 				);
 				$this->data['new_password_confirm'] = array(
 					'name' => 'new_confirm',
 					'id'   => 'new_confirm',
 					'type' => 'password',
 					'pattern' => '^.{'.$this->data['min_password_length'].'}.*$',
+					'class' => 'form-control'
 				);
 				$this->data['user_id'] = array(
 					'name'  => 'user_id',
 					'id'    => 'user_id',
 					'type'  => 'hidden',
 					'value' => $user->id,
+					'class' => 'form-control'
 				);
 				$this->data['csrf'] = $this->_get_csrf_nonce();
 				$this->data['code'] = $code;
 
 				//render
+				
+	      $this->load->view('include/header');
+	      $this->load->view('templates/menubar');
 				$this->_render_page('auth/reset_password', $this->data);
+				$this->load->view('include/footer');
 			}
 			else
 			{
@@ -451,9 +528,9 @@ class Auth extends CI_Controller {
 
 		if ($activation)
 		{
-			//redirect them to the auth page
+			//redirect them to the login page
 			$this->session->set_flashdata('message', $this->ion_auth->messages());
-			redirect("auth", 'refresh');
+			redirect("auth/login", 'refresh');
 		}
 		else
 		{
@@ -477,8 +554,12 @@ class Auth extends CI_Controller {
 			// insert csrf check
 			$this->data['csrf'] = $this->_get_csrf_nonce();
 			$this->data['user'] = $this->ion_auth->user($id)->row();
-
+			
+			// Load View
+			$this->load->view('include/header');
+	    $this->load->view('templates/menubar');
 			$this->_render_page('auth/deactivate_user', $this->data);
+			$this->load->view('include/footer');
 		}
 		else
 		{
@@ -501,6 +582,22 @@ class Auth extends CI_Controller {
 			//redirect them back to the auth page
 			redirect('auth', 'refresh');
 		}
+	}
+	
+	//delete the user
+	function delete_user($id)
+	{
+		if ($id == $this->ion_auth->user()->row()->id) {
+			$page = "/";
+		} else {
+			$page = "auth/dashboard";
+		}
+		
+    $tables = array('users');
+		$this->db->where('id', $id);
+		$this->db->delete($tables);
+		
+		redirect('auth/logout', 'refresh');
 	}
 
 	//create a new user
@@ -537,8 +634,8 @@ class Auth extends CI_Controller {
 		{
 			//check to see if we are creating the user
 			//redirect them back to the admin page
-			$this->session->set_flashdata('message', "<div class='alert alert-success'>You successfully created a new user.</strong></p></div>");
-			redirect("auth", 'refresh');
+			$this->session->set_flashdata('message', "<div class='alert alert-success'>You successfully created a new user.<br><strong>Please check your email for an activation link.</strong></p></div>");
+			redirect("auth\login", 'refresh');
 		}
 		else
 		{
@@ -674,35 +771,32 @@ class Auth extends CI_Controller {
 				}
 				
 			//check to see if we are updating the user
-			   if($this->ion_auth->update($user->id, $data))
-			    {
-			    	//redirect them back to the admin page if admin, or to the base url if non admin
-				    $this->session->set_flashdata('message', $this->ion_auth->messages() );
-				    if ($this->ion_auth->is_admin())
+		   if($this->ion_auth->update($user->id, $data))
+		   {
+		    	//redirect them back to the admin page if admin, or to the base url if non admin
+					$this->session->set_flashdata('message', $this->ion_auth->messages() );
+			    if ($this->ion_auth->is_admin())
+				  {
+					  redirect('auth', 'refresh');
+				  }
+				  else
+					{
+						redirect('auth/dashboard', 'refresh');
+					}
+				}
+				else
+				{
+		    	//redirect them back to the admin page if admin, or to the base url if non admin
+			    $this->session->set_flashdata('message', $this->ion_auth->errors() );
+			    if ($this->ion_auth->is_admin())
 					{
 						redirect('auth', 'refresh');
 					}
 					else
 					{
-						redirect('/', 'refresh');
+						redirect('auth/dashboard', 'refresh');
 					}
-
-			    }
-			    else
-			    {
-			    	//redirect them back to the admin page if admin, or to the base url if non admin
-				    $this->session->set_flashdata('message', $this->ion_auth->errors() );
-				    if ($this->ion_auth->is_admin())
-					{
-						redirect('auth', 'refresh');
-					}
-					else
-					{
-						redirect('/', 'refresh');
-					}
-
-			    }		
-				
+				}	
 			}
 		}
 
@@ -801,15 +895,20 @@ class Auth extends CI_Controller {
 				'id'    => 'group_name',
 				'type'  => 'text',
 				'value' => $this->form_validation->set_value('group_name'),
+				'class' => 'form-control',
 			);
 			$this->data['description'] = array(
 				'name'  => 'description',
 				'id'    => 'description',
 				'type'  => 'text',
 				'value' => $this->form_validation->set_value('description'),
+				'class' => 'form-control',
 			);
 
+			$this->load->view('include/header');
+	    $this->load->view('templates/menubar');
 			$this->_render_page('auth/create_group', $this->data);
+			$this->load->view('include/footer');
 		}
 	}
 
@@ -864,15 +963,20 @@ class Auth extends CI_Controller {
 			'id'    => 'group_name',
 			'type'  => 'text',
 			'value' => $this->form_validation->set_value('group_name', $group->name),
+			'class' => 'form-control',
 		);
 		$this->data['group_description'] = array(
 			'name'  => 'group_description',
 			'id'    => 'group_description',
 			'type'  => 'text',
 			'value' => $this->form_validation->set_value('group_description', $group->description),
+			'class' => 'form-control',
 		);
 
+		$this->load->view('include/header');
+    $this->load->view('templates/menubar');
 		$this->_render_page('auth/edit_group', $this->data);
+		$this->load->view('include/footer');
 	}
 	
 	//site settings

@@ -21,17 +21,6 @@
 		    <label>Billing Contact Email</label>
 	      <input name="billing_email" type="email" class="form-control" value="<?=$settings['billing_email']?>" required>
 		  </div>
-									
-			<div class="form-group ">
-				<label>Theme</label>
-				<div  class="dropdown">
-					<select name='theme' class="form-control">
-						<option value="">Default</option>
-						<option value="fall.css">Fall</option>
-						<option value="summer.css">Summer</option>
-					</select>
-				</div>
-			</div>
 			
 			<input type="submit" class="btn btn-block btn-fresh" value="Save">
 			

@@ -37,10 +37,10 @@ class Sponsor extends CI_Controller {
 	{
 		// Load Dependencies
 		$tables = $this->config->item('tables','ion_auth');
+		$current_conf = $this->conference_model->get_active_conference();
 		$sponsor_data = array();
 
-		// Validate form input	
-		$this->form_validation->set_rules('main_contact', 'Main Contact', 'required|valid_email|user_email_exists');			
+		// Validate form input			
 		$this->form_validation->set_rules('company_name', 'Company Name', 'required|xss_clean|max_length[255]');			
 		$this->form_validation->set_rules('company_address', 'Company Address', 'required|xss_clean');					
 		$this->form_validation->set_rules('url', 'End Date', 'URL');			
@@ -50,7 +50,8 @@ class Sponsor extends CI_Controller {
 		{
 			
 			$sponsor_data = array(
-				'main_contact'  			=> $this->input->post('main_contact'),
+				'conference_id'				=> $current_conf,
+				'user_id'  						=> $this->ion_auth->user()->row()->id,
 				'company_name'    		=> $this->input->post('company_name'),
 				'company_address'    	=> $this->input->post('company_address'),
 				'url'      						=> $this->input->post('url'),
@@ -72,13 +73,6 @@ class Sponsor extends CI_Controller {
 			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 			
 			// Load Data
-			$this->data['main_contact'] = array(
-				'name'  => 'main_contact',
-				'id'    => 'main_contact',
-				'type'  => 'email',
-				'value' => $this->form_validation->set_value('main_contact'),
-				'class' => 'form-control',
-			);
 			$this->data['company_name'] = array(
 				'name'  => 'company_name',
 				'id'    => 'company_name',
@@ -133,7 +127,7 @@ class Sponsor extends CI_Controller {
 		}
 		elseif (!$this->ion_auth->is_admin()) {
 			//redirect them to the home page because they must be an administrator to view this
-			return show_error('You must be an administrator to view this page.');
+			redirect('auth/dashboard', 'refresh');
 		}
 		else {
 			// Load Dependencies
@@ -141,6 +135,7 @@ class Sponsor extends CI_Controller {
 			$this->load->library('table');
 			$this->load->library('breadcrumbs');
 			$current_conf = $this->conference_model->get_active_conference();
+			
 			
 			//set the flash data error message if there is one
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
@@ -173,6 +168,7 @@ class Sponsor extends CI_Controller {
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
 					$this->breadcrumbs->push('All Sponsors', 'sponsor/listing' );
 					
+					
 			}
 			
 
@@ -192,8 +188,8 @@ class Sponsor extends CI_Controller {
 		$tables = $this->config->item('tables','ion_auth');
 		$sponsor = $this->sponsor_model->get_sponsor($id);
 		
-		// Validate form input	
-		$this->form_validation->set_rules('main_contact', 'Main Contact', 'required|valid_email|user_email_exists');			
+		
+		// Validate form input		
 		$this->form_validation->set_rules('company_name', 'Company Name', 'required|xss_clean|max_length[255]');			
 		$this->form_validation->set_rules('company_address', 'Company Address', 'required|xss_clean');					
 		$this->form_validation->set_rules('url', 'End Date', 'URL');			
@@ -204,7 +200,6 @@ class Sponsor extends CI_Controller {
 			if ($this->form_validation->run() == true)
 			{
 					$data = array(
-						'main_contact'  			=> $this->input->post('main_contact'),
 						'company_name'    		=> $this->input->post('company_name'),
 						'company_address'    	=> $this->input->post('company_address'),
 						'url'      						=> $this->input->post('url'),
@@ -221,23 +216,18 @@ class Sponsor extends CI_Controller {
 				$this->session->set_flashdata('message', "<div class='alert alert-success'>Sponsor Updated</div>");
 				
 				//redirect them to the conference list page
-				redirect('sponsor/edit/'.$id, 'refresh');
+				redirect('auth/dashboard/', 'refresh');
 			}
 		}
-			$this->data["sponsor"] = $sponsor;
+		$sponsor = $this->sponsor_model->get_sponsor($id);
+
 			
 			//set the flash data error message if there is one
 			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 			
 			// Load Data
 			$this->data['id'] = $id;
-			$this->data['main_contact'] = array(
-				'name'  => 'main_contact',
-				'id'    => 'main_contact',
-				'type'  => 'email',
-				'value' => $this->form_validation->set_value('main_contact', $sponsor['main_contact']),
-				'class' => 'form-control',
-			);
+			$this->data['username'] = $sponsor['username'];
 			$this->data['company_name'] = array(
 				'name'  => 'company_name',
 				'id'    => 'company_name',
@@ -280,14 +270,23 @@ class Sponsor extends CI_Controller {
 		$this->load->library('breadcrumbs');
 		
 		// add breadcrumbs
-		$this->breadcrumbs->push('Dashboard', site_url('auth/dashboard') );
-		$this->breadcrumbs->push('Sponsors', site_url('sponsor/listing') );
-		$this->breadcrumbs->push($sponsor['company_name'], site_url('section/page') );
+		$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
+		$this->breadcrumbs->push('Sponsors', 'sponsor/listing' );
+		$this->breadcrumbs->push($sponsor['company_name'], 'section/page' );
 		
     $this->load->view('include/header');
     $this->load->view('templates/menubar');
 		$this->load->view('sponsor/edit_sponsor', $this->data);
     $this->load->view('include/footer');
+	}
+	
+	function withdraw($id) {
+    $tables = array('sponsor');
+		$this->db->where('sponsor_id', $id);
+		$this->db->delete($tables);
+		
+		$this->session->set_flashdata('message', "<div class='alert alert-success'>You successfully withdrew your sponsorship.</div>");
+		redirect('auth/dashboard', 'refresh');
 	}
 	
 }

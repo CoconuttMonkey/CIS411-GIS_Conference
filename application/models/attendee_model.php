@@ -19,6 +19,7 @@ class Attendee_model extends CI_Model {
 		    $this->db->select('*');
 				$this->db->from('attendee');
 				$this->db->join('users', 'users.id = attendee.user_id');
+				$this->db->join('admission_type', 'admission_type.id = attendee.admission_type');
 	      $query = $this->db->get();
 				return $query->result();
 			} 
@@ -43,5 +44,14 @@ class Attendee_model extends CI_Model {
 	    else{
 	        return FALSE;
 	    }
+    }
+    
+    public function get_attendee($id) {
+	    
+		    $this->db->select('*');
+				$this->db->from('attendee');
+				$this->db->where(array('user_id' => $id));
+	      $query = $this->db->get();
+				return $query->row_array();
     }
 }

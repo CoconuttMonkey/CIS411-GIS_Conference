@@ -1,8 +1,8 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
 	<section class="row">
 		<div class="col-sm-12">
 			<h2>Register Exhibit</h2>
-			<p>Send a request to present.</p>
+			<p>Send a request to provide an Exhibit.</p>
 			
 			<div id="infoMessage"><?php echo $message;?></div>
 		</div>
@@ -21,7 +21,7 @@
 	      
 	      <div class="form-group">
 	        <label>Special Requests</label>
-	        <?php echo form_textarea($company_profile);?>
+	        <?php echo form_textarea($special_requests);?>
 	      </div>
 	      
 	      <p><input type="submit" class="btn btn-block btn-fresh"></p>

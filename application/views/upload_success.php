@@ -1,4 +1,4 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
 	<h3>Your file was successfully uploaded!</h3>
 
 	<ul>

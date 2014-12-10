@@ -25,11 +25,6 @@ class Exhibit extends CI_Controller {
 			//redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		elseif (!$this->ion_auth->is_admin()) //remove this elseif if you want to enable this for non-admins
-		{
-			//redirect them to the home page because they must be an administrator to view this
-			return show_error('You must be an administrator to view this page.');
-		}
 		else
 		{
 			//redirect them to the conference list page
@@ -114,10 +109,6 @@ class Exhibit extends CI_Controller {
 			//redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		elseif (!$this->ion_auth->is_admin()) {
-			//redirect them to the home page because they must be an administrator to view this
-			return show_error('You must be an administrator to view this page.');
-		}
 		else {
 			// Load Dependencies
 			$this->load->library('table');
@@ -135,8 +126,7 @@ class Exhibit extends CI_Controller {
 	        $this->data['exhibits'] = $this->exhibit_model->get_all($current_conf, "paid");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
-					$this->breadcrumbs->push('Exhibits', 'exhibit/listing' );
-					$this->breadcrumbs->push('Paid', 'exhibit/listing/paid' );
+					$this->breadcrumbs->push('Exhibits', 'exhibit/listing/paid' );
 	        break;
 		    case "unpaid":
 	        $this->data['heading'] = "Unpaid Exhibits";
@@ -144,8 +134,7 @@ class Exhibit extends CI_Controller {
 	        $this->data['exhibits'] = $this->exhibit_model->get_all($current_conf, "unpaid");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
-					$this->breadcrumbs->push('Exhibits', 'exhibit/listing' );
-					$this->breadcrumbs->push('Unpaid', 'exhibit/listing/unpaid' );
+					$this->breadcrumbs->push('Exhibits', 'exhibit/listing/unpaid' );
 	        break;
 		    default:
 		    	$this->data['heading'] = "Exhibit List";
@@ -153,7 +142,7 @@ class Exhibit extends CI_Controller {
 		    	$this->data['exhibits'] = $this->exhibit_model->get_all($current_conf);
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
-					$this->breadcrumbs->push('All Exhibits', 'exhibit/listing' );
+					$this->breadcrumbs->push('Exhibits', 'exhibit/listing' );
 					
 			}
 			
@@ -257,5 +246,14 @@ class Exhibit extends CI_Controller {
 		$this->load->view('exhibit/edit_exhibit', $this->data);
     $this->load->view('include/footer');
 
+	}
+	
+	function withdraw($id) {
+    $tables = array('exhibit', 'exhibitor');
+		$this->db->where('exhibit_id', $id);
+		$this->db->delete($tables);
+		
+		$this->session->set_flashdata('message', "<div class='alert alert-success'>You successfully withdrew your exhibit.</div>");
+		redirect('auth/dashboard', 'refresh');
 	}
 }

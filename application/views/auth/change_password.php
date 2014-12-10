@@ -1,9 +1,12 @@
-<h1><?php echo lang('change_password_heading');?></h1>
+<div class="container" style="margin-top: 50px;">
+	<section class="row">
+		<div class="col-md-4 col-md-push-4">
+			<h2><?php echo lang('change_password_heading');?></h2>
+			
+			<div id="infoMessage"><?php echo $message;?></div>
 
-<div id="infoMessage"><?php echo $message;?></div>
-
-<?php echo form_open("auth/change_password");?>
-
+			<?php echo form_open("auth/change_password");?>
+			
       <p>
             <?php echo lang('change_password_old_password_label', 'old_password');?> <br />
             <?php echo form_input($old_password);?>
@@ -21,5 +24,8 @@
 
       <?php echo form_input($user_id);?>
       <p><?php echo form_submit('submit', lang('change_password_submit_btn'));?></p>
-
-<?php echo form_close();?>
+			
+			<?php echo form_close();?>
+		</div>
+	</section>
+</div>

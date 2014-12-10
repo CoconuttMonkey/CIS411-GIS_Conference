@@ -22,6 +22,32 @@ class Exhibit_model extends CI_Model {
 			return $query->num_rows();
     }
     
+    public function is_main_exhibitor($user_id) {
+	    $this->db->select('*');
+	    $this->db->from('exhibitor');
+	    $this->db->where(array('user_id' => $user_id, 'is_main' => 'yes'));
+	    $query = $this->db->get();
+	    $rows = $query->num_rows();
+	    if ($rows > 0) {
+		    return TRUE;
+	    } else {
+		    return FALSE;
+	    }
+    }
+    
+    public function get_exhibit_by_user($user_id) {
+	    $this->db->select('*');
+	    $this->db->from('exhibitor');
+	    $this->db->where(array('user_id' => $user_id));
+			$this->db->join('exhibit', 'exhibit.exhibit_id = exhibitor.exhibit_id');
+			$this->db->join('users', 'users.id = exhibitor.user_id');
+	    
+	    $query = $this->db->get();
+	    return $query->row_array();
+	    
+	    
+    }
+    
     public function get_exhibit($id) {
         if ($id != FALSE) {
 			    $this->db->select('*');

@@ -26,7 +26,7 @@
 					      </div>
 			        <div class="col-xs-4">
 			        	<label>State</label>
-								<?php echo form_input($state);?>
+								<?php echo form_dropdown('state', $state_options, $state, 'class="form-control"');?>
 			        </div>
 			      </div>
 			      
@@ -40,38 +40,10 @@
 			        <?php echo form_input($country);?>
 			      </div>
 			      
-						<div class="form-group">
-							<label>Admission Type</label>
-	            <div class="radio">
-							  <label>
-							  	<input type="radio" name="admission_type" value="1">1 Day Pass $xx
-							  </label>
-							</div>
-							
-	            <div class="radio">
-							  <label>
-							  	<input type="radio" name="admission_type" value="2">2 Day Pass $xx
-							  </label>
-							</div>
-							
-							<div class="radio">
-							  <label>
-							  	<input type="radio" name="admission_type" value="3">Student / Faculty 
-							  </label>
-							</div>
-							
-							<div class="radio">
-							  <label>
-							  	<input type="radio" name="admission_type" value="4">Presenter
-							  </label>
-							</div>
-							
-							<div class="radio">
-							  <label>
-							  	<input type="radio" name="admission_type" value="5">Exhibitor $xxx
-							  </label>
-							</div>
-						</div>
+			      <div class="form-group">
+			        <label>Admission Type</label>
+			        <?php echo form_dropdown('admission_type', $admission_options, $admission_type, 'class="form-control" id="admission_type"');?>
+			      </div>
 			
 			
 			      <p><input type="submit" class="btn btn-block btn-fresh"></p>

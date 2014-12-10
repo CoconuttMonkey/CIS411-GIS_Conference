@@ -60,6 +60,7 @@ class Presentation extends CI_Controller {
 				'abstract' 				=> $this->input->post('abstract'),
 				'track_id' 				=> $this->input->post('track_id'),
 				'week_day' 				=> $this->input->post('week_day'),
+				'time_request'		=> $this->input->post('time_request'),
 			);
 			
 			$presenter_data = array(
@@ -75,7 +76,7 @@ class Presentation extends CI_Controller {
 			$presenter_data['presentation_id'] = $this->db->insert_id();
 			if ($this->form_validation->run() == true && $this->db->insert('presenter', $presenter_data))
 			{
-				$this->session->set_flashdata('message', "<div class='alert alert-success'>Your request has been sent<p><strong>You will be contacted by email when your presentation is scheduled.</strong></p></div>");
+				$this->session->set_flashdata('message', "<div class='alert alert-success'>Your request has been sent.<p><strong>You will be contacted by email when your presentation is scheduled.</strong></p></div>");
 				redirect('auth/dashboard','refresh');
 			}
 			
@@ -92,6 +93,15 @@ class Presentation extends CI_Controller {
         'Thursday'  => 'Thursday',
         'Friday'    => 'Friday',
       );
+      
+			$this->data['time_options'] = array(
+				'No Preference'	=> 'No Preference',
+        'Morning'  			=> 'Morning',
+        'Afternoon'    	=> 'Afternoon',
+      );
+			
+			$this->data['track_options'] = $this->presentation_model->get_tracks( $this->conference_model->get_active_conference() );
+			$this->data['track_id']			 = "";
 			
 			// Load Data
 			$this->data['user_id'] 			 = $this->ion_auth->user()->row()->id;
@@ -109,13 +119,6 @@ class Presentation extends CI_Controller {
 				'type'  => 'textarea',
 				'placeholder'=>'Please describe your presentation',
 				'value' => $this->form_validation->set_value('abstract'),
-				'class' => 'form-control',
-			);
-			$this->data['track_id'] = array(
-				'name'  => 'track_id',
-				'id'    => 'track_id',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('track_id'),
 				'class' => 'form-control',
 			);
 			$this->data['week_day'] = array(
@@ -174,10 +177,6 @@ class Presentation extends CI_Controller {
 			//redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		elseif (!$this->ion_auth->is_admin()) {
-			//redirect them to the home page because they must be an administrator to view this
-			return show_error('You must be an administrator to view this page.');
-		}
 		else {
 			// Load Dependencies
 			$this->load->model('sponsor_model');
@@ -196,8 +195,7 @@ class Presentation extends CI_Controller {
 	        $this->data['presentations'] = $this->presentation_model->get_all($current_conf, "scheduled");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
-					$this->breadcrumbs->push('Presentations', 'presentation/listing' );
-					$this->breadcrumbs->push('Scheduled', 'presentation/listing/scheduled' );
+					$this->breadcrumbs->push('Presentations', 'presentation/listing/scheduled' );
 	        break;
 		    case "pending":
 	        $this->data['heading'] = "Pending Presentations";
@@ -205,8 +203,7 @@ class Presentation extends CI_Controller {
 	        $this->data['presentations'] = $this->presentation_model->get_all($current_conf, "pending");
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
-					$this->breadcrumbs->push('Presentations', 'presentation/listing' );
-					$this->breadcrumbs->push('Pending', 'presentation/listing/pending' );
+					$this->breadcrumbs->push('Presentations', 'presentation/listing/pending' );
 	        break;
 		    default:
 		    	$this->data['heading'] = "Presentation List";
@@ -214,11 +211,15 @@ class Presentation extends CI_Controller {
 		    	$this->data['presentations'] = $this->presentation_model->get_all($current_conf);
 					// add breadcrumbs
 					$this->breadcrumbs->push('Dashboard', 'auth/dashboard' );
-					$this->breadcrumbs->push('All Presentations', 'presentation/listing' );
+					$this->breadcrumbs->push('Presentations', 'presentation/listing' );
 					
 			}
 			
-
+			$data['admin'] = TRUE;
+			if ( !$this->ion_auth->in_group('admin')) {
+				$data['admin'] = FALSE;
+			}
+			
 			// Load View
       $this->load->view('include/header');
       $this->load->view('templates/menubar');
@@ -233,7 +234,7 @@ class Presentation extends CI_Controller {
 		
 		// Load Dependencies
 		$tables = $this->config->item('tables','ion_auth');
-		$presentation_data = $this->presentation_model->get_presentation($id);
+		$presentation_data = $this->presentation_model->get_presentation($id, FALSE);
 
 		// Validate form input
 		$this->form_validation->set_rules('title', 'Presentation Title', 'required');	
@@ -254,9 +255,9 @@ class Presentation extends CI_Controller {
 					'week_day' 				=> $this->input->post('week_day'),
 					'start_time' 			=> $this->input->post('start_time'),
 					'end_time' 				=> $this->input->post('end_time'),
-					'active' 					=> $this->input->post('active'),
+					'scheduled' 			=> $this->input->post('scheduled'),
 				);
-				if ($presentation_data['active'] != 'yes') { $presentation_data['active'] = "no"; }
+				if ($presentation_data['scheduled'] != 'yes') { $presentation_data['scheduled'] = "no"; }
 				
 				$presenter_data = array(
 					'user_id' 				=> $this->input->post('user_id'),
@@ -293,6 +294,8 @@ class Presentation extends CI_Controller {
 		$this->data['track_options'] = $this->presentation_model->get_tracks( $presentation_data['conference_id'] );
 		$this->data['track_id']			 = $presentation_data['track_id'];
 		
+		$this->data['attachment']		 = $presentation_data['presentation_attachment'];
+		
 		
 		$this->data['room_options'] = $this->presentation_model->get_rooms( $presentation_data['conference_id'] );
 		$this->data['room_id']			= $presentation_data['room_id'];
@@ -323,24 +326,24 @@ class Presentation extends CI_Controller {
 			'value' => $this->form_validation->set_value('biography', $presentation_data['biography']),
 			'class' => 'form-control',
 		);
-		$this->data['active'] = array(
-			'name'  => 'active',
-			'id'    => 'active',
+		$this->data['scheduled'] = array(
+			'name'  => 'scheduled',
+			'id'    => 'scheduled',
 			'type'  => 'checkbox',
-			'value' => $this->form_validation->set_value('active', $presentation_data['active']),
+			'value' => $this->form_validation->set_value('scheduled', $presentation_data['scheduled']),
 			'class' => 'form-control',
 		);
 		$this->data['start_time'] = array(
 			'name'  => 'start_time',
 			'id'    => 'start_time',
-			'type'  => 'text',
+				'type'  => 'time',
 			'value' => $this->form_validation->set_value('start_time', $presentation_data['start_time']),
 			'class' => 'form-control',
 		);
 		$this->data['end_time'] = array(
 			'name'  => 'end_time',
 			'id'    => 'end_time',
-			'type'  => 'text',
+				'type'  => 'time',
 			'value' => $this->form_validation->set_value('end_time', $presentation_data['end_time']),
 			'class' => 'form-control',
 		);
@@ -350,5 +353,13 @@ class Presentation extends CI_Controller {
 		$this->load->view('presentation/edit_presentation', $this->data);
     $this->load->view('include/footer');
 
+	}
+	
+	function withdraw($id)
+	{
+		// Remove Presentation from Database
+		$this->presentation_model->withdraw($id);
+		$this->session->set_flashdata('message', "<div class='alert alert-success'>You successfully withdrew your presentation.</div>");
+		redirect('auth/dashboard', 'refresh');
 	}
 }

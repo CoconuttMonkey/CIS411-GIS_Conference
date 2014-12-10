@@ -1,8 +1,7 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
 	<section class="row">
 		<div class="col-sm-12">
 			<h2>Register Presentation</h2>
-			<p>Send a request to present.</p>
 			
 			<div id="infoMessage"><?php echo $message;?></div>
 		</div>
@@ -23,19 +22,27 @@
 	      
 	      <div class="form-group">
 	        <label>Track</label>
-	        <?php echo form_input($track_id);?>
+	        <?php echo form_dropdown('track_id', $track_options, $track_id, 'class="form-control" id="track_id"');?>
 	      </div>
-	      
 	      <div class="form-group">
-	        <label>Week Day</label>
-	        <?php echo form_dropdown('week_day', $weekday_options, 'nopref', 'class="form-control" id="week_day"');?>
+	        <label>Presenter Biography</label>
+	        <?php echo form_textarea($biography);?>
 	      </div>
 			</div>
 			
 			<div class="col-sm-6">
+	      
+				<h3>Special Needs / Requests</h3>
+				<p class="text-center">We always do our best to accommodate your presentation requests. <br>However, due to the amount of presentation requests we are not able to accommodate everyone.</p>
+			
 	      <div class="form-group">
-	        <label>Presenter Biography</label>
-	        <?php echo form_textarea($biography);?>
+	        <label>Week Day</label>
+	        <?php echo form_dropdown('week_day', $weekday_options, 'nopref', 'class="form-control" id="week_day"');?>
+	      </div>
+	      
+	      <div class="form-group">
+	        <label>Time</label>
+	        <?php echo form_dropdown('time_request', $time_options, 'No Preference', 'class="form-control" id="time_request"');?>
 	      </div>
 			
 	      <div class="form-group">

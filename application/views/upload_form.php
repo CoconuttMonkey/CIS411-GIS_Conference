@@ -1,4 +1,4 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 100px;">
 	<div class="col-sm-6 col-sm-push-3">
 		<h2><?=$header?></h2>
 		<div id="infoMessage"><?php echo $message;?></div>
