@@ -30,7 +30,7 @@
 		</thead>
 		<tfoot>
 			<tr>
-				<th colspan="7" id="pager" class="form-inline">
+				<th colspan="<? if(is_active('presentation/listing/scheduled')){echo"7";}else {echo"4";} ?>" id="pager" class="form-inline">
 					<button type="button" class="btn btn-sky first"><i class="glyphicon glyphicon-step-backward"></i></button>
 					<button type="button" class="btn btn-sky prev"><i class="glyphicon glyphicon-backward"></i></button>
 					<span class="pagedisplay"></span>

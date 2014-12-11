@@ -33,7 +33,7 @@
 					// Display account links
 				?>
 					<li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=$user->email?> <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li <? if(is_active('auth/dashboard')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/dashboard') ?>">Dashboard</a></li>
               <li <? if(is_active('auth/edit_user')): ?>class="active"<? endif; ?>><a href="<?= site_url('auth/edit_user/'.$user->id) ?>">Account Settings</a></li>
