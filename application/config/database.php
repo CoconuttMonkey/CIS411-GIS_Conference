@@ -45,24 +45,24 @@
 | the active record class
 */
 
-$active_group = 'mattondo-gisconference';
+$active_group = 'production';
 $active_record = TRUE;
 
-$db['mattondo-gisconference']['hostname'] = 'mattondodesignscom1.ipagemysql.com';
-$db['mattondo-gisconference']['username'] = 'gisconference';
-$db['mattondo-gisconference']['password'] = 'koolaid90!';
-$db['mattondo-gisconference']['database'] = 'cis411_gisconference';
-$db['mattondo-gisconference']['dbdriver'] = 'mysql';
-$db['mattondo-gisconference']['dbprefix'] = '';
-$db['mattondo-gisconference']['pconnect'] = TRUE;
-$db['mattondo-gisconference']['db_debug'] = TRUE;
-$db['mattondo-gisconference']['cache_on'] = FALSE;
-$db['mattondo-gisconference']['cachedir'] = '';
-$db['mattondo-gisconference']['char_set'] = 'utf8';
-$db['mattondo-gisconference']['dbcollat'] = 'utf8_general_ci';
-$db['mattondo-gisconference']['swap_pre'] = '';
-$db['mattondo-gisconference']['autoinit'] = TRUE;
-$db['mattondo-gisconference']['stricton'] = FALSE;
+$db['production']['hostname'] = '';
+$db['production']['username'] = '';
+$db['production']['password'] = '';
+$db['production']['database'] = '';
+$db['production']['dbdriver'] = 'mysql';
+$db['production']['dbprefix'] = '';
+$db['production']['pconnect'] = TRUE;
+$db['production']['db_debug'] = TRUE;
+$db['production']['cache_on'] = FALSE;
+$db['production']['cachedir'] = '';
+$db['production']['char_set'] = 'utf8';
+$db['production']['dbcollat'] = 'utf8_general_ci';
+$db['production']['swap_pre'] = '';
+$db['production']['autoinit'] = TRUE;
+$db['production']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
